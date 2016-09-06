@@ -1,10 +1,9 @@
 # Created by .ignore support plugin (hsz.mobi)
 /node_modules
 /public
-app.log
+app*.log
 /.svn
 /.idea
 /.history
 .DS_Store
-/**/.DS_Store
 config/env/local-development.js
