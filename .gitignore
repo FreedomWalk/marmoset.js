@@ -6,7 +6,6 @@ app*.log
 /.idea
 /.history
 .DS_Store
-/**/.DS_Store
 .vscode/launch.json
 config/env/local-development.js
 
