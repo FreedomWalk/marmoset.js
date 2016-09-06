@@ -20,8 +20,7 @@
                 _window = $(window),
                 prev = _el.prev(),
                 parent,
-                width = _window.width()
-                ;
+                width = _window.width();
 
             !prev.length && (parent = _el.parent());
 
@@ -34,8 +33,8 @@
             }
 
             function md() {
-                parent && parent['prepend'](el);
-                !parent && _el['insertAfter'](prev);
+                parent && parent.prepend(el);
+                !parent && _el.insertAfter(prev);
                 _el.removeClass('in');
             }
 

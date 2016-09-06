@@ -89,7 +89,7 @@ let getStream = function(req, res, fileType) {
         throw err;
       }
       if (fileType && fileType !== obj.fileType) {
-        throw new CommonError("文件类型不匹配!");
+        throw new CommonError('文件类型不匹配!');
       }
       gridfs.files.find({
         _id: new ObjectId(obj.gridFSId)

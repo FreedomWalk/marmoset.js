@@ -64,7 +64,7 @@
         // angular translate
         vm.lang = {isopen: false};
         vm.langs = {zh_cn: '简体中文', en: 'English', de_DE: 'German', it_IT: 'Italian'};
-        vm.selectLang = vm.langs[$translate.proposedLanguage()] || "English";
+        vm.selectLang = vm.langs[$translate.proposedLanguage()] || 'English';
         function setLang(langKey, $event) {
             // set the current lang
             vm.selectLang = vm.langs[langKey];
@@ -81,7 +81,7 @@
         }
 
         function isAccess() {
-            return $state.includes("access");
+            return $state.includes('access');
         }
 
         function signout() {

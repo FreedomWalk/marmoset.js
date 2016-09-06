@@ -1,12 +1,12 @@
 # Created by .ignore support plugin (hsz.mobi)
 /node_modules
 /public
-app.log
+app*.log
 /.svn
 /.idea
-/config/env/local-development.js
 /.history
 .DS_Store
 /**/.DS_Store
-
 .vscode/launch.json
+config/env/local-development.js
+

@@ -33,7 +33,8 @@
         return directive;
 
         function link(scope, elm, attrs, ctrl) {
-            var validateFn, validators = {},
+            var validateFn;
+            var validators = {},
                 validateExpr = scope.$eval(attrs.uiValidate);
 
             if (!validateExpr) {
