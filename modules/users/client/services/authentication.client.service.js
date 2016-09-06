@@ -7,9 +7,9 @@
         .module('users.services')
         .factory('Authentication', Authentication);
 
-    Authentication.$inject = ['$sessionStorage'];
-
-    function Authentication($sessionStorage) {
+    /* @ngInject */
+    function Authentication($sessionStorage, $window) {
+        var SECRET_STR = 'Cambio Secret';
 
         return {
             getUser: getUser,
@@ -18,13 +18,17 @@
         };
 
         function getUser() {
-            if($sessionStorage.user !=undefined){
-                return angular.fromJson(CryptoJS.AES.decrypt($sessionStorage.user, "Cambio Secret").toString(CryptoJS.enc.Utf8));
+            if ($sessionStorage.user !== undefined) {
+                var decryptObj = $window.CryptoJS.AES.decrypt($sessionStorage.user, SECRET_STR);
+                var decryptStr = decryptObj.toString($window.CryptoJS.enc.Utf8);
+                return angular.fromJson(decryptStr);
             }
         }
 
         function setUser(user) {
-            $sessionStorage.user = CryptoJS.AES.encrypt(angular.toJson(user), "Cambio Secret").toString();
+            var jsonStr = angular.toJson(user);
+            var decryptObj = $window.CryptoJS.AES.encrypt(jsonStr, SECRET_STR);
+            $sessionStorage.user = decryptObj.toString();
         }
 
         function removeUser() {

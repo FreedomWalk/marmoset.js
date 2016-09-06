@@ -24,22 +24,22 @@
             el.on('click', 'a', function (e) {
                 next && next.trigger('mouseleave.nav');
                 var _this = $(this);
-                _this.parent().siblings(".active").toggleClass('active');
+                _this.parent().siblings('.active').toggleClass('active');
                 _this.next().is('ul') && _this.parent().toggleClass('active') && e.preventDefault();
                 // mobile
-                _this.next().is('ul') || ((_window.width() < _mb) && $('.app-aside').removeClass('show off-screen') );
+                _this.next().is('ul') || ((_window.width() < _mb) && $('.app-aside').removeClass('show off-screen'));
             });
 
             // folded & fixed
             el.on('mouseenter', 'a', function (e) {
                 next && next.trigger('mouseleave.nav');
                 $('> .nav', wrap).remove();
-                if (!$('.app-aside-fixed.app-aside-folded').length || ( _window.width() < _mb ) || $('.app-aside-dock').length) return;
-                var _this = $(e.target)
-                    , top
-                    , w_h = $(window).height()
-                    , offset = 50
-                    , min = 150;
+                if (!$('.app-aside-fixed.app-aside-folded').length || (_window.width() < _mb) || $('.app-aside-dock').length) return;
+                var _this = $(e.target),
+                    top,
+                    w_h = $(window).height(),
+                    offset = 50,
+                    min = 150;
 
                 !_this.is('a') && (_this = _this.closest('a'));
                 if (_this.next().is('ul')) {
@@ -66,7 +66,7 @@
                     _this.parent().removeClass('active');
                 });
 
-                $('.smart').length && $('<div class="dropdown-backdrop"/>').insertAfter('.app-aside').on('click', function (next) {
+                $('.smart').length && $('<div class=\'dropdown-backdrop\'/>').insertAfter('.app-aside').on('click', function (next) {
                     next && next.trigger('mouseleave.nav');
                 });
 

@@ -29,7 +29,7 @@
         //    name: 'GoldenRetriever'
         //}];
 
-        vm.types = ['ChineseRuralDog', 'SiberianHusky',  'GoldenRetriever'];
+        vm.types = ['ChineseRuralDog', 'SiberianHusky', 'GoldenRetriever'];
 
         // Remove existing Article
         function remove() {

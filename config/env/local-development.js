@@ -18,15 +18,15 @@
 
 module.exports = {
     db: {
-        uri: 'mongodb://192.168.56.101:27017/mean-dev',
+        uri: 'mongodb://localhost:27017/mean-dev',
         options: {
-            user: 'admin002',
-            pass: '123456'
+            user: '',
+            pass: ''
         }
     },
     port: process.env.PORT || 3000,
     seedDB: {
-        seed: false
+        seed: true
     }
 };
 

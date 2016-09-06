@@ -12,10 +12,6 @@
 
     function FileResource(baseResource) {
         var File = baseResource('/api/file/:fileId', {fileId: '@_id'}, {
-            upload: {
-                url: '/api/file',
-                method: 'POST'
-            },
             getFile: {
                 url: '/api/file/:fileId',
                 method: 'GET'
