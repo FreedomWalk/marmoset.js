@@ -19,10 +19,10 @@
 
 module.exports = {
     db: {
-        uri: 'mongodb://localhost/local-dev',
+        uri: 'mongodb://192.168.56.101:27017/mean-dev',
         options: {
-            user: ' ',
-            pass: ''
+            user: 'admin002',
+            pass: '123456'
         }
     },
     port: process.env.PORT || 3000,
