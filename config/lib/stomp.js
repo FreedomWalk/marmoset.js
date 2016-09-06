@@ -55,6 +55,4 @@ exports.subscribe = function (msgDealers) {
   });
 };
 
-exports.MQName = {
-  HELLO: 'HELLO'
-};
+

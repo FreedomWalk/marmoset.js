@@ -4,10 +4,11 @@
 const path = require('path');
 const client = require(path.resolve('./config/lib/stomp'));
 const logger = require(path.resolve('./config/lib/logger'));
+const mqName = require(path.resolve('./modules/mq/server/common/mq.server.common.name.js'));
 
 exports.publish = function (req, res) {
   if (req.body) {
-    client.publish(client.MQName.HELLO, req.body, function (err) {
+    client.publish(mqName.HELLO, req.body, function (err) {
       if (err) {
         logger.error(err);
         res.send('fail');
@@ -19,3 +20,4 @@ exports.publish = function (req, res) {
     res.send('empty body');
   }
 };
+
