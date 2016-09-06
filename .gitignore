@@ -8,3 +8,7 @@ app.log
 /.history
 .DS_Store
 /**/.DS_Store
+
+.vscode/launch.json
+
+config/env/local-development.js
