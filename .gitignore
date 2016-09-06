@@ -4,5 +4,5 @@
 app.log
 /.svn
 /.idea
-
+/.env/llocal-development.js
 /.history
