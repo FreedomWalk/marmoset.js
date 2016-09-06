@@ -14,7 +14,6 @@
 // local-test.js
 // local-production.js
 //
-
 /* For example (Development): */
 
 module.exports = {
