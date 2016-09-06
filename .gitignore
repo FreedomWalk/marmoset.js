@@ -4,7 +4,7 @@
 app.log
 /.svn
 /.idea
-/config/env/local-development.js
 /.history
 .DS_Store
 /**/.DS_Store
+config/env/local-development.js
