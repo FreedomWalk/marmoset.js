@@ -1,0 +1,20 @@
+<section class="wrapper-md">
+    <div class="panel panel-default">
+        <div class="panel-heading font-bold">Pets</div>
+        <div class="panel-body">
+            <div ng-repeat="pet in vm.pets"
+                 class="list-group-item">
+                <span ng-bind="pet._id"></span>
+                <span ng-bind="pet.master"></span>
+                <span ng-bind="pet.remark"></span>
+                <span ng-bind="pet.type"></span>
+                <a class="button" ng-click="vm.remove(pet, $event)">delete</a>
+                <a class="button" ui-sref="pets.create">create</a>
+                <a class="button" ui-sref="pets.update({petId:pet._id})">update</a>
+            </div>
+            <div class="m-t-lg">
+                <button class="btn m-b-xs w-xs btn-default pull-right" ng-click="vm.add()">add</button>
+            </div>
+        </div>
+    </div>
+</section>

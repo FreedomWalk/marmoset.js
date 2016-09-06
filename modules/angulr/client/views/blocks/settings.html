@@ -1,0 +1,275 @@
+<!-- settings -->
+  <button class="btn btn-default no-shadow pos-abt" ui-toggle-class="active" target=".settings">
+    <i class="fa fa-spin fa-gear"></i>
+  </button>
+  <div class="panel-heading">
+    Settings
+  </div>
+  <div class="panel-body">
+    <div class="m-b-sm">
+      <label class="i-switch bg-info pull-right">
+        <input type="checkbox" ng-model="vm.app.settings.headerFixed">
+        <i></i>
+      </label>
+      Fixed header
+    </div>
+    <div class="m-b-sm">
+      <label class="i-switch bg-info pull-right">
+        <input type="checkbox" ng-model="vm.app.settings.asideFixed">
+        <i></i>
+      </label>
+      Fixed aside
+    </div>
+    <div class="m-b-sm">
+      <label class="i-switch bg-info pull-right">
+        <input type="checkbox" ng-model="vm.app.settings.asideFolded">
+        <i></i>
+      </label>
+      Folded aside
+    </div>
+    <div class="m-b-sm">
+      <label class="i-switch bg-info pull-right">
+        <input type="checkbox" ng-model="vm.app.settings.asideDock">
+        <i></i>
+      </label>
+      Dock aside
+    </div>
+    <div>
+      <label class="i-switch bg-info pull-right">
+        <input type="checkbox" ng-model="vm.app.settings.container">
+        <i></i>
+      </label>
+      Boxed layout
+    </div>
+  </div>
+  <div class="wrapper b-t b-light bg-light lter r-b">
+    <div class="row row-sm">
+      <div class="col-xs-6">
+        <label class="i-checks block m-b" ng-click="
+          vm.app.settings.navbarHeaderColor='bg-black';
+          vm.app.settings.navbarCollapseColor='bg-white-only';
+          vm.app.settings.asideColor='bg-black';
+         ">
+          <input type="radio" name="a" ng-model="vm.app.settings.themeID" value="1">
+          <span class="block bg-light clearfix pos-rlt">
+            <span class="active pos-abt w-full h-full bg-black-opacity text-center">
+              <i class="glyphicon glyphicon-ok text-white m-t-xs"></i>
+            </span>
+            <b class="bg-black header"></b>
+            <b class="bg-white header"></b>
+            <b class="bg-black"></b>
+          </span>
+        </label>
+
+        <label class="i-checks block m-b" ng-click="
+          vm.app.settings.navbarHeaderColor='bg-dark';
+          vm.app.settings.navbarCollapseColor='bg-white-only';
+          vm.app.settings.asideColor='bg-dark';
+         ">
+          <input type="radio" name="a" ng-model="vm.app.settings.themeID" value="13">
+          <span class="block bg-light clearfix pos-rlt">
+            <span class="active pos-abt w-full h-full bg-black-opacity text-center">
+              <i class="glyphicon glyphicon-ok text-white m-t-xs"></i>
+            </span>
+            <b class="bg-dark header"></b>
+            <b class="bg-white header"></b>
+            <b class="bg-dark"></b>
+          </span>
+        </label>
+
+        <label class="i-checks block m-b" ng-click="
+          vm.app.settings.navbarHeaderColor='bg-white-only';
+          vm.app.settings.navbarCollapseColor='bg-white-only';
+          vm.app.settings.asideColor='bg-black';
+         ">
+          <input type="radio" ng-model="vm.app.settings.themeID" value="2">
+          <span class="block bg-light clearfix pos-rlt">
+            <span class="active pos-abt w-full h-full bg-black-opacity text-center">
+              <i class="glyphicon glyphicon-ok text-white m-t-xs"></i>
+            </span>
+            <b class="bg-white header"></b>
+            <b class="bg-white header"></b>
+            <b class="bg-black"></b>
+          </span>
+        </label>
+
+        <label class="i-checks block m-b" ng-click="
+          vm.app.settings.navbarHeaderColor='bg-primary';
+          vm.app.settings.navbarCollapseColor='bg-white-only';
+          vm.app.settings.asideColor='bg-dark';
+         ">
+          <input type="radio" ng-model="vm.app.settings.themeID" value="3">
+          <span class="block bg-light clearfix pos-rlt">
+            <span class="active pos-abt w-full h-full bg-black-opacity text-center">
+              <i class="glyphicon glyphicon-ok text-white m-t-xs"></i>
+            </span>
+            <b class="bg-primary header"></b>
+            <b class="bg-white header"></b>
+            <b class="bg-dark"></b>
+          </span>
+        </label>
+
+        <label class="i-checks block m-b" ng-click="
+          vm.app.settings.navbarHeaderColor='bg-info';
+          vm.app.settings.navbarCollapseColor='bg-white-only';
+          vm.app.settings.asideColor='bg-black';
+         ">
+          <input type="radio" ng-model="vm.app.settings.themeID" value="4">
+          <span class="block bg-light clearfix pos-rlt">
+            <span class="active pos-abt w-full h-full bg-black-opacity text-center">
+              <i class="glyphicon glyphicon-ok text-white m-t-xs"></i>
+            </span>
+            <b class="bg-info header"></b>
+            <b class="bg-white header"></b>
+            <b class="bg-black"></b>
+          </span>
+        </label>
+
+        <label class="i-checks block m-b" ng-click="
+          vm.app.settings.navbarHeaderColor='bg-success';
+          vm.app.settings.navbarCollapseColor='bg-white-only';
+          vm.app.settings.asideColor='bg-dark';
+         ">
+          <input type="radio" ng-model="vm.app.settings.themeID" value="5">
+          <span class="block bg-light clearfix pos-rlt">
+            <span class="active pos-abt w-full h-full bg-black-opacity text-center">
+              <i class="glyphicon glyphicon-ok text-white m-t-xs"></i>
+            </span>
+            <b class="bg-success header"></b>
+            <b class="bg-white header"></b>
+            <b class="bg-dark"></b>
+          </span>
+        </label>
+
+        <label class="i-checks block" ng-click="
+          vm.app.settings.navbarHeaderColor='bg-danger';
+          vm.app.settings.navbarCollapseColor='bg-white-only';
+          vm.app.settings.asideColor='bg-dark';
+         ">
+          <input type="radio" ng-model="vm.app.settings.themeID" value="6">
+          <span class="block bg-light clearfix pos-rlt">
+            <span class="active pos-abt w-full h-full bg-black-opacity text-center">
+              <i class="glyphicon glyphicon-ok text-white m-t-xs"></i>
+            </span>
+            <b class="bg-danger header"></b>
+            <b class="bg-white header"></b>
+            <b class="bg-dark"></b>
+          </span>
+        </label>
+      </div>
+      <div class="col-xs-6">
+        <label class="i-checks block m-b" ng-click="
+          vm.app.settings.navbarHeaderColor='bg-black';
+          vm.app.settings.navbarCollapseColor='bg-black';
+          vm.app.settings.asideColor='bg-white b-r';
+         ">
+          <input type="radio" ng-model="vm.app.settings.themeID" value="7">
+          <span class="block bg-light clearfix pos-rlt">
+            <span class="active pos-abt w-full h-full bg-black-opacity text-center">
+              <i class="glyphicon glyphicon-ok text-white m-t-xs"></i>
+            </span>
+            <b class="bg-black header"></b>
+            <b class="bg-black header"></b>
+            <b class="bg-white"></b>
+          </span>
+        </label>
+
+        <label class="i-checks block m-b" ng-click="
+          vm.app.settings.navbarHeaderColor='bg-dark';
+          vm.app.settings.navbarCollapseColor='bg-dark';
+          vm.app.settings.asideColor='bg-light';
+         ">
+          <input type="radio" name="a" ng-model="vm.app.settings.themeID" value="14">
+          <span class="block bg-light clearfix pos-rlt">
+            <span class="active pos-abt w-full h-full bg-black-opacity text-center">
+              <i class="glyphicon glyphicon-ok text-white m-t-xs"></i>
+            </span>
+            <b class="bg-dark header"></b>
+            <b class="bg-dark header"></b>
+            <b class="bg-light"></b>
+          </span>
+        </label>
+
+        <label class="i-checks block m-b" ng-click="
+          vm.app.settings.navbarHeaderColor='bg-info dker';
+          vm.app.settings.navbarCollapseColor='bg-info dker';
+          vm.app.settings.asideColor='bg-light dker b-r';
+         ">
+          <input type="radio" ng-model="vm.app.settings.themeID" value="8">
+          <span class="block bg-light clearfix pos-rlt">
+            <span class="active pos-abt w-full h-full bg-black-opacity text-center">
+              <i class="glyphicon glyphicon-ok text-white m-t-xs"></i>
+            </span>
+            <b class="bg-info dker header"></b>
+            <b class="bg-info dker header"></b>
+            <b class="bg-light dker"></b>
+          </span>
+        </label>
+
+        <label class="i-checks block m-b" ng-click="
+          vm.app.settings.navbarHeaderColor='bg-primary';
+          vm.app.settings.navbarCollapseColor='bg-primary';
+          vm.app.settings.asideColor='bg-dark';
+         ">
+          <input type="radio" ng-model="vm.app.settings.themeID" value="9">
+          <span class="block bg-light clearfix pos-rlt">
+            <span class="active pos-abt w-full h-full bg-black-opacity text-center">
+              <i class="glyphicon glyphicon-ok text-white m-t-xs"></i>
+            </span>
+            <b class="bg-primary header"></b>
+            <b class="bg-primary header"></b>
+            <b class="bg-dark"></b>
+          </span>
+        </label>
+
+        <label class="i-checks block m-b" ng-click="
+          vm.app.settings.navbarHeaderColor='bg-info dker';
+          vm.app.settings.navbarCollapseColor='bg-info dk';
+          vm.app.settings.asideColor='bg-black';
+         ">
+          <input type="radio" ng-model="vm.app.settings.themeID" value="10">
+          <span class="block bg-light clearfix pos-rlt">
+            <span class="active pos-abt w-full h-full bg-black-opacity text-center">
+              <i class="glyphicon glyphicon-ok text-white m-t-xs"></i>
+            </span>
+            <b class="bg-info dker header"></b>
+            <b class="bg-info dk header"></b>
+            <b class="bg-black"></b>
+          </span>
+        </label>
+
+        <label class="i-checks block m-b" ng-click="
+          vm.app.settings.navbarHeaderColor='bg-success';
+          vm.app.settings.navbarCollapseColor='bg-success';
+          vm.app.settings.asideColor='bg-dark';
+          ">
+          <input type="radio" ng-model="vm.app.settings.themeID" value="11">
+          <span class="block bg-light clearfix pos-rlt">
+            <span class="active pos-abt w-full h-full bg-black-opacity text-center">
+              <i class="glyphicon glyphicon-ok text-white m-t-xs"></i>
+            </span>
+            <b class="bg-success header"></b>
+            <b class="bg-success header"></b>
+            <b class="bg-dark"></b>
+          </span>
+        </label>
+
+        <label class="i-checks block" ng-click="
+          vm.app.settings.navbarHeaderColor='bg-danger dker bg-gd';
+          vm.app.settings.navbarCollapseColor='bg-danger dker bg-gd';
+          vm.app.settings.asideColor='bg-dark';
+         ">
+          <input type="radio" ng-model="vm.app.settings.themeID" value="12">
+          <span class="block bg-light clearfix pos-rlt">
+            <span class="active pos-abt w-full h-full bg-black-opacity text-center">
+              <i class="glyphicon glyphicon-ok text-white m-t-xs"></i>
+            </span>
+            <b class="bg-danger dker header"></b>
+            <b class="bg-danger dker header"></b>
+            <b class="bg-dark"></b>
+          </span>
+        </label>
+      </div>
+    </div>
+  </div>
+<!-- /settings -->

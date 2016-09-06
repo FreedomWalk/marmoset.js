@@ -1,0 +1,42 @@
+<!-- list -->
+<ul class="nav">
+    <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
+        <span>Navigation</span>
+    </li>
+    <li ui-sref-active="active">
+        <a ui-sref="home">
+            <i class="glyphicon glyphicon-signal"></i>
+            <span>主页</span>
+        </a>
+    </li>
+
+    <li ng-repeat="item in vm.menu.items | orderBy: 'position'">
+        <a ng-if="item.type === 'item'" ui-sref="{{item.state}}({{item.params}})">
+            <i class="glyphicon fa {{item.icon}}"></i>
+            <span ng-bind="item.title">Home</span>
+        </a>
+        <a href class="auto" ng-if="item.type === 'dropdown'">
+            <span class="pull-right text-muted">
+                <i class="fa fa-fw fa-angle-right text"></i>
+                <i class="fa fa-fw fa-angle-down text-active"></i>
+            </span>
+            <i class="glyphicon fa {{item.icon}} {{item.class}} icon"></i>
+            <span class="font-bold" ng-bind="item.title"></span>
+
+        </a>
+        <ul class="nav nav-sub dk" ng-if="item.type === 'dropdown'">
+            <li class="nav-sub-header">
+                <a href>
+                    <span ng-bind="item.title"></span>
+                </a>
+            </li>
+            <li ui-sref-active="active" ng-repeat="subitem in item.items | orderBy: 'position'">
+                <a ui-sref="{{subitem.state}}({{subitem.params}})">
+                    <span ng-bind="subitem.title"></span>
+                </a>
+            </li>
+        </ul>
+    </li>
+
+</ul>
+<!-- / list -->

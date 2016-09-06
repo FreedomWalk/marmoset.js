@@ -1,0 +1,25 @@
+<div class="modal-over bg-black">
+    <div class="modal-center animated fadeInUp text-center" style="width:200px;margin:-100px 0 0 -100px;">
+        <div class="thumb-lg">
+            <img ng-src="{{vm.authentication.getUser().profileImageURL | picture}}" class="img-circle">
+        </div>
+        <p class="h4 m-t m-b" ng-bind="vm.authentication.getUser().displayName"></p>
+
+        <div class="text-danger wrapper text-center" ng-show="vm.authError">
+            {{vm.authError}}
+        </div>
+        <form name="form" class="form-validation" ng-submit="vm.lockOpen(form.$valid)" novalidate autocomplete="off">
+            <div class="input-group">
+                <input ng-model="vm.credentials.password" type="password"
+                       class="form-control text-sm btn-rounded no-border" placeholder="Enter pwd to continue">
+                <span class="input-group-btn">
+                    <button type="submit" class="btn btn-success btn-rounded no-border"
+                            style="height: 34px;margin-left: 0px;">
+                        <i class="fa fa-arrow-right"></i>
+                    </button>
+                </span>
+            </div>
+        </form>
+
+    </div>
+</div>

@@ -1,0 +1,15 @@
+{
+  "header": {
+    "navbar": {
+      "UPLOAD": "上传",
+      "new": {
+        "NEW": "新闻",
+        "PROJECT": "项目",
+        "TASK": "任务",
+        "USER": "用户",
+        "EMAIL": "E-Mail"
+      },
+      "NOTIFICATIONS": "消息"
+    }
+  }
+}

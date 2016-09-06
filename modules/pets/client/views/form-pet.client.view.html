@@ -1,0 +1,63 @@
+<section class="wrapper-md">
+    <div class="panel panel-default">
+        <div class="panel-heading font-bold" ng-bind="vm.pet._id ? 'Edit Pet' : 'New Pet'"></div>
+        <div class="panel-body">
+            <form name="vm.form.petForm" class="form-horizontal" ng-submit="vm.save(vm.form.petForm.$valid)"
+                  novalidate>
+                <fieldset>
+                    <div  show-errors>
+                        <label class="control-label" for="petName">Name</label>
+                        <input name="title" type="text" ng-model="vm.pet.name" id="petName" class="form-control"
+                               placeholder="Name" required>
+
+                        <div ng-messages="vm.form.petForm.name.$error" role="alert">
+                            <p class="help-block error-text" ng-message="required">Pet name is required.</p>
+                        </div>
+                    </div>
+                    <div  show-errors>
+                        <label class="control-label" for="master">Master</label>
+                        <input name="title" type="text" ng-model="vm.pet.master" id="master" class="form-control"
+                               placeholder="Master" required>
+
+                        <div ng-messages="vm.form.petForm.master.$error" role="alert">
+                            <p class="help-block error-text" ng-message="required">Pet Master is required.</p>
+                        </div>
+                    </div>
+                    <div  show-errors>
+                        <label class="control-label" for="remark">Remark</label>
+                        <input name="title" type="text" ng-model="vm.pet.remark" id="remark" class="form-control"
+                               placeholder="Remark" required>
+
+                        <div ng-messages="vm.form.petForm.remark.$error" role="alert">
+                            <p class="help-block error-text" ng-message="required">Pet remark is required.</p>
+                        </div>
+                    </div>
+                    <div >
+                        <label class="control-label">Type</label>
+                        <div class="input-group">
+                            <ui-select ng-model="vm.pet.type" theme="bootstrap">
+                                <ui-select-match placeholder="Select or search a type in the list...">{{$select.selected}}</ui-select-match>
+                                <ui-select-choices repeat="type in vm.types | filter: $select.search">
+                                    <div ng-bind-html="type | highlight: $select.search"></div>
+                                    <!--<small ng-bind-html="item.email | highlight: $select.search"></small>-->
+                                </ui-select-choices>
+                            </ui-select>
+                        <span class="input-group-btn">
+                            <button type="button" ng-click="vm.pet.type = undefined" class="btn btn-default">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </span>
+                        </div>
+                        <!--<div class="btn-group m-r">-->
+                        <!--<label ng-repeat="type in vm.types" class="btn btn-default" ng-model="vm.pet.type" btn-radio="'{{type.name}}'" uncheckable>{{type.name}}</label>-->
+                        <!--</div>-->
+                    </div>
+                </fieldset>
+                <div class="m-t-lg">
+                    <button class="btn m-b-xs w-xs btn-default pull-right" type="submit">保存</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</section>

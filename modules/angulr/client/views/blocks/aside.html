@@ -1,0 +1,85 @@
+<div class="app-aside hidden-xs {{vm.app.settings.asideColor}}">
+    <div class="aside-wrap">
+        <!-- if you want to use a custom scroll when aside fixed, use the slimScroll
+          <div class="navi-wrap" ui-jq="slimScroll" ui-options="{height:'100%', size:'8px'}">
+        -->
+        <div class="navi-wrap">
+            <!-- user -->
+            <div class="clearfix hidden-xs text-center hide" id="aside-user">
+                <div class="dropdown wrapper" uib-dropdown>
+                    <a ui-sref="app.page.profile">
+                        <span class="thumb-lg w-auto-folded avatar m-t-sm">
+                            <img ng-src="{{vm.authentication.getUser().profileImageURL | picture}}" class="img-full"
+                                 alt="{{vm.authentication.getUser().displayName}}">
+                        </span>
+                    </a>
+                    <a href class="dropdown-toggle hidden-folded" uib-dropdown-toggle>
+                          <span class="clear">
+                              <span class="block m-t-sm">
+                                  <strong class="font-bold text-lt" ng-bind="vm.authentication.getUser().displayName"></strong>
+                                  <b class="caret"></b>
+                              </span>
+                              <span class="text-muted text-xs block">Art Director</span>
+                          </span>
+                    </a>
+                    <!-- dropdown -->
+                    <ul class="dropdown-menu animated fadeInRight w hidden-folded">
+                        <li class="wrapper b-b m-b-sm bg-info m-t-n-xs">
+                            <span class="arrow top hidden-folded arrow-info"></span>
+
+                            <div>
+                                <p>300mb of 500mb used</p>
+                            </div>
+                            <uib-progressbar value="60" type="white"
+                                             class="progress-xs m-b-none dker"></uib-progressbar>
+                        </li>
+                        <li ng-repeat="item in vm.accountMenu.items">
+                            <a ui-sref="{{item.state}}">
+                                <!--<span class="badge bg-danger pull-right">30%</span>-->
+                                <span ng-bind="item.title"></span>
+                            </a>
+                        </li>
+                        <!--<li>-->
+                        <!--<a ui-sref="app.page.profile">Profile</a>-->
+                        <!--</li>-->
+                        <!--<li>-->
+                        <!--<a href>-->
+                        <!--<span class="badge bg-danger pull-right">3</span>-->
+                        <!--Notifications-->
+                        <!--</a>-->
+                        <!--</li>-->
+                        <li class="divider"></li>
+                        <li>
+                            <a ui-sref="access.lock">Lock</a>
+                        </li>
+                        <li>
+                            <a ng-click="vm.signout()">Logout</a>
+                        </li>
+                    </ul>
+                    <!-- / dropdown -->
+                </div>
+                <div class="line dk hidden-folded"></div>
+            </div>
+            <!-- / user -->
+
+            <!-- nav -->
+            <nav ui-nav class="navi" ng-include="'modules/angulr/client/views/blocks/nav.html'"></nav>
+            <!-- nav -->
+
+            <!-- aside footer -->
+            <div class="wrapper m-t">
+                <div class="text-center-folded">
+                    <span class="pull-right pull-none-folded">60%</span>
+                    <span class="hidden-folded">Milestone</span>
+                </div>
+                <uib-progressbar value="60" class="progress-xxs m-t-sm dk" type="info"></uib-progressbar>
+                <div class="text-center-folded">
+                    <span class="pull-right pull-none-folded">35%</span>
+                    <span class="hidden-folded">Release</span>
+                </div>
+                <uib-progressbar value="35" class="progress-xxs m-t-sm dk" type="primary"></uib-progressbar>
+            </div>
+            <!-- / aside footer -->
+        </div>
+    </div>
+</div>
