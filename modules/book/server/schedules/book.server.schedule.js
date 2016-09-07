@@ -17,33 +17,29 @@ const Book = mongoose.model('Book');
  * @return {type}  description
  */
 let everyMinuteSchedule = function () {
-  scheduleHelper.scheduleJob('book_everyMinuteSchedule', '0 * * * * *', function () {
-    let p = new Promise(function (resolve, reject) {
-      logger.error('everyMinuteSchedule kkkk jjjj AAA jijoij');
-      resolve();
-    });
-    return p;
+  scheduleHelper.scheduleJob('book_everyMinuteSchedule', '*/4 * * * * *', function (done) {
+    done();
   });
 };
 
 let everySecondSchedule = function () {
-  scheduleHelper.scheduleJob('book_everySecondSchedule', '0 0 * * * *', function () {
-    let p = new Promise(function (resolve, reject) {
-      let book = new Book({
-        bookName: '不可能',
-        bookBrief: '不可能的啊',
-        bookPrice: 1232
-      });
-      book.save(function (err, obj) {
-        if (err) {
-          throw err;
-        } else {
-          resolve(obj);
-        }
-      });
+  scheduleHelper.scheduleJob('book_everySecondSchedule', '*/5 * * * * *', function (done) {
+    // let p = new Promise(function (resolve, reject) {
+    let book = new Book({
+      bookName: '不可能',
+      bookBrief: '不可能的啊',
+      bookPrice: 1232
     });
-    return p;
+    book.save(function (err, obj) {
+      if (err) {
+        done(err);
+      } else {
+        done();
+      }
+    });
   });
+  //     return p;
+  //   });
 };
 module.exports = function () {
   everyMinuteSchedule();
