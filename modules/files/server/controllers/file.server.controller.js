@@ -82,7 +82,7 @@ exports.upload = function(req, res) {
 };
 
 let getStream = function(req, res, fileType) {
-  return new Promise(function(resolve, reject) {
+  return new Promise(function(resolve) {
     let fileName = req.params.fileName;
     FileInfo.findById(new ObjectId(fileName), function(err, obj) {
       if (err) {
@@ -140,7 +140,6 @@ let resize = function(width, height, inStream, force) {
 };
 
 exports.picZoomDownload = function(req, res) {
-  let fileName = req.params.fileName;
   let width = req.params.width;
   let height = req.params.height;
   getStream(req, res, picType).then(function(stream) {
