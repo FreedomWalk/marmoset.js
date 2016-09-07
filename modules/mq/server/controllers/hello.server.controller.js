@@ -14,7 +14,7 @@ exports.publish = function (req, res) {
         res.send('fail');
       } else {
         res.send('success');
-        logger.info("ces");
+        logger.info('ces');
       }
     });
   } else {
