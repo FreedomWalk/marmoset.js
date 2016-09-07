@@ -42,6 +42,6 @@ let everySecondSchedule = function () {
   //   });
 };
 module.exports = function () {
-  everyMinuteSchedule();
-  everySecondSchedule();
+  //everyMinuteSchedule();
+  //everySecondSchedule();
 };

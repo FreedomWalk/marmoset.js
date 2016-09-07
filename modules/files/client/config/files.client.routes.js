@@ -23,7 +23,7 @@
                     template: '<ui-view/>'
                 }
             }, {
-                state: 'fileInfos.list',
+                state: 'files.list',
                 config: {
                     url: '',
                     templateUrl: 'modules/files/client/views/list-fileInfos.client.view.html',
@@ -37,21 +37,21 @@
         ];
     }
 
-    /* @ngInject */
-    function getFile($stateParams, FilesService) {
-        return FilesService.get({
-            fileId: $stateParams.fileId
-        }).$promise;
-    }
-
-    /* @ngInject */
-    function uiSelectLoad($ocLazyLoad) {
-        return $ocLazyLoad.load('ui.select');
-    }
-
-    /* @ngInject */
-    function getFileService(FilesService) {
-        return new FilesService();
-    }
+    ///* @ngInject */
+    //function getFile($stateParams, FilesService) {
+    //    return FilesService.get({
+    //        fileId: $stateParams.fileId
+    //    }).$promise;
+    //}
+    //
+    ///* @ngInject */
+    //function uiSelectLoad($ocLazyLoad) {
+    //    return $ocLazyLoad.load('ui.select');
+    //}
+    //
+    ///* @ngInject */
+    //function getFileService(FilesService) {
+    //    return new FilesService();
+    //}
 
 }());

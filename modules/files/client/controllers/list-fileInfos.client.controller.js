@@ -5,27 +5,27 @@
     'use strict';
 
     angular
-        .module('fileInfos')
-        .controller('PetsListController', FileInfosListController);
+        .module('files')
+        .controller('FilesListController', FilesListController);
 
     /* @ngInject */
-    function FileInfosListController(FileInfosService, $state, $window) {
+    function FilesListController(FileInfoResource, $state, $window) {
         var vm = this;
 
-        vm.fileInfos = FileInfosService.query();
+        vm.fileInfos = FileInfoResource.getFileInfo();
         vm.add = add;
         vm.remove = remove;
         vm.update = update;
         //vm.goDetail = goDetail;
 
         function add() {
-            var fileInfo = new FileInfosService();
+            var fileInfo = new FileInfoResource();
             fileInfo.name = 'ahaha';
             fileInfo.master = 'wangbo';
             fileInfo.remark = 1;
             fileInfo.type = 'ChineseRuralDog';
             fileInfo.$save(function () {
-                vm.fileInfos = FileInfosService.query();
+                vm.fileInfos = FileInfoResource.getFileInfo();
             });
         }
 
@@ -33,7 +33,7 @@
             $event.stopPropagation();
             if ($window.confirm('Are you sure you want to delete?')) {
                 fileInfo.$delete(function () {
-                    vm.fileInfos = FileInfosService.query();
+                    vm.fileInfos = FileInfoResource.getFileInfo();
                 }, function (e) {
                     console.log(e);
                 });
@@ -44,7 +44,7 @@
             $event.stopPropagation();
             fileInfo.remark = parseInt(Math.random() * 100, 10);
             fileInfo.$update(function () {
-                vm.fileInfos = FileInfosService.query();
+                vm.fileInfos = FileInfoResource.getFileInfo();
             });
         }
         //

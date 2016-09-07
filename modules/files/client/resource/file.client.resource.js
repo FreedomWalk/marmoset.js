@@ -5,7 +5,7 @@
     'use strict';
 
     angular
-        .module('file')
+        .module('files')
         .factory('FileResource', FileResource);
 
     FileResource.$inject = ['baseResource'];

@@ -1,15 +1,18 @@
 <section class="wrapper-md">
     <div class="panel panel-default">
-        <div class="panel-heading font-bold">Pets</div>
+        <div class="panel-heading font-bold">FileInfos</div>
         <div class="panel-body">
             <div ng-repeat="fileInfo in vm.fileInfos"
                  class="list-group-item">
                 <span ng-bind="fileInfo._id"></span>
-                <span ng-bind="fileInfo.master"></span>
-                <span ng-bind="fileInfo.remark"></span>
-                <span ng-bind="fileInfo.type"></span>
+                <span ng-bind="fileInfo.fullName"></span>
+                <span ng-bind="fileInfo.fileSize"></span>
+                <span ng-bind="fileInfo.fileType"></span>
+                <span ng-bind="fileInfo.creator"></span>
+                <span ng-bind="fileInfo.created"></span>
+                <span ng-bind="fileInfo.md5"></span>
+                <span ng-bind="fileInfo.gridFSId"></span>
                 <a class="button" ng-click="vm.remove(fileInfo, $event)">delete</a>
-                <a class="button" ui-sref="fileInfos.create">create</a>
                 <a class="button" ui-sref="fileInfos.update({fileId:fileInfo._id})">update</a>
             </div>
             <div class="m-t-lg">

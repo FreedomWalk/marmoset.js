@@ -23,7 +23,7 @@
         // Add the dropdown list item
         menuService.addSubMenuItem('topbar', 'files', {
             title: 'List Files',
-            state: 'fileInfos.list',
+            state: 'files.list',
             roles: ['*']
         });
     }

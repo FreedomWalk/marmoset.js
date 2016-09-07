@@ -4,7 +4,7 @@
 (function () {
     'use strict';
 
-    angular.module('file')
+    angular.module('files')
         .filter('picture', picture);
 
     /* @ngInject */
