@@ -15,19 +15,20 @@ const ipAddress = ip.address();
  *
  * @param  {String} jobName               定时任务名称
  * @param  {String} cron                  cron表达式
- * @param  {Function} callbackReturnPromise 返回值为Promise对象的Function
+ * @param  {Function} callback 返回值为done
  * @return {Object}                       Job对象
  */
-exports.scheduleJob = function (jobName, cron, callbackReturnPromise) {
+exports.scheduleJob = function (jobName, cron, callback) {
   return nodeSchedule.scheduleJob(cron, function () {
     logger.info(
       'nodeSchedule.scheduleJob cron:' +
       cron);
-    let reject = function (error) {
-      let body = {
+    let done = function (error) {
+      let body = {};
+      body = {
         'address': ipAddress,
         'scheduleName': jobName,
-        'isSuccess': false,
+        'isSuccess': !error,
         'err': error
       };
       let scheduleLogModel = new ScheduleLogModel(body);
@@ -35,30 +36,13 @@ exports.scheduleJob = function (jobName, cron, callbackReturnPromise) {
         if (err) {
           logger.err(err);
         } else {
-          logger.info('scheduleLogModel.save failed:' +
+          logger.info('scheduleLogModel.save success:' +
             scheduleN);
         }
       });
     };
     Schedule.canRun(ipAddress).then(function () {
-
-      callbackReturnPromise().then(function () {
-        let body = {
-          'address': ipAddress,
-          'scheduleName': jobName,
-          'isSuccess': true,
-          'err': ''
-        };
-        let scheduleLogModel = new ScheduleLogModel(body);
-        scheduleLogModel.save(function (err, scheduleN) {
-          if (err) {
-            logger.err(err);
-          } else {
-            logger.info('scheduleLogModel.save success:' +
-              scheduleN);
-          }
-        });
-      }, reject).catch(reject);
-    }).catch(reject);
+      callback(done);
+    }).catch(done);
   });
 };
