@@ -151,7 +151,6 @@ exports.picZoomDownload = function(req, res) {
 };
 
 exports.picZoomWidthDownload = function(req, res) {
-  let fileName = req.params.fileName;
   let width = req.params.width;
   getStream(req, res, picType).then(function(stream) {
     resize(width, undefined, stream, true).pipe(res);
@@ -162,7 +161,6 @@ exports.picZoomWidthDownload = function(req, res) {
 };
 
 exports.picZoomHeightDownload = function(req, res) {
-  let fileName = req.params.fileName;
   let height = req.params.height;
   getStream(req, res, picType).then(function(stream) {
     resize(undefined, height, stream, true).pipe(res);
@@ -176,7 +174,6 @@ exports.picCutDownload = function(req, res) {
   let _y = req.params.y;
   let _width = req.params.width;
   let _height = req.params.height;
-  let _fileName = req.params.fileName;
   getStream(req, res, picType).then(function(stream) {
     gm(stream).crop(_width, _height, _x, _y).stream().pipe(res);
   }).catch(function(err) {
