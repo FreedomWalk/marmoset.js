@@ -15,8 +15,8 @@ class Pagination {
     this.totalCount = parseInt(totalCount, 0);
     this.totalPage = parseInt((this.totalCount % this.pageSize > 0) ? (this.totalCount /
       this.pageSize + 1) : this.totalCount / this.pageSize, 0);
-    this.upPage = (this.pageNo > 1) ? this.pageNo - 1 : this.pageNo;
-    this.nextPage = (this.pageNo === this.totalPage) ? this.pageNo : this.pageNo +
+    this.upPage = (this.pageNum > 1) ? this.pageNum - 1 : this.pageNum;
+    this.nextPage = (this.pageNum === this.totalPage) ? this.pageNum : this.pageNum +
       1;
     this.data = [];
   }

@@ -8,8 +8,7 @@
         .module('files')
         .factory('FileInfoResource', FileInfoResource);
 
-    FileInfoResource.$inject = ['baseResource'];
-
+    /* @ngInject */
     function FileInfoResource(baseResource) {
         let FileInfo = baseResource('/api/fileInfo/:fileId', {fileId: '@_id'}, {
             getFileInfo: {
