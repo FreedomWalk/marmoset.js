@@ -1,6 +1,6 @@
 {
   "name": "cambiojs",
-      "description": "Full-Stack JavaScript with MongoDB, Express, AngularJS, and Node.js.",
+  "description": "Full-Stack JavaScript with MongoDB, Express, AngularJS, and Node.js.",
   "version": "0.1.0-beta",
   "meanjs-version": "0.5.0-beta",
   "private": false,
@@ -9,10 +9,6 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/meanjs/mean.git"
-  },
-  "engines": {
-    "node": ">=0.12.0",
-    "npm": ">=2.0.0"
   },
   "scripts": {
     "update": "npm update && npm prune && bower install --allow-root && bower prune --allow-root",
@@ -83,7 +79,7 @@
     "passport-local": "~1.0.0",
     "passport-paypal-openidconnect": "~0.1.1",
     "passport-twitter": "~1.0.4",
-    "phantomjs-prebuilt": "~2.1.4",
+    "phantomjs-prebuilt": "^2.1.12",
     "q": "^1.4.1",
     "serve-favicon": "~2.3.0",
     "smtp-connection": "^2.11.0",
