@@ -39,7 +39,9 @@
                 state: 'access.signup',
                 config: {
                     url: '/signup',
-                    templateUrl: 'modules/angulr/client/views/page_signup.html'
+                    templateUrl: 'modules/angulr/client/views/page_signup.html',
+                    controller: 'AuthenticationController',
+                    controllerAs: 'vm'
                 }
             }, {
                 state: 'access.forgotpwd',

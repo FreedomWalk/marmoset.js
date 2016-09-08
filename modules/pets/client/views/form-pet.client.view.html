@@ -5,7 +5,7 @@
             <form name="vm.form.petForm" class="form-horizontal" ng-submit="vm.save(vm.form.petForm.$valid)"
                   novalidate>
                 <fieldset>
-                    <div  show-errors>
+                    <div  >
                         <label class="control-label" for="petName">Name</label>
                         <input name="title" type="text" ng-model="vm.pet.name" id="petName" class="form-control"
                                placeholder="Name" required>
@@ -14,7 +14,7 @@
                             <p class="help-block error-text" ng-message="required">Pet name is required.</p>
                         </div>
                     </div>
-                    <div  show-errors>
+                    <div  >
                         <label class="control-label" for="master">Master</label>
                         <input name="title" type="text" ng-model="vm.pet.master" id="master" class="form-control"
                                placeholder="Master" required>
@@ -23,7 +23,7 @@
                             <p class="help-block error-text" ng-message="required">Pet Master is required.</p>
                         </div>
                     </div>
-                    <div  show-errors>
+                    <div  >
                         <label class="control-label" for="remark">Remark</label>
                         <input name="title" type="text" ng-model="vm.pet.remark" id="remark" class="form-control"
                                placeholder="Remark" required>
