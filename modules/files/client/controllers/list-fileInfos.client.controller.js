@@ -12,7 +12,7 @@
     function FilesListController(FileInfoResource, $state, $window) {
         var vm = this;
 
-        vm.fileInfos = FileInfoResource.getFileInfo();
+        vm.fileInfos = FileInfoResource.getFileInfo({pageSize: 10, pageNum: 0, queryString: '{}'});
         vm.add = add;
         vm.remove = remove;
         vm.update = update;
@@ -47,6 +47,7 @@
                 vm.fileInfos = FileInfoResource.getFileInfo();
             });
         }
+
         //
         //function goDetail(fileInfo) {
         //    $state.go('fileInfos.view', {
