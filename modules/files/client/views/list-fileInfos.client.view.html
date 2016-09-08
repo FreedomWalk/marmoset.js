@@ -2,22 +2,55 @@
     <div class="panel panel-default">
         <div class="panel-heading font-bold">FileInfos</div>
         <div class="panel-body">
-            <div ng-repeat="fileInfo in vm.fileInfos.data"
-                 class="list-group-item">
-                <span ng-bind="fileInfo._id"></span>
-                <span ng-bind="fileInfo.fullName"></span>
-                <span ng-bind="fileInfo.fileSize"></span>
-                <span ng-bind="fileInfo.fileType"></span>
-                <span ng-bind="fileInfo.creator"></span>
-                <span ng-bind="fileInfo.created"></span>
-                <span ng-bind="fileInfo.md5"></span>
-                <span ng-bind="fileInfo.gridFSId"></span>
-                <a class="button" ng-click="vm.remove(fileInfo, $event)">delete</a>
-                <a class="button" ui-sref="fileInfos.update({fileId:fileInfo._id})">update</a>
-            </div>
             <div class="m-t-lg">
-                <button class="btn m-b-xs w-xs btn-default pull-right" ng-click="vm.add()">add</button>
+                <button class="btn m-b-xs w-xs btn-default pull-left-xs" ng-click="vm.add()">上传</button>
             </div>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <td>ID</td>
+                    <td>源文件名</td>
+                    <td>文件大小</td>
+                    <td>文件类型</td>
+                    <td>创建人</td>
+                    <td>创建日期</td>
+                    <!--<td>md5</td>-->
+                    <!--<td>GridFSId</td>-->
+                    <td>操作</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="fileInfo in vm.fileInfos.data">
+                    <td ng-bind="fileInfo._id"></td>
+                    <td ng-bind="fileInfo.fullName"></td>
+                    <td ng-bind="fileInfo.fileSize"></td>
+                    <td ng-bind="fileInfo.fileType"></td>
+                    <td ng-bind="fileInfo.creator"></td>
+                    <td ng-bind="fileInfo.created"></td>
+                    <!--<td ng-bind="fileInfo.md5"></td>-->
+                    <!--<td ng-bind="fileInfo.gridFSId"></td>-->
+                    <td>
+                        <a class="button" ng-click="vm.remove(fileInfo, $event)">删除</a>
+                        <a class="button" ng-click="vm.read(fileInfo, $event)">查看</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <ul class="pagination">
+                <button class="btn m-b-xs w-xs btn-default" ng-disabled="true" ng-click="vm.goPage(0)">首页</button>
+                <li ng-repeat=" page in pages
+                    " ng-class="{true:'active'}[p_current==page]"><button href="javascript:void(0);"
+                    ng-click="load_page(page)">{{
+                    page }}</button></li>
+                <!--<li ng-class="{true:'disabled'}[p_current==p_all_page]"><a href="javascript:void(0);"-->
+                    <!--ng-click="p_last()">尾页</a></li>-->
+            </ul>
+            <!--页面大小:{{vm.fileInfos.pageSize}}-->
+            <!--页码:{{vm.fileInfos.pageNum}}-->
+            <!--总数:{{vm.fileInfos.totalCount}}-->
+            <!--总页数:{{vm.fileInfos.totalPage}}-->
+            <!--上一页:{{vm.fileInfos.upPage}}-->
+            <!--下一页:{{vm.fileInfos.nextPage}}-->
         </div>
     </div>
 </section>
