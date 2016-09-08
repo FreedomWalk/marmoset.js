@@ -27,8 +27,30 @@ exports.create = function (req, res) {
             logger.error(err);
             res.end();
         } else {
-            res.set('checkCode', ary[0]);
+            res.set('checkCode', obj._id);
             res.end(ary[1]);
         }
     });
+};
+
+exports.check = function (req, res) {
+    if (req.body) {
+        let checkCode = req.body;
+        CheckCode.findById(checkCode._id, function (err, obj) {
+            if (err) {
+                logger.error(err);
+                throw new CommonError('系统错误');
+            } else if (obj) {
+                if (obj.check(checkCode.code)) {
+                    res.end();
+                } else {
+                    throw new CommonError('验证码错误');
+                }
+            } else {
+                throw new CommonError('验证码错误');
+            }
+        });
+    } else {
+        throw new CommonError('验证码错误');
+    }
 };

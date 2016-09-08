@@ -9,11 +9,11 @@ let CheckCodeSchema = new Schema({
     code: {
         type: String,
         trim: true,
-        required: 'Please insert originName'
+        required: 'Please insert code'
     }
 });
 
-CheckCodeSchema.method.check = function (code) {
+CheckCodeSchema.methods.check = function (code) {
     return this.code === code;
 };
 
