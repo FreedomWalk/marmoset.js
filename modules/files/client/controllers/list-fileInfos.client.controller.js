@@ -14,10 +14,19 @@
         let pageSize = 10;
 
         vm.fileInfos = FileInfoResource.getFileInfo({pageSize: pageSize, pageNum: 0, queryString: '{}'});
+        vm.pages = pages;
         vm.add = add;
         vm.remove = remove;
         vm.goPage = goPage;
         //vm.goDetail = goDetail;
+
+        function pages() {
+            let array = [];
+            for (let i = 1; i < vm.fileInfos.totalPage, i++) {
+                array.push(i);
+            }
+            return array;
+        }
 
         function add() {
             var fileInfo = new FileInfoResource();

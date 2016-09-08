@@ -10,13 +10,12 @@ const CommonError = require(path.resolve('./config/error/CommonError'));
 const logger = require(path.resolve('./config/lib/logger'));
 const ccap = require('ccap');
 const CheckCode = mongoose.model('CheckCode');
-
+const headerCode = 'checkCode';
 
 exports.create = function (req, res) {
     let captcha;
-    if (req.body) {
-        let size = req.body;
-        captcha = ccap(size.width, size.height);
+    if (req.params.width && req.params.height) {
+        captcha = ccap(req.params.width, req.params.height);
     } else {
         captcha = ccap();
     }
@@ -27,7 +26,7 @@ exports.create = function (req, res) {
             logger.error(err);
             res.end();
         } else {
-            res.set('checkCode', obj._id);
+            res.set(headerCode, obj._id);
             res.end(ary[1]);
         }
     });

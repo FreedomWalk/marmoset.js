@@ -37,13 +37,18 @@
                 </tbody>
             </table>
             <ul class="pagination">
-                <button class="btn m-b-xs w-xs btn-default" ng-disabled="true" ng-click="vm.goPage(0)">首页</button>
-                <li ng-repeat=" page in pages
-                    " ng-class="{true:'active'}[p_current==page]"><button href="javascript:void(0);"
-                    ng-click="load_page(page)">{{
-                    page }}</button></li>
+                <button class="btn m-b-xs w-xs btn-default" ng-disabled="{{vm.fileInfos.pageNum===0}}"
+                        ng-click="vm.goPage(0)">首页
+                </button>
+                <li ng-repeat="page in vm.pages()">
+                    <button ng-click="vm.goPage(page)">{{page}}</button>
+                </li>
+                <button class="btn m-b-xs w-xs btn-default"
+                        ng-disabled="{{vm.fileInfos.pageNum===vm.fileInfos.totalPage-1}}"
+                        ng-click="vm.goPage(vm.fileInfos.totalPage-1)">尾页
+                </button>
                 <!--<li ng-class="{true:'disabled'}[p_current==p_all_page]"><a href="javascript:void(0);"-->
-                    <!--ng-click="p_last()">尾页</a></li>-->
+                <!--ng-click="p_last()">尾页</a></li>-->
             </ul>
             <!--页面大小:{{vm.fileInfos.pageSize}}-->
             <!--页码:{{vm.fileInfos.pageNum}}-->
