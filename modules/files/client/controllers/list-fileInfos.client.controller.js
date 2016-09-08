@@ -11,12 +11,22 @@
     /* @ngInject */
     function FilesListController(FileInfoResource, $state, $window) {
         var vm = this;
+        let pageSize = 10;
 
-        vm.fileInfos = FileInfoResource.getFileInfo({pageSize: 10, pageNum: 0, queryString: '{}'});
+        vm.fileInfos = FileInfoResource.getFileInfo({pageSize: pageSize, pageNum: 0, queryString: '{}'});
+        vm.pages = pages;
         vm.add = add;
         vm.remove = remove;
-        vm.update = update;
+        vm.goPage = goPage;
         //vm.goDetail = goDetail;
+
+        function pages() {
+            let array = [];
+            for (let i = 1; i < vm.fileInfos.totalPage, i++) {
+                array.push(i);
+            }
+            return array;
+        }
 
         function add() {
             var fileInfo = new FileInfoResource();
@@ -40,12 +50,9 @@
             }
         }
 
-        function update(fileInfo, $event) {
+        function goPage(pageNum, $event) {
             $event.stopPropagation();
-            fileInfo.remark = parseInt(Math.random() * 100, 10);
-            fileInfo.$update(function () {
-                vm.fileInfos = FileInfoResource.getFileInfo();
-            });
+            FileInfoResource.getFileInfo({pageSize: pageSize, pageNum: pageNum, queryString: '{}'});
         }
 
         //
