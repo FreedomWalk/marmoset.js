@@ -13,13 +13,13 @@ exports.invokeRolesPolicies = function () {
   acl.allow([{
     roles: ['admin', 'user'],
     allows: [{
-      resources: '/api/file/:pageSize/:pageNum/:queryString',
+      resources: '/api/fileInfo/:pageSize/:pageNum/:queryString',
       permissions: '*'
     }]
   }, {
     roles: ['guest'],
     allows: [{
-      resources: '/api/file/:pageSize/:pageNum/:queryString',
+      resources: '/api/fileInfo/:pageSize/:pageNum/:queryString',
       permissions: '*'
     }]
   }]);

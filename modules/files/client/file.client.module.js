@@ -1,5 +1,7 @@
 (function (app) {
-  'use strict';
+    'use strict';
 
-  app.registerModule('file', ['core']);
+    app.registerModule('files', ['core']);
+    app.registerModule('files.services');
+    app.registerModule('files.routes', ['ui.router', 'core.routes', 'files.services']);
 }(ApplicationConfiguration));

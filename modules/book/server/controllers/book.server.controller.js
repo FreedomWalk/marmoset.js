@@ -5,7 +5,11 @@
 var path = require('path');
 var mongoose = require('mongoose');
 var Book = mongoose.model('Book');
-
+/**
+ * ffff
+ * @param req
+ * @param res
+ */
 exports.create = function (req, res) {
 
   var book = new Book(req.body);

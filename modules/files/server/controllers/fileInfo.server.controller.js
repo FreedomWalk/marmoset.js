@@ -15,7 +15,7 @@ exports.list = function (req, res) {
   let pageSize = size > 0 ? size : 5;
   let pageNum = parseInt(req.params.pageNum, 0);
   let queryString = req.params.queryString;
-  let queryObj = JSON.parse(base64.decode(queryString));
+  let queryObj = JSON.parse(queryString);
   FileInfo.findPagination(queryObj.query, queryObj.sort, pageSize, pageNum).then(
     function (pagination) {
       res.json(pagination);

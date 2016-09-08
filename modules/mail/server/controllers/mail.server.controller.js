@@ -15,7 +15,7 @@ exports.send = function (req, res) {
     let msg = mail.msg;
     let subject = mail.subject;
     smtpSender.sendMsg(receivers, subject, msg).then(function () {
-      res.end();
+      res.json(mail);
     }, function (err) {
       logger.error(err);
       throw new CommonError('发送失败，请稍后再试');
