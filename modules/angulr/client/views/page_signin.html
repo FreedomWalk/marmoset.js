@@ -21,7 +21,7 @@
                 <div class="list-group-item">
                     <input type="password" placeholder="Password" class="form-control no-border"
                            ng-model="vm.credentials.password" required>
-                    <img src="{{vm.data}}">
+                    <img ng-src="{{vm.data}}">
                 </div>
             </div>
             <button type="submit" class="btn btn-lg btn-primary btn-block" ng-disabled='form.$invalid'>Log in</button>

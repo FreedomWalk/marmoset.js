@@ -15,9 +15,22 @@
         vm.signup = signup;
         vm.signin = signin;
         vm.callOauthProvider = callOauthProvider;
-        vm.code = CheckCodeResource.get({width: 100, height: 100}, function (response) {
+        var req = {
+            method: 'GET',
+            url: '/api/checkCode/100/100',
+            headers: {
+                'Accept': 'image/jpeg',
+                'Content-Type': 'image/jpeg'
+            }
+        };
+        $http(req).success(function (response) {
             $log.debug(response);
+            vm.code = response;
         });
+
+        //vm.code = CheckCodeResource.get({width: 100, height: 100}, function (response) {
+        //    $log.debug(response);
+        //});
 
         // Get an eventual error defined in the URL query string:
         vm.authError = $location.search().err;
