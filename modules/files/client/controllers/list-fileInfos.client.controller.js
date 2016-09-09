@@ -22,7 +22,7 @@
 
         function pages() {
             let array = [];
-            for (let i = 1; i < vm.fileInfos.totalPage, i++) {
+            for (let i = 1; i <= vm.fileInfos.totalPage; i++) {
                 array.push(i);
             }
             return array;
@@ -50,9 +50,9 @@
             }
         }
 
-        function goPage(pageNum, $event) {
-            $event.stopPropagation();
-            FileInfoResource.getFileInfo({pageSize: pageSize, pageNum: pageNum, queryString: '{}'});
+        function goPage(pageNum) {
+            // $event.stopPropagation();
+            vm.fileInfos = FileInfoResource.getFileInfo({pageSize: pageSize, pageNum: pageNum, queryString: '{}'});
         }
 
         //
