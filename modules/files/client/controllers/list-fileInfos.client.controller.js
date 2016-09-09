@@ -18,6 +18,7 @@
         vm.add = add;
         vm.remove = remove;
         vm.goPage = goPage;
+        vm.realPage = vm.fileInfos.pageNum + 1;
         //vm.goDetail = goDetail;
 
         function pages() {
@@ -50,10 +51,16 @@
             }
         }
 
-        function goPage(pageNum) {
-            // $event.stopPropagation();
-            vm.fileInfos = FileInfoResource.getFileInfo({pageSize: pageSize, pageNum: pageNum, queryString: '{}'});
+        function goPage($event) {
+
+            vm.fileInfos = FileInfoResource.getFileInfo({
+                pageSize: pageSize,
+                pageNum: vm.realPage - 1,
+                queryString: '{}'
+            });
+            $event.stopPropagation();
         }
+
 
         //
         //function goDetail(fileInfo) {

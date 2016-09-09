@@ -11,6 +11,8 @@ const logger = require(path.resolve('./config/lib/logger'));
 const ccap = require('ccap');
 const CheckCode = mongoose.model('CheckCode');
 const headerCode = 'checkCode';
+const gm = require('gm');
+
 
 exports.create = function (req, res) {
     let captcha;
@@ -27,7 +29,8 @@ exports.create = function (req, res) {
             res.end();
         } else {
             res.set(headerCode, obj._id);
-            res.end(ary[1]);
+            gm(ary[1], 'bmp').stream().pipe(res);
+            // res.end(ary[1]);
         }
     });
 };
