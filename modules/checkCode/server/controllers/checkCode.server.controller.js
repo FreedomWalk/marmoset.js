@@ -15,12 +15,7 @@ const gm = require('gm');
 
 
 exports.create = function (req, res) {
-    let captcha;
-    if (req.params.width && req.params.height) {
-        captcha = ccap(req.params.width, req.params.height);
-    } else {
-        captcha = ccap();
-    }
+    let captcha = ccap();
     let ary = captcha.get();
     let checkCode = new CheckCode({code: ary[0]});
     checkCode.save(function (err, obj) {
@@ -29,8 +24,9 @@ exports.create = function (req, res) {
             res.end();
         } else {
             res.set(headerCode, obj._id);
-            gm(ary[1], 'bmp').stream().pipe(res);
-            // res.end(ary[1]);
+            // gm(ary[1], 'bmp').stream().pipe(res);
+            res.type('bmp');
+            res.end(ary[1]);
         }
     });
 };
