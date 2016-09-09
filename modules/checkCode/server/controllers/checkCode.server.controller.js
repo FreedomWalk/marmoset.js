@@ -25,7 +25,7 @@ exports.create = function (req, res) {
         } else {
             res.set(headerCode, obj._id);
             res.type('bmp');
-            res.cookie(code, obj._id);
+            res.cookie(CODE, obj._id);
             res.end(ary[1]);
         }
     });
