@@ -51,14 +51,12 @@
             }
         }
 
-        function goPage($event) {
-
+        function goPage() {
             vm.fileInfos = FileInfoResource.getFileInfo({
                 pageSize: pageSize,
                 pageNum: vm.realPage - 1,
                 queryString: '{}'
             });
-            $event.stopPropagation();
         }
 
 
