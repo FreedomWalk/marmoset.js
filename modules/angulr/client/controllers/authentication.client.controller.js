@@ -2,11 +2,10 @@
     'use strict';
 
     angular
-        .module('users')
+        .module('angulr')
         .controller('AuthenticationController', AuthenticationController);
 
-    AuthenticationController.$inject = ['$scope', '$state', '$http', '$location', '$window', 'Authentication', 'PasswordValidator'];
-
+    /* @ngInject */
     function AuthenticationController($scope, $state, $http, $location, $window, Authentication, PasswordValidator) {
         var vm = this;
 
@@ -36,7 +35,7 @@
             $http.post('/api/auth/signup', vm.credentials).success(function () {
                 // If successful we assign the response to the global user model
                 // And redirect to the previous or home page
-                $state.go('home');
+                signin(isValid);
             }).error(function (response) {
                 vm.authError = response.message;
             });
