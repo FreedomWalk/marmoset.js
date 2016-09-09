@@ -6,7 +6,8 @@
         .controller('AuthenticationController', AuthenticationController);
 
     /* @ngInject */
-    function AuthenticationController($scope, $state, $http, $location, $window, Authentication, PasswordValidator) {
+    function AuthenticationController($scope, $state, $http, $location, $window, Authentication, PasswordValidator,
+                                      CheckCodeResource, $log) {
         var vm = this;
 
         vm.authentication = Authentication;
@@ -14,6 +15,9 @@
         vm.signup = signup;
         vm.signin = signin;
         vm.callOauthProvider = callOauthProvider;
+        vm.code = CheckCodeResource.get({width: 100, height: 100}, function (response) {
+            $log.debug(response);
+        });
 
         // Get an eventual error defined in the URL query string:
         vm.authError = $location.search().err;

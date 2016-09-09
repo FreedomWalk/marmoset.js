@@ -9,19 +9,19 @@
 
     /* @ngInject */
     function picture() {
-        var _that = this;
         return function (picture, height, width) {
-
             if (angular.isString(picture) && picture !== '') {
                 if (picture.match('^http://')) {
                     return picture;
+                } else if (picture.match('^data:')) {
+                    return picture;
                 } else {
                     var url = 'api/pic';
-                    if (angular.isNumeric(height) && angular.isUndefined(width)) {
+                    if (angular.isNumber(height) && angular.isUndefined(width)) {
                         url += '/zoomByHeight/' + height + '/' + picture;
-                    } else if (angular.isNumeric(width) && angular.isUndefined(height)) {
+                    } else if (angular.isNumber(width) && angular.isUndefined(height)) {
                         url += '/zoomByWidth/' + width + '/' + picture;
-                    } else if (angular.isNumeric(height) && angular.isNumeric(width)) {
+                    } else if (angular.isNumber(height) && angular.isNumber(width)) {
                         url += '/' + width + '/' + height + '/' + picture;
                     } else {
                         url += '/' + picture;
