@@ -12,7 +12,7 @@ const ccap = require('ccap');
 const CheckCode = mongoose.model('CheckCode');
 const headerCode = 'checkCode';
 const gm = require('gm');
-const CODE = 'code';
+const CODE = 'codeId';
 
 exports.create = function (req, res) {
     let captcha = ccap();

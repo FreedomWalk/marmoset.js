@@ -4,101 +4,122 @@
  * Module dependencies
  */
 var path = require('path'),
-  errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
-  mongoose = require('mongoose'),
-  User = mongoose.model('User'),
-  _ = require('lodash'),
-  jwt = require('jsonwebtoken'),
-  config = require(path.resolve('./config/config')),
-  TOKEN_EXPIRATION = 60,
-  TOKEN_EXPIRATION_SEC = TOKEN_EXPIRATION * 60,
-  logger = require(path.resolve('./config/lib/logger'));
+    errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
+    mongoose = require('mongoose'),
+    User = mongoose.model('User'),
+    _ = require('lodash'),
+    jwt = require('jsonwebtoken'),
+    config = require(path.resolve('./config/config')),
+    TOKEN_EXPIRATION = 60,
+    TOKEN_EXPIRATION_SEC = TOKEN_EXPIRATION * 60,
+    logger = require(path.resolve('./config/lib/logger'));
+const CheckCode = mongoose.model('CheckCode');
+const CommonError = require(path.resolve('./config/error/CommonError'));
 
 // URLs for which user can't be redirected on signin
 var noReturnUrls = [
-  '/authentication/signin',
-  '/authentication/signup'
+    '/authentication/signin',
+    '/authentication/signup'
 ];
 
 /**
  * Signup
  */
 exports.signup = function (req, res) {
-  // For security measurement we remove the roles from the req.body object
-  delete req.body.roles;
+    // For security measurement we remove the roles from the req.body object
+    delete req.body.roles;
 
-  // Init user and add missing fields
-  var user = new User(req.body);
-  user.provider = 'local';
-  user.displayName = user.firstName + ' ' + user.lastName;
+    // Init user and add missing fields
+    var user = new User(req.body);
+    user.provider = 'local';
+    user.displayName = user.firstName + ' ' + user.lastName;
 
-  // Then save the user
-  user.save(function (err) {
-    if (err) {
-      return res.status(400).send({
-        message: errorHandler.getErrorMessage(err)
-      });
-    } else {
-      // Remove sensitive data before login
-      user.password = undefined;
-      user.salt = undefined;
-
-      req.login(user, function (err) {
+    // Then save the user
+    user.save(function (err) {
         if (err) {
-          res.status(400).send(err);
+            return res.status(400).send({
+                message: errorHandler.getErrorMessage(err)
+            });
         } else {
-          res.json(user);
+            // Remove sensitive data before login
+            user.password = undefined;
+            user.salt = undefined;
+
+            req.login(user, function (err) {
+                if (err) {
+                    res.status(400).send(err);
+                } else {
+                    res.json(user);
+                }
+            });
         }
-      });
-    }
-  });
+    });
 };
 
 /**
  * Signin after passport authentication
  */
 exports.signin = function (req, res, next) {
-  let user = new User(req.body);
+    let user = new User(req.body);
 
-  if (!user) {
+    if (!user) {
 
-    throw new Error('没有用户信息!');
-  }
-  User.findOne({ username: user.username }, function (err, userDb) {
-    if (err) {
-      return next(err);
+        throw new Error('没有用户信息!');
     }
-    if (userDb) {
-      if (!userDb.authenticate(req.body.password)) {
-        throw new Error('用户名或密码错误！');
-      }
-
-      let token = jwt.sign({ userId: userDb._id, roles: userDb.roles, username: userDb.username }, config.jwt.secret, {
-        algorithm: config.jwt.algorithm,
-        expiresIn: config.jwt.expiresIn
-      });
-      userDb.password = undefined;
-      userDb.salt = undefined;
-
-      req.login(userDb, function (err) {
+    let codeId = req.cookies.codeId;
+    CheckCode.findById(codeId, function (err, obj) {
         if (err) {
-          res.status(400).send(err);
+            logger.error(err);
+            throw new CommonError('系统错误');
+        } else if (obj) {
+            if (obj.check(req.body.code)) {
+                User.findOne({username: user.username}, function (err, userDb) {
+                    if (err) {
+                        return next(err);
+                    }
+                    if (userDb) {
+                        if (!userDb.authenticate(req.body.password)) {
+                            throw new Error('用户名或密码错误！');
+                        }
+
+                        let token = jwt.sign({
+                            userId: userDb._id,
+                            roles: userDb.roles,
+                            username: userDb.username
+                        }, config.jwt.secret, {
+                            algorithm: config.jwt.algorithm,
+                            expiresIn: config.jwt.expiresIn
+                        });
+                        userDb.password = undefined;
+                        userDb.salt = undefined;
+
+                        req.login(userDb, function (err) {
+                            if (err) {
+                                res.status(400).send(err);
+                            } else {
+                                res.setHeader('Authorization', 'Bearer ' + token);
+                                res.setHeader('Set-Cookie', 'token=' + token);
+
+                                res.json(userDb);
+                            }
+                        });
+
+                    } else {
+                        throw new Error('没有用户(' + user.username + ')信息!');
+                    }
+                    // res.status(499).send({
+                    //    message: errorHandler.getErrorMessage('没有用户('+user.username+')信息!')
+                    // });
+
+                });
+            } else {
+                throw new CommonError('验证码错误');
+            }
         } else {
-          res.setHeader('Authorization', 'Bearer ' + token);
-          res.setHeader('Set-Cookie', 'token=' + token);
-
-          res.json(userDb);
+            throw new CommonError('验证码错误');
         }
-      });
+    });
 
-    } else {
-      throw new Error('没有用户(' + user.username + ')信息!');
-    }
-    // res.status(499).send({
-    //    message: errorHandler.getErrorMessage('没有用户('+user.username+')信息!')
-    // });
-
-  });
 };
 
 
@@ -125,8 +146,8 @@ exports.signin = function (req, res, next) {
  * Signout
  */
 exports.signout = function (req, res) {
-  req.logout();
-  res.redirect('/');
+    req.logout();
+    res.redirect('/');
 };
 
 // /**
