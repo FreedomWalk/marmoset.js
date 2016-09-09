@@ -18,8 +18,6 @@
         vm.add = add;
         vm.remove = remove;
         vm.goPage = goPage;
-        vm.realPage = vm.fileInfos.pageNum + 1;
-        //vm.goDetail = goDetail;
 
         function pages() {
             let array = [];
@@ -30,7 +28,7 @@
         }
 
         function add() {
-            var fileInfo = new FileInfoResource();
+            let fileInfo = new FileInfoResource();
             fileInfo.name = 'ahaha';
             fileInfo.master = 'wangbo';
             fileInfo.remark = 1;
@@ -51,20 +49,13 @@
             }
         }
 
-        function goPage() {
+        function goPage(pageNum) {
             vm.fileInfos = FileInfoResource.getFileInfo({
                 pageSize: pageSize,
-                pageNum: vm.realPage - 1,
+                pageNum: pageNum - 1,
                 queryString: '{}'
             });
         }
 
-
-        //
-        //function goDetail(fileInfo) {
-        //    $state.go('fileInfos.view', {
-        //        fileInfoId: fileInfo._id
-        //    });
-        //}
     }
 }());

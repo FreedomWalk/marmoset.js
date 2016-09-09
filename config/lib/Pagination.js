@@ -18,6 +18,7 @@ class Pagination {
     this.upPage = (this.pageNum > 1) ? this.pageNum - 1 : this.pageNum;
     this.nextPage = (this.pageNum === this.totalPage) ? this.pageNum : this.pageNum +
       1;
+    this.realPage = this.pageNum + 1;
     this.data = [];
   }
 

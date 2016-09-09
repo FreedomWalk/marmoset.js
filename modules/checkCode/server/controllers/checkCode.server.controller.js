@@ -12,7 +12,7 @@ const ccap = require('ccap');
 const CheckCode = mongoose.model('CheckCode');
 const headerCode = 'checkCode';
 const gm = require('gm');
-
+const ENCODE = 'base64';
 
 exports.create = function (req, res) {
     let captcha = ccap();
@@ -25,8 +25,12 @@ exports.create = function (req, res) {
         } else {
             res.set(headerCode, obj._id);
             // gm(ary[1], 'bmp').stream().pipe(res);
-            res.type('bmp');
-            res.end(ary[1]);
+            // res.type('bmp');
+            let picResult = {
+                checkCode: obj._id,
+                pic: ary[1].toString(ENCODE)
+            };
+            res.json(picResult);
         }
     });
 };

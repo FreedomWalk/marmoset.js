@@ -28,11 +28,118 @@ var config = require('../config'),
     wechat = require('wechat');
 const unless = require('express-unless');
 
-
 /**
  * Initialize local variables
  */
-module.exports.initLocalVariables = function (app) {
+module.exports.initLocalVariables = initLocalVariables;
+
+/**
+ * Initialize application middleware
+ */
+module.exports.initMiddleware = initMiddleware;
+
+/**
+ * Configure view engine
+ */
+module.exports.initViewEngine = initViewEngine;
+
+/**
+ * Configure Express session
+ */
+module.exports.initSession = initSession;
+
+/**
+ * Invoke modules server configuration
+ */
+module.exports.initModulesConfiguration = initModulesConfiguration;
+
+/**
+ * Configure Helmet headers configuration
+ */
+module.exports.initHelmetHeaders = initHelmetHeaders;
+
+/**
+ * Configure the modules static routes
+ */
+module.exports.initModulesClientRoutes = initModulesClientRoutes;
+
+/**
+ * Configure the modules ACL policies
+ */
+module.exports.initModulesServerPolicies = initModulesServerPolicies;
+
+/**
+ * Configure the modules server routes
+ */
+module.exports.initModulesServerRoutes = initModulesServerRoutes;
+
+/**
+ * Configure error handling
+ */
+module.exports.initErrorRoutes = initErrorRoutes;
+
+module.exports.initSchedules = initSchedules;
+
+module.exports.initMQSubscribe = initMQSubscribe;
+
+/**
+ * Configure Socket.io
+ */
+module.exports.configureSocketIO = configureSocketIO;
+
+module.exports.initWechat = initWechat;
+
+/**
+ * Initialize the Express application
+ */
+module.exports.init = function (db) {
+    // Initialize express app
+    var app = express();
+
+    // Initialize local variables
+    this.initLocalVariables(app);
+
+    // Initialize Express middleware
+    this.initMiddleware(app);
+
+    // Initialize Express view engine
+    this.initViewEngine(app);
+
+    // Initialize Helmet security headers
+    this.initHelmetHeaders(app);
+
+    // Initialize modules static client routes, before session!
+    this.initModulesClientRoutes(app);
+
+    // Initialize Express session
+    this.initSession(app, db);
+
+    // Initialize wechat
+    this.initWechat(app);
+
+    // Initialize Modules configuration
+    this.initModulesConfiguration(app);
+
+    // Initialize modules server authorization policies
+    this.initModulesServerPolicies(app);
+
+    // Initialize modules server routes
+    this.initModulesServerRoutes(app);
+
+    // Initialize error routes
+    this.initErrorRoutes(app);
+
+    this.initSchedules();
+
+    this.initMQSubscribe();
+    // Configure Socket.io
+    app = this.configureSocketIO(app, db);
+
+    return app;
+};
+
+
+function initLocalVariables(app) {
     // Setting application local variables
     app.locals.title = config.app.title;
     app.locals.description = config.app.description;
@@ -53,12 +160,18 @@ module.exports.initLocalVariables = function (app) {
         res.locals.url = req.protocol + '://' + req.headers.host + req.originalUrl;
         next();
     });
-};
+}
 
-/**
- * Initialize application middleware
- */
-module.exports.initMiddleware = function (app) {
+function initViewEngine(app) {
+    // Set swig as the template engine
+    app.engine('server.view.html', consolidate[config.templateEngine]);
+
+    // Set views path and view engine
+    app.set('view engine', 'server.view.html');
+    app.set('views', './');
+}
+
+function initMiddleware(app) {
     // Showing stack errors
     app.set('showStackError', true);
 
@@ -74,8 +187,76 @@ module.exports.initMiddleware = function (app) {
         level: 9
     }));
     app.use(expressDomain);
+
+    app.use('/api', jwt({
+        secret: config.jwt.secret,
+        credentialsRequired: true,
+        algorithm: config.jwt.algorithm,
+        expiresIn: config.jwt.expiresIn,
+        getToken: getToken
+    }).unless({
+        path: config.jwt.unless
+    }));
+
+    app.use('/api', function (err, req, res, next) {
+        if (err && err.name === 'UnauthorizedError') {
+            res.status(401).json('Unauthorized');
+        }
+    });
+
+    updateToken.unless = unless;
+    app.use('/api', updateToken.unless({
+        path: config.jwt.unless
+    }));
+
+    // Initialize favicon middleware
+    app.use(favicon(app.locals.favicon));
+
+    // Enable logger (morgan) if enabled in the configuration file
+    if (_.has(config, 'log.format')) {
+        app.use(morgan(logger.getLogFormat(), logger.getMorganOptions()));
+    }
+
+    // Environment dependent middleware
+    if (process.env.NODE_ENV === 'development') {
+        // Disable views cache
+        app.set('view cache', false);
+    } else if (process.env.NODE_ENV === 'production') {
+        app.locals.cache = 'memory';
+    }
+
+    // Request body parsing middleware should be above methodOverride
+    app.use(bodyParser.urlencoded({
+        extended: true
+    }));
+    app.use(bodyParser.json());
+    app.use(methodOverride());
+
+    // Add the cookie parser and flash middleware
+    app.use(cookieParser());
+    app.use(flash());
+
+    function updateToken(req, res, next) {
+        let user = req.user;
+        if (user) {
+            //if (user.exp - (Date.now() / 1000) <= 60) {
+            let token = jsonwebtoken.sign({
+                userId: user.userId,
+                roles: user.roles,
+                username: user.username
+            }, config.jwt.secret, {
+                algorithm: config.jwt.algorithm,
+                expiresIn: config.jwt.expiresIn
+            });
+            res.setHeader('Authorization', 'Bearer ' + token);
+            res.setHeader('Set-Cookie', 'token=' + token);
+            //}
+        }
+        next();
+    }
+
     // app.use('/api',jwt({ secret: config.jwt.secret}).unless({path: config.jwt.unless}));
-    let getToken = function (req, res, next) {
+    function getToken(req, res, next) {
         if (req.headers && req.headers.authorization) {
             var parts = req.headers.authorization.split(' ');
             if (parts.length === 2) {
@@ -114,96 +295,10 @@ module.exports.initMiddleware = function (app) {
                 }
             }
         }
-    };
-
-    app.use('/api', jwt({
-        secret: config.jwt.secret,
-        credentialsRequired: true,
-        algorithm: config.jwt.algorithm,
-        expiresIn: config.jwt.expiresIn,
-        getToken: getToken
-    }).unless({
-        path: config.jwt.unless
-    }));
-
-    app.use('/api', function (err, req, res, next) {
-        if (err && err.name === 'UnauthorizedError') {
-            res.status(401).json('Unauthorized');
-        }
-    });
-
-    updateToken.unless = unless;
-    app.use('/api', updateToken.unless({
-        path: config.jwt.unless
-    }));
-
-    function updateToken (req, res, next) {
-        let user = req.user;
-        if (user) {
-            //if (user.exp - (Date.now() / 1000) <= 60) {
-            let token = jsonwebtoken.sign({
-                userId: user.userId,
-                roles: user.roles,
-                username: user.username
-            }, config.jwt.secret, {
-                algorithm: config.jwt.algorithm,
-                expiresIn: config.jwt.expiresIn
-            });
-            res.setHeader('Authorization', 'Bearer ' + token);
-            res.setHeader('Set-Cookie', 'token=' + token);
-            //}
-        }
-        next();
     }
-
-
-
-    // Initialize favicon middleware
-    app.use(favicon(app.locals.favicon));
-
-    // Enable logger (morgan) if enabled in the configuration file
-    if (_.has(config, 'log.format')) {
-        app.use(morgan(logger.getLogFormat(), logger.getMorganOptions()));
-    }
-
-    // Environment dependent middleware
-    if (process.env.NODE_ENV === 'development') {
-        // Disable views cache
-        app.set('view cache', false);
-    } else if (process.env.NODE_ENV === 'production') {
-        app.locals.cache = 'memory';
-    }
-
-    // Request body parsing middleware should be above methodOverride
-    app.use(bodyParser.urlencoded({
-        extended: true
-    }));
-    app.use(bodyParser.json());
-    app.use(methodOverride());
-
-    // Add the cookie parser and flash middleware
-    app.use(cookieParser());
-    app.use(flash());
-};
-
-function initViewEngine (app) {
-    // Set swig as the template engine
-    app.engine('server.view.html', consolidate[config.templateEngine]);
-
-    // Set views path and view engine
-    app.set('view engine', 'server.view.html');
-    app.set('views', './');
 }
 
-/**
- * Configure view engine
- */
-module.exports.initViewEngine = initViewEngine;
-
-/**
- * Configure Express session
- */
-module.exports.initSession = function (app, db) {
+function initSession(app, db) {
     // Express MongoDB session storage
     app.use(session({
         saveUninitialized: true,
@@ -223,21 +318,15 @@ module.exports.initSession = function (app, db) {
 
     // Add Lusca CSRF Middleware
     app.use(lusca(config.csrf));
-};
+}
 
-/**
- * Invoke modules server configuration
- */
-module.exports.initModulesConfiguration = function (app, db) {
+function initModulesConfiguration(app, db) {
     config.files.server.configs.forEach(function (configPath) {
         require(path.resolve(configPath))(app, db);
     });
-};
+}
 
-/**
- * Configure Helmet headers configuration
- */
-module.exports.initHelmetHeaders = function (app) {
+function initHelmetHeaders(app) {
     // Use helmet to secure Express headers
     var SIX_MONTHS = 15778476000;
     app.use(helmet.xframe());
@@ -250,12 +339,9 @@ module.exports.initHelmetHeaders = function (app) {
         force: true
     }));
     app.disable('x-powered-by');
-};
+}
 
-/**
- * Configure the modules static routes
- */
-module.exports.initModulesClientRoutes = function (app) {
+function initModulesClientRoutes(app) {
     // Setting the app router and static folder
     app.use('/', express.static(path.resolve('./public')));
 
@@ -263,81 +349,9 @@ module.exports.initModulesClientRoutes = function (app) {
     config.folders.client.forEach(function (staticPath) {
         app.use(staticPath, express.static(path.resolve('./' + staticPath)));
     });
-};
+}
 
-/**
- * Configure the modules ACL policies
- */
-module.exports.initModulesServerPolicies = function (app) {
-    // Globbing policy files
-    config.files.server.policies.forEach(function (policyPath) {
-        require(path.resolve(policyPath)).invokeRolesPolicies();
-    });
-};
-
-/**
- * Configure the modules server routes
- */
-module.exports.initModulesServerRoutes = function (app) {
-    // Globbing routing files
-    config.files.server.routes.forEach(function (routePath) {
-        require(path.resolve(routePath))(app);
-    });
-};
-
-/**
- * Configure error handling
- */
-module.exports.initErrorRoutes = function (app) {
-    app.use(function (err, req, res, next) {
-        // If the error object doesn't exists
-        if (!err) {
-            return next();
-        } else {
-            // Log it
-            logger.error(err.stack);
-
-
-            if (req.headers['content-type'].indexOf('application/json') >= 0) {
-                res.status(500).send({
-                    message: err.message
-                });
-            } else {
-                // Redirect to error page
-                res.redirect('/server-error');
-            }
-
-        }
-    });
-};
-
-module.exports.initSchedules = function () {
-    // Globbing routing files
-    config.files.server.schedules.forEach(function (routePath) {
-        require(path.resolve(routePath))();
-    });
-};
-
-module.exports.initMQSubscribe = function () {
-    let msgDealers = [];
-    config.files.server.receivers.forEach(function (routePath) {
-        msgDealers.push(require(path.resolve(routePath)));
-    });
-    stomp.subscribe(msgDealers);
-};
-
-/**
- * Configure Socket.io
- */
-module.exports.configureSocketIO = function (app, db) {
-    // Load the Socket.io configuration
-    var server = require('./socket.io')(app, db);
-
-    // Return server object
-    return server;
-};
-
-module.exports.initWechat = function (app) {
+function initWechat(app) {
     let weConfig = config.wechat;
     app.use('/wechat', wechat(weConfig.token).text(function (message, req, res, next) {
         // message为文本内容
@@ -461,53 +475,64 @@ module.exports.initWechat = function (app) {
             }
         });
     }).middlewarify());
-};
+}
 
-/**
- * Initialize the Express application
- */
-module.exports.init = function (db) {
-    // Initialize express app
-    var app = express();
+function initModulesServerPolicies() {
+    // Globbing policy files
+    config.files.server.policies.forEach(function (policyPath) {
+        require(path.resolve(policyPath)).invokeRolesPolicies();
+    });
+}
 
-    // Initialize local variables
-    this.initLocalVariables(app);
+function initModulesServerRoutes(app) {
+    // Globbing routing files
+    config.files.server.routes.forEach(function (routePath) {
+        require(path.resolve(routePath))(app);
+    });
+}
 
-    // Initialize Express middleware
-    this.initMiddleware(app);
+function initErrorRoutes(app) {
+    app.use(function (err, req, res, next) {
+        // If the error object doesn't exists
+        if (!err) {
+            return next();
+        } else {
+            // Log it
+            logger.error(err.stack);
 
-    // Initialize Express view engine
-    this.initViewEngine(app);
 
-    // Initialize Helmet security headers
-    this.initHelmetHeaders(app);
+            if (req.headers['content-type'].indexOf('application/json') >= 0) {
+                res.status(500).send({
+                    message: err.message
+                });
+            } else {
+                // Redirect to error page
+                res.redirect('/server-error');
+            }
 
-    // Initialize modules static client routes, before session!
-    this.initModulesClientRoutes(app);
+        }
+    });
+}
 
-    // Initialize Express session
-    this.initSession(app, db);
+function initSchedules() {
+    // Globbing routing files
+    config.files.server.schedules.forEach(function (routePath) {
+        require(path.resolve(routePath))();
+    });
+}
 
-    // Initialize wechat
-    this.initWechat(app);
+function initMQSubscribe() {
+    let msgDealers = [];
+    config.files.server.receivers.forEach(function (routePath) {
+        msgDealers.push(require(path.resolve(routePath)));
+    });
+    stomp.subscribe(msgDealers);
+}
 
-    // Initialize Modules configuration
-    this.initModulesConfiguration(app);
+function configureSocketIO(app, db) {
+    // Load the Socket.io configuration
+    var server = require('./socket.io')(app, db);
 
-    // Initialize modules server authorization policies
-    this.initModulesServerPolicies(app);
-
-    // Initialize modules server routes
-    this.initModulesServerRoutes(app);
-
-    // Initialize error routes
-    this.initErrorRoutes(app);
-
-    this.initSchedules();
-
-    this.initMQSubscribe();
-    // Configure Socket.io
-    app = this.configureSocketIO(app, db);
-
-    return app;
-};
+    // Return server object
+    return server;
+}
