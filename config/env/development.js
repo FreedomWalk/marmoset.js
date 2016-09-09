@@ -64,7 +64,7 @@ module.exports = {
   },
   jwt: {
     secret: '123wee',
-    expiresIn: 60,
+    expiresIn: 60000,
     algorithm: 'HS256'
   },
   stomp: {

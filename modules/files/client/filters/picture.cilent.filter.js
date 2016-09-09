@@ -9,7 +9,9 @@
 
     /* @ngInject */
     function picture() {
+        var _that = this;
         return function (picture, height, width) {
+
             if (angular.isString(picture) && picture !== '') {
                 if (picture.match('^http://')) {
                     return picture;

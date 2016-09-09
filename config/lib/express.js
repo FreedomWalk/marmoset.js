@@ -84,7 +84,6 @@ module.exports.initMiddleware = function (app) {
 
                 if (/^Bearer$/i.test(scheme)) {
                     return credentials;
-                    88
                 } else {
                     return next(new UnauthorizedError(
                         'credentials_bad_scheme', {
@@ -132,28 +131,31 @@ module.exports.initMiddleware = function (app) {
             res.status(401).json('Unauthorized');
         }
     });
-    let updateToken = function (req, res, next) {
-        let user = req.user;
-        if (user) {
-            if (user.exp - (Date.now() / 1000) <= 60) {
-                let token = jsonwebtoken.sign({
-                    userId: user.userId,
-                    roles: user.roles,
-                    username: user.username
-                }, config.jwt.secret, {
-                    algorithm: config.jwt.algorithm,
-                    expiresIn: config.jwt.expiresIn
-                });
-                res.setHeader('Authorization', 'Bearer ' + token);
-                res.setHeader('Set-Cookie', 'token=' + token);
-            }
-        }
-        next();
-    };
+
     updateToken.unless = unless;
     app.use('/api', updateToken.unless({
         path: config.jwt.unless
     }));
+
+    function updateToken (req, res, next) {
+        let user = req.user;
+        if (user) {
+            //if (user.exp - (Date.now() / 1000) <= 60) {
+            let token = jsonwebtoken.sign({
+                userId: user.userId,
+                roles: user.roles,
+                username: user.username
+            }, config.jwt.secret, {
+                algorithm: config.jwt.algorithm,
+                expiresIn: config.jwt.expiresIn
+            });
+            res.setHeader('Authorization', 'Bearer ' + token);
+            res.setHeader('Set-Cookie', 'token=' + token);
+            //}
+        }
+        next();
+    }
+
 
 
     // Initialize favicon middleware
@@ -184,17 +186,19 @@ module.exports.initMiddleware = function (app) {
     app.use(flash());
 };
 
-/**
- * Configure view engine
- */
-module.exports.initViewEngine = function (app) {
+function initViewEngine (app) {
     // Set swig as the template engine
     app.engine('server.view.html', consolidate[config.templateEngine]);
 
     // Set views path and view engine
     app.set('view engine', 'server.view.html');
     app.set('views', './');
-};
+}
+
+/**
+ * Configure view engine
+ */
+module.exports.initViewEngine = initViewEngine;
 
 /**
  * Configure Express session
