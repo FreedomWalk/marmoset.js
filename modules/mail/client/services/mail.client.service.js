@@ -4,7 +4,7 @@
 
 (function () {
     'use strict';
-    angular.module('mail.service').factory('MailService', MailService);
+    angular.module('mails.services').factory('MailService', MailService);
 
     /* @ngInject */
     function MailService(baseResource) {

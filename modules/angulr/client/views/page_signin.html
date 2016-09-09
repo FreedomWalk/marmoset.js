@@ -21,7 +21,8 @@
                 <div class="list-group-item">
                     <input type="password" placeholder="Password" class="form-control no-border"
                            ng-model="vm.credentials.password" required>
-                    <img src="/api/checkCode">
+                    <img ng-src="{{vm.codeUrl}}" style="width: 50%;height: 50%">
+                    <button type="button" ng-click="vm.getCheckCode()">change</button>
                 </div>
             </div>
             <button type="submit" class="btn btn-lg btn-primary btn-block" ng-disabled='form.$invalid'>Log in</button>
