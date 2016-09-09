@@ -38,7 +38,7 @@
             </table>
             <uib-pagination boundary-links="true" max-size="8" items-per-page="vm.fileInfos.pageSize"
                             total-items="vm.fileInfos.totalCount"
-                            ng-model="vm.realPage" ng-change="vm.goPage()"></uib-pagination>
+                            ng-model="vm.fileInfos.realPage" ng-change="vm.goPage(vm.fileInfos.realPage)"></uib-pagination>
             <!--页面大小:{{vm.fileInfos.pageSize}}-->
             <!--页码:{{vm.fileInfos.pageNum}}-->
             <!--总数:{{vm.fileInfos.totalCount}}-->
