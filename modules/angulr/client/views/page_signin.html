@@ -19,8 +19,8 @@
                            ng-model="vm.credentials.password" required>
                 </div>
                 <div class="list-group-item">
-                    <input type="password" placeholder="Password" class="form-control no-border"
-                           ng-model="vm.credentials.password" required>
+                    <input type="text"  class="form-control no-border"
+                           ng-model="vm.credentials.code" required>
                     <img ng-src="{{vm.codeUrl}}" style="width: 50%;height: 50%">
                     <button type="button" ng-click="vm.getCheckCode()">change</button>
                 </div>
