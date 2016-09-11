@@ -15,8 +15,6 @@
         vm.signup = signup;
         vm.signin = signin;
         vm.callOauthProvider = callOauthProvider;
-        vm.getCheckCode = getCheckCode;
-        vm.codeUrl = '/api/checkCode';
 
         // Get an eventual error defined in the URL query string:
         vm.authError = $location.search().err;
@@ -72,10 +70,6 @@
 
             // Effectively call OAuth authentication route:
             $window.location.href = url;
-        }
-
-        function getCheckCode() {
-            vm.codeUrl = '/api/checkCode?a=' + new Date().getTime();
         }
     }
 }());

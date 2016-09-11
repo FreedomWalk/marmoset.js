@@ -18,12 +18,17 @@
                     <input type="password" placeholder="Password" class="form-control no-border"
                            ng-model="vm.credentials.password" required>
                 </div>
-                <div class="list-group-item">
-                    <input type="text"  class="form-control no-border"
-                           ng-model="vm.credentials.code" required>
-                    <img ng-src="{{vm.codeUrl}}" style="width: 50%;height: 50%">
-                    <button type="button" ng-click="vm.getCheckCode()">change</button>
-                </div>
+                <check-code ng-model="vm.credentials.code"></check-code>
+                <!--<div class="list-group-item">-->
+                    <!--<span class="input-group">-->
+                        <!--<input type="text" class="form-control no-border"-->
+                               <!--ng-model="vm.credentials.code" required>-->
+                        <!--<span class="input-group-btn">-->
+                            <!--<img ng-src="{{vm.codeUrl}}" style="width: 140px;">-->
+                            <!--<button type="button" ng-click="vm.getCheckCode()" class="btn btn-default">换一个</button>-->
+                        <!--</span>-->
+                    <!--</span>-->
+                <!--</div>-->
             </div>
             <button type="submit" class="btn btn-lg btn-primary btn-block" ng-disabled='form.$invalid'>Log in</button>
             <div class="text-center m-t m-b"><a ui-sref="access.forgotpwd">Forgot password?</a></div>

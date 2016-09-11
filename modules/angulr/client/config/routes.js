@@ -47,7 +47,9 @@
                 state: 'access.forgotpwd',
                 config: {
                     url: '/forgotpwd',
-                    templateUrl: 'modules/angulr/client/views/page_forgotpwd.html'
+                    templateUrl: 'modules/angulr/client/views/page_forgotpwd.html',
+                    controller: 'ResetPasswordController',
+                    controllerAs: 'vm'
                 }
             }, {
                 state: 'access.404',

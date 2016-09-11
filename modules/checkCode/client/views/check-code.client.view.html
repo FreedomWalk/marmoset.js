@@ -1,0 +1,10 @@
+<div class="list-group-item">
+    <span class="input-group">
+        <input type="text" class="form-control no-border" placeholder="验证码"
+               ng-model="code" required>
+        <span class="input-group-btn">
+            <img ng-src="{{dvm.codeUrl}}" style="width: 140px;">
+            <button type="button" ng-click="dvm.getCheckCode()" class="btn btn-default">换一个</button>
+        </span>
+    </span>
+</div>
