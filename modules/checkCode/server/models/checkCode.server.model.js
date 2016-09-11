@@ -13,8 +13,10 @@ let CheckCodeSchema = new Schema({
     }
 });
 
-CheckCodeSchema.methods.check = function (code) {
-    return this.code === code;
-};
+CheckCodeSchema.methods.check = check;
+
+function check(code) {
+    return code && this.code.toLowerCase() === code.toLowerCase();
+}
 
 mongoose.model('CheckCode', CheckCodeSchema);
