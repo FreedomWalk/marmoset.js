@@ -46,7 +46,7 @@ module.exports = {
             tests: ['public/lib/angular-mocks/angular-mocks.js']
         },
         css: [
-            'modules/*/client/css/*.css'
+            'modules/*/client/css/*.css', '!modules/angulr/client/css/app.css'
         ],
         less: [
             'modules/*/client/less/*.less'
