@@ -5,7 +5,7 @@
         <div class="wrapper text-center">
             <strong>Input your email to reset your password</strong>
         </div>
-        <form name="reset" ng-submit="vm.forgotPassword(reset.$invalid)">
+        <form name="forgot" ng-submit="vm.forgotPassword(forgot.$valid)">
             <div class="list-group list-group-sm">
                 <div class="list-group-item">
                     <input type="email" placeholder="Email" ng-model="vm.credentials.email"
@@ -13,7 +13,7 @@
                 </div>
                 <check-code ng-model="vm.credentials.code"></check-code>
             </div>
-            <button type="submit" ng-disabled="reset.$invalid" class="btn btn-lg btn-primary btn-block">Send
+            <button type="submit" ng-disabled="forgot.$invalid" class="btn btn-lg btn-primary btn-block">Send
             </button>
         </form>
         <div collapse="isCollapsed" class="m-t">

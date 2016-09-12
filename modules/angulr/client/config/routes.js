@@ -54,7 +54,7 @@
             }, {
                 state: 'access.resetpwd',
                 config: {
-                    url: '/resetpwd',
+                    url: '/resetpwd/:token',
                     templateUrl: 'modules/angulr/client/views/page_reset_password.html',
                     controller: 'PasswordController',
                     controllerAs: 'vm'
@@ -62,10 +62,14 @@
             }, {
                 state: 'access.404',
                 config: {
-                    url: '/404',
+                    url: '/404/:code',
                     templateUrl: 'modules/angulr/client/views/page_404.html',
                     controller: 'StatusErrorController',
                     controllerAs: 'vm'
+                },
+                params: {
+                    code: null,
+                    message: ''
                 }
             }, {
                 state: 'access.lock',

@@ -52,7 +52,7 @@
                 return false;
             }
 
-            $http.post('/api/auth/reset/' + $stateParams.token, vm.passwordDetails).success(function (response) {
+            $http.post('/api/auth/reset/' + $stateParams.token, vm.credentials).success(function (response) {
                 // If successful show success message and clear form
                 vm.passwordDetails = null;
 
