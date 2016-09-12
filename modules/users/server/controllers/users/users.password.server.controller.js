@@ -207,11 +207,13 @@ exports.reset = function (req, res, next) {
                 logger.error(err);
                 throw new CommonError('发送失败，请稍后再试');
             });
+            done();
         }
     ], function (err) {
         if (err) {
             return next(err);
         }
+        done(err);
     });
 };
 
