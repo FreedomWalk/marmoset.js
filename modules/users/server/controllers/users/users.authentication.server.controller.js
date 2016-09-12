@@ -71,7 +71,7 @@ exports.signin = function (req, res, next) {
     }
     let codeId = req.cookies.codeId;
     CheckCodeUtil.check(codeId, req.body.code, function () {
-        User.findOne({username: user.username}, function (err, userDb) {
+        User.findOne({$or: [{username: user.username}, {email: user.username}]}, function (err, userDb) {
             if (err) {
                 return next(err);
             }

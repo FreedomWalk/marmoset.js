@@ -145,8 +145,8 @@ exports.reset = function (req, res, next) {
                 }
             }, function (err, user) {
                 if (!err && user) {
-                    if (passwordDetails.newPassword === passwordDetails.verifyPassword) {
-                        user.password = passwordDetails.newPassword;
+                    if (passwordDetails.confirmPassword === passwordDetails.password) {
+                        user.password = passwordDetails.password;
                         user.resetPasswordToken = undefined;
                         user.resetPasswordExpires = undefined;
 
@@ -204,17 +204,16 @@ exports.reset = function (req, res, next) {
                 res.send({
                     message: 'An email has been sent to the provided email with further instructions.'
                 });
+                done();
             }, function (err) {
                 logger.error(err);
                 throw new CommonError('发送失败，请稍后再试');
             });
-            done();
         }
     ], function (err) {
         if (err) {
             return next(err);
         }
-        done(err);
     });
 };
 
