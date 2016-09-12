@@ -9,15 +9,15 @@
         .controller('FilesListController', FilesListController);
 
     /* @ngInject */
-    function FilesListController(FileInfoResource, $state, $window) {
+    function FilesListController(FileInfoResource, $uibModal, $window, $log) {
         var vm = this;
         let pageSize = 10;
 
         vm.fileInfos = FileInfoResource.getFileInfo({pageSize: pageSize, pageNum: 0, queryString: '{}'});
         vm.pages = pages;
-        vm.add = add;
         vm.remove = remove;
         vm.goPage = goPage;
+        vm.open = open;
 
         function pages() {
             let array = [];
@@ -27,14 +27,23 @@
             return array;
         }
 
-        function add() {
-            let fileInfo = new FileInfoResource();
-            fileInfo.name = 'ahaha';
-            fileInfo.master = 'wangbo';
-            fileInfo.remark = 1;
-            fileInfo.type = 'ChineseRuralDog';
-            fileInfo.$save(function () {
-                vm.fileInfos = FileInfoResource.getFileInfo();
+        function open() {
+            var modalInstance = $uibModal.open({
+                templateUrl: 'modules/files/client/views/uploadFile.modal.client.view.html',
+                controller: 'FilesController',
+                controllerAs: 'vm',
+                // size: size,
+                // resolve: {
+                //     // items: function () {
+                //     //     return [1, 2, 3, 4, '1234'];
+                //     // }
+                // }
+            });
+
+            modalInstance.result.then(function (selectedItem) {
+                vm.selected = selectedItem;
+            }, function () {
+                $log.info('Modal dismissed at: ' + new Date());
             });
         }
 

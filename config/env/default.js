@@ -2,9 +2,9 @@
 
 module.exports = {
     app: {
-        title: 'MEAN.JS',
-        description: 'Full-Stack JavaScript with MongoDB, Express, AngularJS, and Node.js',
-        keywords: 'mongodb, express, angularjs, node.js, mongoose, passport',
+        title: 'MARMOSET.JS',
+        description: 'MARMOSET MARMOSET MARMOSET',
+        keywords: 'marmoset, mongodb, express, angularjs, node.js, mongoose, passport, bootstrap',
         googleAnalyticsTrackingID: process.env.GOOGLE_ANALYTICS_TRACKING_ID ||
         'GOOGLE_ANALYTICS_TRACKING_ID'
     },
@@ -47,7 +47,7 @@ module.exports = {
         }
     },
     jwt: {
-        unless: ['/api/auth/signin', '/api/auth/signup', '/api/book', '/api/hello', '/api/mail',
+        unless: [/\/api\/auth\/.+/gi,'/api/auth/signin', '/api/auth/signup', '/api/book', '/api/hello', '/api/mail',
             /\/api\/file\/.+/gi, /\/api\/pic\/.+/gi, '/api/file',
             /\/api\/scheduleLog\/.+/gi, /\/api\/wechat\/.+/gi, /\/api\/checkCode.+/gi, '/api/checkCode'
         ]

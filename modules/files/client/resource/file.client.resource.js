@@ -6,10 +6,10 @@
 
     angular
         .module('files')
-        .factory('FileResource', FileResource);
+        .factory('FilesResource', FilesResource);
 
     /* @ngInject */
-    function FileResource(baseResource) {
+    function FilesResource(baseResource) {
         var File = baseResource('/api/file/:fileId', {fileId: '@_id'}, {
             getFile: {
                 url: '/api/file/:fileId',
