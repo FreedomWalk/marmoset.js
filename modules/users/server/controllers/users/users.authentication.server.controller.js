@@ -15,6 +15,7 @@ var path = require('path'),
     logger = require(path.resolve('./config/lib/logger'));
 const CheckCode = mongoose.model('CheckCode');
 const CommonError = require(path.resolve('./config/error/CommonError'));
+const CheckCodeUtil = require(path.resolve('./modules/core/server/common/CheckCodeUtil'));
 
 // URLs for which user can't be redirected on signin
 var noReturnUrls = [
@@ -33,26 +34,28 @@ exports.signup = function (req, res) {
     var user = new User(req.body);
     user.provider = 'local';
     user.displayName = user.firstName + ' ' + user.lastName;
+    let codeId = req.cookies.codeId;
+    CheckCodeUtil.check(codeId, req.body.code, function () {
+        // Then save the user
+        user.save(function (err) {
+            if (err) {
+                return res.status(400).send({
+                    message: errorHandler.getErrorMessage(err)
+                });
+            } else {
+                // Remove sensitive data before login
+                user.password = undefined;
+                user.salt = undefined;
 
-    // Then save the user
-    user.save(function (err) {
-        if (err) {
-            return res.status(400).send({
-                message: errorHandler.getErrorMessage(err)
-            });
-        } else {
-            // Remove sensitive data before login
-            user.password = undefined;
-            user.salt = undefined;
-
-            req.login(user, function (err) {
-                if (err) {
-                    res.status(400).send(err);
-                } else {
-                    res.json(user);
-                }
-            });
-        }
+                req.login(user, function (err) {
+                    if (err) {
+                        res.status(400).send(err);
+                    } else {
+                        res.json(user);
+                    }
+                });
+            }
+        });
     });
 };
 
@@ -67,59 +70,42 @@ exports.signin = function (req, res, next) {
         throw new Error('没有用户信息!');
     }
     let codeId = req.cookies.codeId;
-    CheckCode.findById(codeId, function (err, obj) {
-        if (err) {
-            logger.error(err);
-            throw new CommonError('系统错误');
-        } else if (obj) {
-            if (obj.check(req.body.code)) {
-                User.findOne({username: user.username}, function (err, userDb) {
+    CheckCodeUtil.check(codeId, req.body.code, function () {
+        User.findOne({username: user.username}, function (err, userDb) {
+            if (err) {
+                return next(err);
+            }
+            if (userDb) {
+                if (!userDb.authenticate(req.body.password)) {
+                    throw new Error('用户名或密码错误！');
+                }
+
+                let token = jwt.sign({
+                    userId: userDb._id,
+                    roles: userDb.roles,
+                    username: userDb.username
+                }, config.jwt.secret, {
+                    algorithm: config.jwt.algorithm,
+                    expiresIn: config.jwt.expiresIn
+                });
+                userDb.password = undefined;
+                userDb.salt = undefined;
+
+                req.login(userDb, function (err) {
                     if (err) {
-                        return next(err);
-                    }
-                    if (userDb) {
-                        if (!userDb.authenticate(req.body.password)) {
-                            throw new Error('用户名或密码错误！');
-                        }
-
-                        let token = jwt.sign({
-                            userId: userDb._id,
-                            roles: userDb.roles,
-                            username: userDb.username
-                        }, config.jwt.secret, {
-                            algorithm: config.jwt.algorithm,
-                            expiresIn: config.jwt.expiresIn
-                        });
-                        userDb.password = undefined;
-                        userDb.salt = undefined;
-
-                        req.login(userDb, function (err) {
-                            if (err) {
-                                res.status(400).send(err);
-                            } else {
-                                res.setHeader('Authorization', 'Bearer ' + token);
-                                res.setHeader('Set-Cookie', 'token=' + token);
-
-                                res.json(userDb);
-                            }
-                        });
-
+                        res.status(400).send(err);
                     } else {
-                        throw new Error('没有用户(' + user.username + ')信息!');
-                    }
-                    // res.status(499).send({
-                    //    message: errorHandler.getErrorMessage('没有用户('+user.username+')信息!')
-                    // });
+                        res.setHeader('Authorization', 'Bearer ' + token);
+                        res.setHeader('Set-Cookie', 'token=' + token);
 
+                        res.json(userDb);
+                    }
                 });
             } else {
-                throw new CommonError('验证码错误');
+                throw new Error('没有用户(' + user.username + ')信息!');
             }
-        } else {
-            throw new CommonError('验证码错误');
-        }
+        });
     });
-
 };
 
 
