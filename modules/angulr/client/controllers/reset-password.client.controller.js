@@ -9,29 +9,33 @@
         .controller('ResetPasswordController', ResetPasswordController);
 
     /* @ngInject */
-    function ResetPasswordController($scope, $location) {
+    function ResetPasswordController($scope, $location, $http) {
         var vm = this;
-        vm.resetPassword = resetPassword;
+        vm.forgotPassword = forgotPassword;
 
         // Get an eventual error defined in the URL query string:
         vm.authError = $location.search().err;
         vm.isCollapsed = true;
 
-        function resetPassword(isValid) {
-            vm.authError = null;
-            vm.isCollapsed = !vm.isCollapsed;
+        function forgotPassword(isValid) {
+            vm.success = vm.error = null;
+
             if (!isValid) {
-                $scope.$broadcast('show-errors-check-validity', 'vm.userForm');
+                $scope.$broadcast('show-errors-check-validity', 'vm.forgotPasswordForm');
 
                 return false;
             }
 
-            //$http.post('/api/auth/signup', vm.credentials).success(function () {
-            //    // If successful we assign the response to the global user model
-            //    // And redirect to the previous or home page
-            //}).error(function (response) {
-            //    vm.authError = response.message;
-            //});
+            $http.post('/api/auth/forgot', vm.credentials).success(function (response) {
+                // Show user success message and clear form
+                vm.credentials = null;
+                vm.success = response.message;
+
+            }).error(function (response) {
+                // Show user error message and clear form
+                vm.credentials = null;
+                vm.error = response.message;
+            });
         }
     }
 }());
