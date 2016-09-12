@@ -48,7 +48,15 @@
                 config: {
                     url: '/forgotpwd',
                     templateUrl: 'modules/angulr/client/views/page_forgotpwd.html',
-                    controller: 'ResetPasswordController',
+                    controller: 'PasswordController',
+                    controllerAs: 'vm'
+                }
+            }, {
+                state: 'access.resetpwd',
+                config: {
+                    url: '/resetpwd',
+                    templateUrl: 'modules/angulr/client/views/page_reset_password.html',
+                    controller: 'PasswordController',
                     controllerAs: 'vm'
                 }
             }, {

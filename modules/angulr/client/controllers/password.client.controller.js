@@ -10,8 +10,8 @@
     function PasswordController($scope, $stateParams, $http, $location, Authentication, PasswordValidator) {
         var vm = this;
 
-        vm.resetUserPassword = resetUserPassword;
-        vm.askForPasswordReset = askForPasswordReset;
+        vm.resetPassword = resetPassword;
+        vm.forgotPassword = forgotPassword;
         vm.authentication = Authentication;
         vm.getPopoverMsg = PasswordValidator.getPopoverMsg;
 
@@ -21,7 +21,7 @@
         }
 
         // Submit forgotten password account id
-        function askForPasswordReset(isValid) {
+        function forgotPassword(isValid) {
             vm.success = vm.error = null;
 
             if (!isValid) {
@@ -43,7 +43,7 @@
         }
 
         // Change user password
-        function resetUserPassword(isValid) {
+        function resetPassword(isValid) {
             vm.success = vm.error = null;
 
             if (!isValid) {
