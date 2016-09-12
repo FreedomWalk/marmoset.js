@@ -29,6 +29,7 @@
             var dvm = this;
             dvm.getCheckCode = getCheckCode;
             getCheckCode();
+
             function getCheckCode() {
                 dvm.codeUrl = '/api/checkCode?a=' + new Date().getTime();
             }
