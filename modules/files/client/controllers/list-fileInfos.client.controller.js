@@ -24,6 +24,7 @@
         vm.search = search;
         vm.openCalendar = openCalendar;
         vm.changed = changed;
+        vm.clear = clear;
         vm.dateOptions = {
             formatYear: 'yy',
             startingDay: 1,
@@ -99,6 +100,10 @@
             console.log(vm.mytime);
         }
 
+        function clear() {
+            vm.query = {};
+        }
+
         function format(query) {
             let newQuery = {};
             if (query._id) {
@@ -106,20 +111,18 @@
                 return newQuery;
             }
             if (query.originName) {
-                newQuery.originName = new RegExp(query.originName);
+                newQuery.originName = {$regex: query.originName};
             }
             if (query.creator) {
                 newQuery.creator = query.creator;
             }
-            newQuery.fileSize = {
-                $gte: query.minSize ? query.minSize : undefined,
-                $lte: query.maxSize ? query.maxSize : undefined
-            };
-            // if (query.startDate || query.startTime || query.endDate || query.endTime) {
-            //     let sdStr = query.startDate ? $filter('date')(query.startDate, 'yyyy-MM-dd'): null;
-            //     let stStr = query.startDate ? $filter('date')(query.startDate, 'HH:mm:ss'): null;
-            //     let start = sdStr ? stStr ? new Date()
-            // }
+            if (query.minSize || query.maxSize) {
+                newQuery.fileSize = {
+                    $gte: query.minSize ? query.minSize : undefined,
+                    $lte: query.maxSize ? query.maxSize : undefined
+                };
+            }
+            return newQuery;
         }
     }
 }());
