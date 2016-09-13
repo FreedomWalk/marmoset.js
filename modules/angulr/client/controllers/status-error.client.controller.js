@@ -6,11 +6,11 @@
     angular.module('angulr')
         .controller('StatusErrorController', StatusErrorController);
 
-    StatusErrorController.$inject = ['$scope', '$stateParams'];
-
-    function StatusErrorController($scope, $stateParams) {
+    /* @ngInject */
+    function StatusErrorController($scope, $stateParams, Authentication) {
         var vm = this;
-        vm.status = $stateParams.status;
+        vm.status = $stateParams.code;
         vm.message = $stateParams.message;
+        vm.user = Authentication.getUser();
     }
 }());

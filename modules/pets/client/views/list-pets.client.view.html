@@ -1,20 +1,77 @@
-<section class="wrapper-md">
+<div class="bg-light lter b-b wrapper-sm">
+    <h1 class="m-n font-thin h3">Pets</h1>
+</div>
+
+<div class="wrapper-md">
     <div class="panel panel-default">
-        <div class="panel-heading font-bold">Pets</div>
-        <div class="panel-body">
-            <div ng-repeat="pet in vm.pets"
-                 class="list-group-item">
-                <span ng-bind="pet._id"></span>
-                <span ng-bind="pet.master"></span>
-                <span ng-bind="pet.remark"></span>
-                <span ng-bind="pet.type"></span>
-                <a class="button" ng-click="vm.remove(pet, $event)">delete</a>
-                <a class="button" ui-sref="pets.create">create</a>
-                <a class="button" ui-sref="pets.update({petId:pet._id})">update</a>
-            </div>
-            <div class="m-t-lg">
-                <button class="btn m-b-xs w-xs btn-default pull-right" ng-click="vm.add()">add</button>
-            </div>
+        <div class="panel-heading">
+            Pets List
         </div>
+        <div class="row wrapper">
+            <div class="col-sm-5 m-b-xs">
+                <button class="btn btn-default btn-sm" ui-sref="pets.create">create</button>
+                <button class="btn btn-default btn-sm" ng-click="vm.add()">Random Add</button>
+            </div>
+            <div class="col-sm-4">
+            </div>
+            <!--<div class="col-sm-3">-->
+            <!--<div class="input-group">-->
+            <!--<input type="text" class="input-sm form-control" placeholder="Search">-->
+            <!--<span class="input-group-btn">-->
+            <!--<button class="btn btn-sm btn-default" type="button">Go!</button>-->
+            <!--</span>-->
+            <!--</div>-->
+            <!--</div>-->
+        </div>
+        <div class="table-responsive">
+            <table class="table table-striped b-t b-light">
+                <thead>
+                <tr>
+                    <!--<th style="width:20px;">-->
+                    <!--<label class="i-checks m-b-none">-->
+                    <!--<input type="checkbox"><i></i>-->
+                    <!--</label>-->
+                    <!--</th>-->
+                    <th>ID</th>
+                    <th>Master</th>
+                    <th>Remark</th>
+                    <th>Type</th>
+                    <th style="width:200px;">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="pet in vm.pets.data track by $index">
+                    <!--<td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td>-->
+                    <td ng-bind="pet._id"></td>
+                    <td ng-bind="pet.master"></td>
+                    <td ng-bind="pet.remark"></td>
+                    <td ng-bind="pet.type"></td>
+                    <td>
+                        <a class="button" ng-click="vm.remove(pet, $event)">delete</a>
+                        <a class="button" ui-sref="pets.update({petId:pet._id})">update</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <footer class="panel-footer">
+            <div class="row">
+                <div class="col-sm-4 hidden-xs"></div>
+                <div class="col-sm-4 text-center">
+                    <small class="text-muted inline m-t-sm m-b-sm">showing {{(vm.pets.realPage-1)*10+1}}-{{vm.pets.realPage*10}} of {{vm.pets.totalCount}} items</small>
+                </div>
+                <div class="col-sm-4 text-right text-center-xs">
+                    <uib-pagination class="pagination pagination-sm m-t-none m-b-none"
+                                    boundary-links="false"
+                                    max-size="vm.maxSize"
+                                    items-per-page="vm.pets.pageSize"
+                                    total-items="vm.pets.totalCount"
+                                    ng-model="vm.pets.realPage"
+                                    ng-change="vm.goPage(vm.pets.realPage)">
+                    </uib-pagination>
+
+                </div>
+            </div>
+        </footer>
     </div>
-</section>
+</div>

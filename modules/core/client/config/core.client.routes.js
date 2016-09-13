@@ -34,7 +34,7 @@
                     });
                 }
             } else {
-                $state.transitionTo('access.404', null, {
+                $state.transitionTo('access.error', null, {
                     location: false
                 });
             }
