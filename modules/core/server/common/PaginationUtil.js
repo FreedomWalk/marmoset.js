@@ -3,6 +3,10 @@
  */
 'use strict';
 
+const path = require('path');
+const CommonError = require(path.resolve('./config/error/CommonError'));
+const logger = require(path.resolve('./config/lib/logger'));
+
 function query(req, res, model) {
     let size = parseInt(req.params.pageSize, 0);
     let pageSize = size > 0 ? size : 5;
