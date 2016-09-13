@@ -9,9 +9,9 @@
 
     function compareTo() {
         var directive = {
-            require: 'ngModel',
+            require: "ngModel",
             scope: {
-                otherModelValue: '=compareTo'
+                otherModelValue: "=compareTo"
             },
             link: link
         };
@@ -24,7 +24,7 @@
                 return modelValue === scope.otherModelValue;
             };
 
-            scope.$watch('otherModelValue', function () {
+            scope.$watch("otherModelValue", function () {
                 ngModel.$validate();
             });
         }

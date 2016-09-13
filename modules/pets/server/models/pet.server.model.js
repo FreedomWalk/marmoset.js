@@ -32,10 +32,6 @@ var petSchema = new Schema({
       'GoldenRetriever'
     ],
     default: 'ChineseRuralDog'
-  },
-  created: {
-    type: Date,
-    default: Date.now
   }
 
 });

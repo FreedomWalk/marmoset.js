@@ -30,11 +30,7 @@ let ScheduleLogSchema = new Schema({
     default: false
   },
 
-  err: String,
-  created: {
-    type: Date,
-    default: Date.now
-  }
+  err: String
 }, {
   capped: {
     max: Max_Size,

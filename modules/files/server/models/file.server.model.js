@@ -5,12 +5,13 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const logger = require(path.resolve('./config/lib/logger'));
 
-const Suffix = ['jpg', 'png', 'jpeg', 'gif', 'bmp', 'zip', 'rar', 'wav',
-    'mp3', 'amr', 'txt', 'html', 'pdf', 'doc', 'dot', 'docx', 'pot', 'pps',
-    'ppt', 'pptx', 'xla', 'xlc', 'xlm', 'xls', 'xlt', 'xlw', 'xlsx', 'mp4',
-    'mpg', 'mps', 'wmv', 'rmvb', 'avi'
-];
-const FileType = ['txt', 'pic', 'video', 'other'];
+// const Suffix = ['jpg', 'png', 'jpeg', 'gif', 'bmp', 'zip', 'rar', 'wav',
+//     'mp3', 'amr', 'txt', 'html', 'pdf', 'doc', 'dot', 'docx', 'pot', 'pps',
+//     'ppt', 'pptx', 'xla', 'xlc', 'xlm', 'xls', 'xlt', 'xlw', 'xlsx', 'mp4',
+//     'mpg', 'mps', 'wmv', 'rmvb', 'avi'
+// ];
+// const FileType = ['txt', 'pic', 'video', 'other'];
+
 let FileSchema = new Schema({
     originName: {
         type: String,
@@ -31,13 +32,6 @@ let FileSchema = new Schema({
         type: String
     },
     remark: {
-        type: String
-    },
-    created: {
-        type: Date,
-        default: Date.now()
-    },
-    creator: {
         type: String
     },
     md5: {
@@ -77,6 +71,7 @@ fileType.get(function () {
             return 'other';
     }
 });
+
 let fullName = FileSchema.virtual('fullName');
 fullName.get(function () {
     if (this.suffix) {
@@ -85,4 +80,5 @@ fullName.get(function () {
         return this.originName;
     }
 });
+
 mongoose.model('FileInfo', FileSchema);

@@ -10,10 +10,6 @@ var mongoose = require('mongoose'),
  * Article Schema
  */
 var ArticleSchema = new Schema({
-  created: {
-    type: Date,
-    default: Date.now
-  },
   title: {
     type: String,
     default: '',

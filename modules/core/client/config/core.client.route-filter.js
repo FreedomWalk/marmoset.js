@@ -10,8 +10,8 @@
     function routeFilter($rootScope, $state, Authentication, $log) {
         $rootScope.$on('$stateChangeStart', stateChangeStart);
         $rootScope.$on('$stateChangeSuccess', stateChangeSuccess);
-        $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
-            $log.error('state change error', error);
+        $rootScope.$on('$stateChangeError', function () {
+            $log.debug('ddd');
         });
 
         function stateChangeStart(event, toState, toParams, fromState, fromParams) {
