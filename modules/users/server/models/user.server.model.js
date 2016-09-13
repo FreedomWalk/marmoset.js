@@ -90,10 +90,6 @@ var UserSchema = new Schema({
   updated: {
     type: Date
   },
-  created: {
-    type: Date,
-    default: Date.now
-  },
   /* For reset password */
   resetPasswordToken: {
     type: String

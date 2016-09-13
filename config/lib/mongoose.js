@@ -16,7 +16,14 @@ let baseFieldPlugin = function (schema, options) {
             type: Date,
             default: Date.now
         },
-        updateId: String
+        updateId: String,
+        created: {
+            type: Date,
+            default: Date.now
+        },
+        creator: {
+            type: String
+        }
     });
     schema.pre('update', function (next) {
         this.updated = Date.now;
