@@ -6,12 +6,14 @@
         .controller('ChangeProfilePictureController', ChangeProfilePictureController);
 
     /* @ngInject */
-    function ChangeProfilePictureController($scope, $timeout, $window, Authentication, FileUploader, $sessionStorage) {
+    function ChangeProfilePictureController($scope, $timeout, $window, Authentication, FileUploader, $sessionStorage,
+                                            FileService) {
         var vm = this;
 
         vm.user = Authentication.getUser();
         vm.imageURL = vm.user.profileImageURL;
         vm.uploadProfilePicture = uploadProfilePicture;
+        vm.isUpoading = false;
 
         vm.cancelUpload = cancelUpload;
         // Create file uploader instance
@@ -43,8 +45,9 @@
 
                 fileReader.onload = function (fileReaderEvent) {
                     $timeout(function () {
-                        vm.imageURL = fileReaderEvent.target.result;
+                        vm.selectPicture = fileReaderEvent.target.result;
                     }, 0);
+                    vm.isUpoading = true;
                 };
             }
         }
@@ -61,6 +64,7 @@
 
             // Clear upload buttons
             cancelUpload();
+            vm.isUpoading = false;
         }
 
         // Called after the user has failed to uploaded a new picture
@@ -70,13 +74,16 @@
 
             // Show error message
             vm.error = response.message;
+            vm.isUpoading = false;
         }
 
         // Change user profile picture
         function uploadProfilePicture() {
+            vm.uploader.clearQueue();
+            var blob = FileService.dataUrlToBlob(vm.imageURL, 'profileImage.png');
+            vm.uploader.addToQueue([blob]);
             // Clear messages
             vm.success = vm.error = null;
-
             // Start upload
             vm.uploader.uploadAll();
         }
@@ -84,7 +91,8 @@
         // Cancel the upload process
         function cancelUpload() {
             vm.uploader.clearQueue();
-            vm.imageURL = vm.user.profileImageURL;
+            vm.selectPicture = vm.user.profileImageURL;
+            vm.isUpoading = false;
         }
     }
 }());

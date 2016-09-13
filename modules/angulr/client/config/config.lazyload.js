@@ -97,8 +97,8 @@
                 {
                     name: 'ngImgCrop',
                     files: [
-                        'lib/ng-img-crop/compile/minified/ng-img-crop.js',
-                        'lib/ng-img-crop/compile/minified/ng-img-crop.css'
+                        'lib/ng-img-crop/compile/unminified/ng-img-crop.js',
+                        'lib/ng-img-crop/compile/unminified/ng-img-crop.css'
                     ]
                 },
                 {
