@@ -16,15 +16,15 @@
 
         function responseError(rejection) {
             if (!rejection.config.ignoreAuthModule) {
-                if (rejection.status === 200) {
-
-                } else if (rejection.status === 500) {
+                if (rejection.status === 500) {
                     $injector.get('toastr').error(rejection.data.message, '错误信息');
                 } else {
-                    Authentication.removeUser();
-                    $injector.get('$state').transitionTo('access.404', {
-                        status: rejection.status, message: rejection.data.message
-                    });
+                    if (rejection.status !== 200) {
+                        Authentication.removeUser();
+                        $injector.get('$state').transitionTo('access.404', {
+                            status: rejection.status, message: rejection.data.message
+                        });
+                    }
                 }
             }
             // otherwise, default behaviour

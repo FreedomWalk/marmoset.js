@@ -47,7 +47,7 @@ module.exports = {
         }
     },
     jwt: {
-        unless: [/\/api\/auth\/.+/gi,'/api/auth/signin', '/api/auth/signup', '/api/book', '/api/hello', '/api/mail',
+        unless: [/\/api\/auth\/.+/gi, '/api/auth/signin', '/api/auth/signup', '/api/book', '/api/hello', '/api/mail',
             /\/api\/file\/.+/gi, /\/api\/pic\/.+/gi, '/api/file',
             /\/api\/scheduleLog\/.+/gi, /\/api\/wechat\/.+/gi, /\/api\/checkCode.+/gi, '/api/checkCode'
         ]
