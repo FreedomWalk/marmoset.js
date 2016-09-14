@@ -1,13 +1,18 @@
-<section class="wrapper-md">
+<section class="wrapper-md" ng-init="vm.isOpen = true">
     <div class="panel panel-default">
         <div class="panel-heading font-bold">FileInfos</div>
         <div class="panel-body">
-            <div class="m-t-lg">
-                <button class="btn m-b-xs w-xs btn-primary pull-left-xs" ng-click="vm.upload()">上传</button>
+            <div class="row wrapper-xs" style="padding-top: 0">
+                <div class="col-sm-5 m-b-xs">
+                    <button class="btn btn-sm btn-primary pull-left-xs" ng-click="vm.open()">上传</button>
+                </div>
             </div>
-            <div class="panel panel-default">
-                <div class="panel-heading font-bold">查询</div>
-                <div class="panel-body">
+            <uib-accordion>
+                <div uib-accordion-group style="padding: 0" class="panel-default" is-open="vm.isOpen">
+                    <uib-accordion-heading>
+                        查询 <i class="pull-right glyphicon"
+                              ng-class="{'glyphicon-chevron-down': vm.isOpen, 'glyphicon-chevron-right': !vm.isOpen}"></i>
+                    </uib-accordion-heading>
 
                     <form class="bs-example form-group">
                         <div class="row">
@@ -26,64 +31,89 @@
                                 <input id="creator" type="text" class="form-control" ng-model="vm.query.creator"
                                        placeholder="创建人">
                             </div>
-
+                        </div>
+                        <div class="row">
                             <div class="col-xs-6 col-lg-4 form-group">
                                 <label>文件大小</label>
+
                                 <div class="row">
                                     <div class="col-md-5">
-                                        <input id="minSize" ng-model="vm.query.minSize" type="number" class="form-control" placeholder="文件小">
+                                        <input id="minSize" ng-model="vm.query.minSize" type="number"
+                                               class="form-control" placeholder="文件小">
                                     </div>
                                     <div class="col-md-1">
                                         -
                                     </div>
                                     <div class="col-md-5">
-                                        <input id="maxSize" ng-model="vm.query.maxSize" type="number" class="form-control" placeholder="文件大">
+                                        <input id="maxSize" ng-model="vm.query.maxSize" type="number"
+                                               class="form-control" placeholder="文件大">
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </form>
+                    <footer class="panel-footer text-right bg-light lter"
+                            style="padding: 5px 15px;margin: 0 -15px -15px;">
+                        <button class="btn btn-sm btn-info" ng-click="vm.clear()">清空</button>
+                        <button class="btn btn-sm btn-info" ng-click="vm.search()">查询</button>
+                    </footer>
                 </div>
-                <footer class="panel-footer text-right bg-light lter">
-                    <button class="btn btn-sm btn-info" ng-click="vm.clear()">清空</button>
-                    <button class="btn btn-sm btn-info" ng-click="vm.search()">查询</button>
-                </footer>
+
+
+            </uib-accordion>
+            <div class="table-responsive">
+                <table class="table table-striped bg-white-only b-a">
+                    <thead>
+                    <tr>
+                        <td>ID</td>
+                        <td>源文件名</td>
+                        <td>文件大小</td>
+                        <td>文件类型</td>
+                        <td>创建人</td>
+                        <td>创建日期</td>
+                        <!--<td>md5</td>-->
+                        <!--<td>GridFSId</td>-->
+                        <td>操作</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="fileInfo in vm.fileInfos.data">
+                        <td ng-bind="fileInfo._id"></td>
+                        <td ng-bind="fileInfo.fullName"></td>
+                        <td ng-bind="fileInfo.fileSize"></td>
+                        <td ng-bind="fileInfo.fileType"></td>
+                        <td ng-bind="fileInfo.creator"></td>
+                        <td ng-bind="fileInfo.created | date: 'yyyy-MM-dd HH:mm:ss'"></td>
+                        <!--<td ng-bind="fileInfo.md5"></td>-->
+                        <!--<td ng-bind="fileInfo.gridFSId"></td>-->
+                        <td>
+                            <a class="button" ng-click="vm.remove(fileInfo, $event)">删除</a>
+                            <a class="button" ng-click="vm.read(fileInfo, $event)">查看</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
-            <table class="table table-striped bg-white-only b-a">
-                <thead>
-                <tr>
-                    <td>ID</td>
-                    <td>源文件名</td>
-                    <td>文件大小</td>
-                    <td>文件类型</td>
-                    <td>创建人</td>
-                    <td>创建日期</td>
-                    <!--<td>md5</td>-->
-                    <!--<td>GridFSId</td>-->
-                    <td>操作</td>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="fileInfo in vm.fileInfos.data">
-                    <td ng-bind="fileInfo._id"></td>
-                    <td ng-bind="fileInfo.fullName"></td>
-                    <td ng-bind="fileInfo.fileSize | filesize"></td>
-                    <td ng-bind="fileInfo.fileType"></td>
-                    <td ng-bind="fileInfo.creator"></td>
-                    <td ng-bind="fileInfo.created | date: 'yyyy-MM-dd HH:mm:ss'"></td>
-                    <!--<td ng-bind="fileInfo.md5"></td>-->
-                    <!--<td ng-bind="fileInfo.gridFSId"></td>-->
-                    <td>
-                        <a class="button" ng-click="vm.remove(fileInfo, $event)">删除</a>
-                        <a class="button" ng-click="vm.read(fileInfo, $event)">查看</a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-            <uib-pagination boundary-links="true" max-size="8" items-per-page="vm.fileInfos.pageSize"
-                            total-items="vm.fileInfos.totalCount"
-                            ng-model="vm.fileInfos.realPage"
-                            ng-change="vm.goPage(vm.fileInfos.realPage)"></uib-pagination>
+            <footer class="panel-footer">
+                <div class="row">
+                    <div class="col-sm-4 hidden-xs"></div>
+                    <div class="col-sm-4 text-center">
+                        <small class="text-muted inline m-t-sm m-b-sm">showing
+                            {{(vm.pets.realPage-1)*10+1}}-{{vm.pets.realPage*10}} of {{vm.pets.totalCount}} items
+                        </small>
+                    </div>
+                    <div class="col-sm-4 text-right text-center-xs">
+                        <uib-pagination class="pagination pagination-sm m-t-none m-b-none"
+                                        boundary-links="true" max-size="8" items-per-page="vm.fileInfos.pageSize"
+                                        total-items="vm.fileInfos.totalCount"
+                                        ng-model="vm.fileInfos.realPage"
+                                        ng-change="vm.goPage(vm.fileInfos.realPage)">
+                        </uib-pagination>
+
+                    </div>
+                </div>
+            </footer>
+
             <!--页面大小:{{vm.fileInfos.pageSize}}-->
             <!--页码:{{vm.fileInfos.pageNum}}-->
             <!--总数:{{vm.fileInfos.totalCount}}-->
