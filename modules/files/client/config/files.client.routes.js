@@ -36,7 +36,7 @@
             }, {
                 state: 'files.detail',
                 config: {
-                    url: '/detail/:fileId/',
+                    url: '/detail/:fileId',
                     templateUrl: 'modules/files/client/views/view-file.client.view.html',
                     controller: 'FileDetailController',
                     controllerAs: 'vm',
