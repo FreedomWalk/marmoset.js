@@ -60,15 +60,15 @@
                     controllerAs: 'vm'
                 }
             }, {
-                state: 'access.404',
+                state: 'access.error',
                 config: {
-                    url: '/404/:code',
+                    url: '/error/:code',
                     templateUrl: 'modules/angulr/client/views/page_404.html',
                     controller: 'StatusErrorController',
                     controllerAs: 'vm'
                 },
                 params: {
-                    code: null,
+                    code: 404,
                     message: ''
                 }
             }, {

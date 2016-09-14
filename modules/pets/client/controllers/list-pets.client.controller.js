@@ -11,12 +11,14 @@
     /* @ngInject */
     function PetsListController(PetsService, $state, $window) {
         var vm = this;
+        var pageSize = 10;
+        vm.maxSize = 20;
 
-        vm.pets = PetsService.query();
+        goPage(1);
         vm.add = add;
         vm.remove = remove;
         vm.update = update;
-        //vm.goDetail = goDetail;
+        vm.goPage = goPage;
 
         function add() {
             var pet = new PetsService();
@@ -25,7 +27,7 @@
             pet.remark = 1;
             pet.type = 'ChineseRuralDog';
             pet.$save(function () {
-                vm.pets = PetsService.query();
+                goPage(1);
             });
         }
 
@@ -48,9 +50,11 @@
             });
         }
 
-        function goDetail(pet) {
-            $state.go('pets.view', {
-                petId: pet._id
+        function goPage(pageNum) {
+            vm.pets = PetsService.pageList({
+                pageSize: pageSize,
+                pageNum: pageNum - 1,
+                queryString: '{}'
             });
         }
     }

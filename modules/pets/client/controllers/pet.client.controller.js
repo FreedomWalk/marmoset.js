@@ -18,16 +18,6 @@
         vm.form = {};
         vm.remove = remove;
         vm.save = save;
-        //vm.types = [{
-        //    value: 'ChineseRuralDog',
-        //    name: 'ChineseRuralDog'
-        //}, {
-        //    value: 'SiberianHusky',
-        //    name: 'SiberianHusky'
-        //}, {
-        //    value: 'GoldenRetriever',
-        //    name: 'GoldenRetriever'
-        //}];
 
         vm.types = ['ChineseRuralDog', 'SiberianHusky', 'GoldenRetriever'];
 

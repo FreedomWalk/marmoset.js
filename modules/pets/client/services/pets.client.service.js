@@ -13,6 +13,11 @@
     function PetsService(baseResource) {
         var Pet = baseResource('/api/pet/:petId', {
             petId: '@_id'
+        }, {
+            pageList: {
+                url: '/api/pet/:pageSize/:pageNum/:queryString',
+                method: 'GET'
+            }
         });
 
         return Pet;

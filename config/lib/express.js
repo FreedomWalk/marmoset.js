@@ -501,7 +501,7 @@ function initErrorRoutes(app) {
             logger.error(err.stack);
 
 
-            if (req.headers['content-type'].indexOf('application/json') >= 0) {
+            if (req.headers['content-type'] && req.headers['content-type'].indexOf('application/json') >= 0) {
                 res.status(500).send({
                     message: err.message
                 });

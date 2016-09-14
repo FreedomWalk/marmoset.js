@@ -41,9 +41,7 @@
                     controller: 'PetController',
                     controllerAs: 'vm',
                     resolve: {
-                        petResolve: function (PetsService) {
-                            return new PetsService();
-                        },
+                        pet: newPet,
                         deps: uiSelectLoad
                     }
                 }
@@ -55,7 +53,7 @@
                     controller: 'PetController',
                     controllerAs: 'vm',
                     resolve: {
-                        petResolve: getPet,
+                        pet: getPet,
                         deps: uiSelectLoad
                     }
                 }
@@ -73,6 +71,11 @@
     /* @ngInject */
     function uiSelectLoad($ocLazyLoad) {
         return $ocLazyLoad.load('ui.select');
+    }
+
+    /* @ngInject */
+    function newPet(PetsService) {
+        return new PetsService();
     }
 
 }());
