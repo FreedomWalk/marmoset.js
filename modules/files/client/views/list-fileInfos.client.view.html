@@ -1,4 +1,4 @@
-<section class="wrapper-md" ng-init="vm.open = true">
+<section class="wrapper-md" ng-init="vm.isOpen = true">
     <div class="panel panel-default">
         <div class="panel-heading font-bold">FileInfos</div>
         <div class="panel-body">
@@ -8,10 +8,10 @@
                 </div>
             </div>
             <uib-accordion>
-                <div uib-accordion-group style="padding: 0" class="panel-default" is-open="vm.open">
+                <div uib-accordion-group style="padding: 0" class="panel-default" is-open="vm.isOpen">
                     <uib-accordion-heading>
                         查询 <i class="pull-right glyphicon"
-                              ng-class="{'glyphicon-chevron-down': vm.open, 'glyphicon-chevron-right': !vm.open}"></i>
+                              ng-class="{'glyphicon-chevron-down': vm.isOpen, 'glyphicon-chevron-right': !vm.isOpen}"></i>
                     </uib-accordion-heading>
 
                     <form class="bs-example form-group">
