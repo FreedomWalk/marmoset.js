@@ -31,9 +31,7 @@ exports.update = function (req, res) {
         multi: false
     }, function (err, numberAffected, raw) {
         if (err) {
-            return res.status(400).send({
-                message: errorHandler.getErrorMessage(err)
-            });
+            throw new CommonError(err.message, 500);
         } else {
             res.json(pet);
         }
@@ -43,31 +41,26 @@ exports.update = function (req, res) {
  * Delete a pet
  */
 exports.remove = function (req, res) {
-    var pet = new Pet(req.pet);
-    pet.remove(function (err, obj) {
-        if (err) {
-            return res.status(400).send({
-                message: errorHandler.getErrorMessage(err)
-            });
-        } else {
-            res.json(obj);
-        }
-    });
+  var pet = new Pet(req.pet);
+  pet.remove(function (err, obj) {
+      if (err) {
+          throw new CommonError(err.message, 500);
+      } else {
+          res.json(pet);
+      }
+  });
 };
 /**
  * List of pets
  */
 exports.list = function (req, res) {
-    Pet.find().sort('-created').exec(function (err, pets) {
-        if (err) {
-            return res.status(400).send({
-                message: errorHandler.getErrorMessage(err)
-            });
-        } else {
-            // throw new CommonError('哈哈哈哈哈');
-            res.json(pets);
-        }
-    });
+  Pet.find().sort('-created').exec(function (err, pets) {
+      if (err) {
+          throw new CommonError(err.message, 500);
+      } else {
+          res.json(pet);
+      }
+  });
 };
 
 exports.listPage = function (req, res) {
@@ -106,12 +99,9 @@ exports.petById = function (req, res, next, id) {
         if (err) {
             return next(err);
         } else if (!pet) {
-            return res.status(500).send({
-                message: '没有这个名字的狗狗'
-            });
+            throw new CommonError('系统错误');
         }
         req.pet = pet;
-        // res.json(pet);
         next();
     });
 };

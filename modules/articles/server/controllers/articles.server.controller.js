@@ -14,7 +14,7 @@ var path = require('path'),
  * Create an article
  */
 exports.create = function (req, res) {
-  User.findById(req.user.userId, function (err, user) {
+  User.findById(req.user._id, function (err, user) {
     if (err) {
       throw err;
     }
@@ -22,7 +22,7 @@ exports.create = function (req, res) {
     article.user = user;
     article.save(function (err) {
       if (err) {
-        return res.status(400).send({
+        return res.status(500).send({
           message: errorHandler.getErrorMessage(err)
         });
       } else {
@@ -59,7 +59,7 @@ exports.update = function (req, res) {
 
   article.save(function (err) {
     if (err) {
-      return res.status(400).send({
+      return res.status(500).send({
         message: errorHandler.getErrorMessage(err)
       });
     } else {
@@ -76,7 +76,7 @@ exports.delete = function (req, res) {
 
   article.remove(function (err) {
     if (err) {
-      return res.status(400).send({
+      return res.status(500).send({
         message: errorHandler.getErrorMessage(err)
       });
     } else {
@@ -92,7 +92,7 @@ exports.list = function (req, res) {
   Article.find().sort('-created').populate('user', 'displayName').exec(
     function (err, articles) {
       if (err) {
-        return res.status(400).send({
+        return res.status(500).send({
           message: errorHandler.getErrorMessage(err)
         });
       } else {
@@ -107,7 +107,7 @@ exports.list = function (req, res) {
 exports.articleByID = function (req, res, next, id) {
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(400).send({
+    return res.status(500).send({
       message: 'Article is invalid'
     });
   }
