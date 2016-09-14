@@ -1,13 +1,18 @@
-<section class="wrapper-md">
+<section class="wrapper-md" ng-init="vm.open = true">
     <div class="panel panel-default">
         <div class="panel-heading font-bold">FileInfos</div>
         <div class="panel-body">
-            <div class="m-t-lg">
-                <button class="btn m-b-xs w-xs btn-primary pull-left-xs" ng-click="vm.open()">上传</button>
+            <div class="row wrapper-xs" style="padding-top: 0">
+                <div class="col-sm-5 m-b-xs">
+                    <button class="btn btn-sm btn-primary pull-left-xs" ng-click="vm.open()">上传</button>
+                </div>
             </div>
-            <div class="panel panel-default">
-                <div class="panel-heading font-bold">查询</div>
-                <div class="panel-body">
+            <uib-accordion>
+                <div uib-accordion-group style="padding: 0" class="panel-default" is-open="vm.open">
+                    <uib-accordion-heading>
+                        查询 <i class="pull-right glyphicon"
+                              ng-class="{'glyphicon-chevron-down': vm.open, 'glyphicon-chevron-right': !vm.open}"></i>
+                    </uib-accordion-heading>
 
                     <form class="bs-example form-group">
                         <div class="row">
@@ -26,102 +31,37 @@
                                 <input id="creator" type="text" class="form-control" ng-model="vm.query.creator"
                                        placeholder="创建人">
                             </div>
-                            <!--<div class="col-xs-12 col-lg-8 form-group">-->
-                                <!--<div class="panel-heading font-bold">创建日期</div>-->
-                                <!--<div class="panel panel-default">-->
-                                    <!--<div class="panel-body">-->
-                                        <!--<div class="row">-->
-                                            <!--<div class="col-xs-8 col-lg-6 form-group">-->
-                                                <!--<label>开始日期</label>-->
-                                                <!--<div class="row">-->
-                                                    <!--<div class="col-md-6">-->
-                                                        <!--<p class="input-group">-->
-                                                            <!--<input type="text" class="form-control"-->
-                                                                   <!--uib-datepicker-popup="yyyy-MM-dd"-->
-                                                                   <!--ng-model="vm.query.startDate" is-open="vm.opened"-->
-                                                                   <!--min-date="'2015-06-22'"-->
-                                                                   <!--max-date="'2019-06-22'"-->
-                                                                   <!--datepicker-options="vm.dateOptions"-->
-                                                                   <!--ng-required="true"-->
-                                                                   <!--close-text="OK"/>-->
-                                                            <!--<span class="input-group-btn">-->
-                                                    <!--<button type="button" class="btn btn-default"-->
-                                                            <!--ng-click="vm.openCalendar($event)">-->
-                                                        <!--<i class="glyphicon glyphicon-calendar"></i>-->
-                                                    <!--</button>-->
-                                                <!--</span>-->
-                                                        <!--</p>-->
-                                                    <!--</div>-->
-                                                    <!--<div class="col-md-5">-->
-                                                        <!--<p class="input-group">-->
-                                                            <!--<uib-timepicker ng-model="vm.query.startTime"-->
-                                                                            <!--ng-change="vm.changed()"-->
-                                                                            <!--hour-step="1"-->
-                                                                            <!--minute-step="15"-->
-                                                                            <!--show-meridian="false">-->
-                                                            <!--</uib-timepicker>-->
-                                                        <!--</p>-->
-                                                    <!--</div>-->
-                                                <!--</div>-->
-                                            <!--</div>-->
-                                            <!--<div class="col-xs-8 col-lg-6 form-group">-->
-                                                <!--<label>结束日期</label>-->
-                                                <!--<div class="row">-->
-                                                    <!--<div class="col-md-6">-->
-                                                        <!--<p class="input-group">-->
-                                                            <!--<input type="text" class="form-control"-->
-                                                                   <!--uib-datepicker-popup="yyyy-MM-dd"-->
-                                                                   <!--ng-model="vm.query.endDate" is-open="vm.opened"-->
-                                                                   <!--min-date="'2015-06-22'"-->
-                                                                   <!--max-date="'2019-06-22'"-->
-                                                                   <!--datepicker-options="vm.dateOptions"-->
-                                                                   <!--ng-required="true"-->
-                                                                   <!--close-text="OK"/>-->
-                                                            <!--<span class="input-group-btn">-->
-                                                    <!--<button type="button" class="btn btn-default"-->
-                                                            <!--ng-click="vm.openCalendar($event)">-->
-                                                        <!--<i class="glyphicon glyphicon-calendar"></i>-->
-                                                    <!--</button>-->
-                                                <!--</span>-->
-                                                        <!--</p>-->
-                                                    <!--</div>-->
-                                                    <!--<div class="col-md-5">-->
-                                                        <!--<p class="input-group">-->
-                                                            <!--<uib-timepicker ng-model="vm.query.endTime"-->
-                                                                            <!--hour-step="1"-->
-                                                                            <!--minute-step="15"-->
-                                                                            <!--show-meridian="false">-->
-                                                            <!--</uib-timepicker>-->
-                                                        <!--</p>-->
-                                                    <!--</div>-->
-                                                <!--</div>-->
-                                            <!--</div>-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                            <!--</div>-->
+                        </div>
+                        <div class="row">
                             <div class="col-xs-6 col-lg-4 form-group">
                                 <label>文件大小</label>
+
                                 <div class="row">
                                     <div class="col-md-5">
-                                        <input id="minSize" ng-model="vm.query.minSize" type="number" class="form-control" placeholder="文件小">
+                                        <input id="minSize" ng-model="vm.query.minSize" type="number"
+                                               class="form-control" placeholder="文件小">
                                     </div>
                                     <div class="col-md-1">
                                         -
                                     </div>
                                     <div class="col-md-5">
-                                        <input id="maxSize" ng-model="vm.query.maxSize" type="number" class="form-control" placeholder="文件大">
+                                        <input id="maxSize" ng-model="vm.query.maxSize" type="number"
+                                               class="form-control" placeholder="文件大">
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </form>
+                    <footer class="panel-footer text-right bg-light lter"
+                            style="padding: 5px 15px;margin: 0 -15px -15px;">
+                        <button class="btn btn-sm btn-info" ng-click="vm.clear()">清空</button>
+                        <button class="btn btn-sm btn-info" ng-click="vm.search()">查询</button>
+                    </footer>
                 </div>
-                <footer class="panel-footer text-right bg-light lter">
-                    <button class="btn btn-sm btn-info" ng-click="vm.clear()">清空</button>
-                    <button class="btn btn-sm btn-info" ng-click="vm.search()">查询</button>
-                </footer>
-            </div>
+
+
+            </uib-accordion>
+
             <table class="table table-striped bg-white-only b-a">
                 <thead>
                 <tr>
@@ -153,7 +93,8 @@
                 </tr>
                 </tbody>
             </table>
-            <uib-pagination boundary-links="true" max-size="8" items-per-page="vm.fileInfos.pageSize"
+            <uib-pagination class="pagination pagination-sm m-t-none m-b-none"
+                            boundary-links="true" max-size="8" items-per-page="vm.fileInfos.pageSize"
                             total-items="vm.fileInfos.totalCount"
                             ng-model="vm.fileInfos.realPage"
                             ng-change="vm.goPage(vm.fileInfos.realPage)"></uib-pagination>
