@@ -54,5 +54,14 @@ function errorDeal(err) {
     }
 }
 
+function read(req, res) {
+    let fileId = req.params.fileId;
+    FileInfo.findById(fileId, function (err, obj) {
+        errorDeal(err);
+        res.json(obj);
+    });
+}
+
 exports.list = list;
 exports.remove = remove;
+exports.read = read;

@@ -20,5 +20,9 @@
         function isVideo() {
             return vm.fileInfo.fileType === 'video';
         }
+
+        function isText() {
+            return vm.fileInfo.fileType === 'txt';
+        }
     }
 }());

@@ -33,16 +33,27 @@
                         pageTitle: 'FileInfos List'
                     }
                 }
+            }, {
+                state: 'files.detail',
+                config: {
+                    url: '/detail/:fileId/',
+                    templateUrl: 'modules/files/client/views/view-file.client.view.html',
+                    controller: 'FileDetailController',
+                    controllerAs: 'vm',
+                    resolve: {
+                        fileInfo: getFileInfo
+                    }
+                }
             }
         ];
     }
 
-    ///* @ngInject */
-    //function getFile($stateParams, FilesService) {
-    //    return FilesService.get({
-    //        fileId: $stateParams.fileId
-    //    }).$promise;
-    //}
+    /* @ngInject */
+    function getFileInfo($stateParams, FileInfoResource) {
+       return FileInfoResource.get({
+           fileId: $stateParams.fileId
+       }).$promise;
+    }
     //
     ///* @ngInject */
     //function uiSelectLoad($ocLazyLoad) {
