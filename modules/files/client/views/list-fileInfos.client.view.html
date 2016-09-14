@@ -61,43 +61,59 @@
 
 
             </uib-accordion>
+            <div class="table-responsive">
+                <table class="table table-striped bg-white-only b-a">
+                    <thead>
+                    <tr>
+                        <td>ID</td>
+                        <td>源文件名</td>
+                        <td>文件大小</td>
+                        <td>文件类型</td>
+                        <td>创建人</td>
+                        <td>创建日期</td>
+                        <!--<td>md5</td>-->
+                        <!--<td>GridFSId</td>-->
+                        <td>操作</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="fileInfo in vm.fileInfos.data">
+                        <td ng-bind="fileInfo._id"></td>
+                        <td ng-bind="fileInfo.fullName"></td>
+                        <td ng-bind="fileInfo.fileSize"></td>
+                        <td ng-bind="fileInfo.fileType"></td>
+                        <td ng-bind="fileInfo.creator"></td>
+                        <td ng-bind="fileInfo.created | date: 'yyyy-MM-dd HH:mm:ss'"></td>
+                        <!--<td ng-bind="fileInfo.md5"></td>-->
+                        <!--<td ng-bind="fileInfo.gridFSId"></td>-->
+                        <td>
+                            <a class="button" ng-click="vm.remove(fileInfo, $event)">删除</a>
+                            <a class="button" ng-click="vm.read(fileInfo, $event)">查看</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <footer class="panel-footer">
+                <div class="row">
+                    <div class="col-sm-4 hidden-xs"></div>
+                    <div class="col-sm-4 text-center">
+                        <small class="text-muted inline m-t-sm m-b-sm">showing
+                            {{(vm.pets.realPage-1)*10+1}}-{{vm.pets.realPage*10}} of {{vm.pets.totalCount}} items
+                        </small>
+                    </div>
+                    <div class="col-sm-4 text-right text-center-xs">
+                        <uib-pagination class="pagination pagination-sm m-t-none m-b-none"
+                                        boundary-links="true" max-size="8" items-per-page="vm.fileInfos.pageSize"
+                                        total-items="vm.fileInfos.totalCount"
+                                        ng-model="vm.fileInfos.realPage"
+                                        ng-change="vm.goPage(vm.fileInfos.realPage)">
+                        </uib-pagination>
 
-            <table class="table table-striped bg-white-only b-a">
-                <thead>
-                <tr>
-                    <td>ID</td>
-                    <td>源文件名</td>
-                    <td>文件大小</td>
-                    <td>文件类型</td>
-                    <td>创建人</td>
-                    <td>创建日期</td>
-                    <!--<td>md5</td>-->
-                    <!--<td>GridFSId</td>-->
-                    <td>操作</td>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="fileInfo in vm.fileInfos.data">
-                    <td ng-bind="fileInfo._id"></td>
-                    <td ng-bind="fileInfo.fullName"></td>
-                    <td ng-bind="fileInfo.fileSize"></td>
-                    <td ng-bind="fileInfo.fileType"></td>
-                    <td ng-bind="fileInfo.creator"></td>
-                    <td ng-bind="fileInfo.created | date: 'yyyy-MM-dd HH:mm:ss'"></td>
-                    <!--<td ng-bind="fileInfo.md5"></td>-->
-                    <!--<td ng-bind="fileInfo.gridFSId"></td>-->
-                    <td>
-                        <a class="button" ng-click="vm.remove(fileInfo, $event)">删除</a>
-                        <a class="button" ng-click="vm.read(fileInfo, $event)">查看</a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-            <uib-pagination class="pagination pagination-sm m-t-none m-b-none"
-                            boundary-links="true" max-size="8" items-per-page="vm.fileInfos.pageSize"
-                            total-items="vm.fileInfos.totalCount"
-                            ng-model="vm.fileInfos.realPage"
-                            ng-change="vm.goPage(vm.fileInfos.realPage)"></uib-pagination>
+                    </div>
+                </div>
+            </footer>
+
             <!--页面大小:{{vm.fileInfos.pageSize}}-->
             <!--页码:{{vm.fileInfos.pageNum}}-->
             <!--总数:{{vm.fileInfos.totalCount}}-->
