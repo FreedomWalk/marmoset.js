@@ -20,7 +20,7 @@
         });
         vm.remove = remove;
         vm.goPage = goPage;
-        vm.open = open;
+        vm.upload = upload;
         vm.search = search;
         vm.openCalendar = openCalendar;
         vm.changed = changed;
@@ -33,7 +33,7 @@
         vm.query = {};
         vm.opened = false;
 
-        function open() {
+        function upload() {
             let modalInstance = $uibModal.open({
                 templateUrl: 'modules/files/client/views/uploadFile.modal.client.view.html',
                 controller: 'FilesController',
@@ -58,7 +58,8 @@
 
         function remove(fileInfo, $event) {
             $event.stopPropagation();
-            if ($window.confirm('Are you sure you want to delete?')) {
+            if ($window.confirm('确认删除?')) {
+                FileInfoResource.
                 fileInfo.$delete(function () {
                     vm.fileInfos = FileInfoResource.getFileInfo();
                 }, function (e) {

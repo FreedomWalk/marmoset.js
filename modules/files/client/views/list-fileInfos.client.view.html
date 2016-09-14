@@ -3,7 +3,7 @@
         <div class="panel-heading font-bold">FileInfos</div>
         <div class="panel-body">
             <div class="m-t-lg">
-                <button class="btn m-b-xs w-xs btn-primary pull-left-xs" ng-click="vm.open()">上传</button>
+                <button class="btn m-b-xs w-xs btn-primary pull-left-xs" ng-click="vm.upload()">上传</button>
             </div>
             <div class="panel panel-default">
                 <div class="panel-heading font-bold">查询</div>
@@ -26,80 +26,7 @@
                                 <input id="creator" type="text" class="form-control" ng-model="vm.query.creator"
                                        placeholder="创建人">
                             </div>
-                            <!--<div class="col-xs-12 col-lg-8 form-group">-->
-                                <!--<div class="panel-heading font-bold">创建日期</div>-->
-                                <!--<div class="panel panel-default">-->
-                                    <!--<div class="panel-body">-->
-                                        <!--<div class="row">-->
-                                            <!--<div class="col-xs-8 col-lg-6 form-group">-->
-                                                <!--<label>开始日期</label>-->
-                                                <!--<div class="row">-->
-                                                    <!--<div class="col-md-6">-->
-                                                        <!--<p class="input-group">-->
-                                                            <!--<input type="text" class="form-control"-->
-                                                                   <!--uib-datepicker-popup="yyyy-MM-dd"-->
-                                                                   <!--ng-model="vm.query.startDate" is-open="vm.opened"-->
-                                                                   <!--min-date="'2015-06-22'"-->
-                                                                   <!--max-date="'2019-06-22'"-->
-                                                                   <!--datepicker-options="vm.dateOptions"-->
-                                                                   <!--ng-required="true"-->
-                                                                   <!--close-text="OK"/>-->
-                                                            <!--<span class="input-group-btn">-->
-                                                    <!--<button type="button" class="btn btn-default"-->
-                                                            <!--ng-click="vm.openCalendar($event)">-->
-                                                        <!--<i class="glyphicon glyphicon-calendar"></i>-->
-                                                    <!--</button>-->
-                                                <!--</span>-->
-                                                        <!--</p>-->
-                                                    <!--</div>-->
-                                                    <!--<div class="col-md-5">-->
-                                                        <!--<p class="input-group">-->
-                                                            <!--<uib-timepicker ng-model="vm.query.startTime"-->
-                                                                            <!--ng-change="vm.changed()"-->
-                                                                            <!--hour-step="1"-->
-                                                                            <!--minute-step="15"-->
-                                                                            <!--show-meridian="false">-->
-                                                            <!--</uib-timepicker>-->
-                                                        <!--</p>-->
-                                                    <!--</div>-->
-                                                <!--</div>-->
-                                            <!--</div>-->
-                                            <!--<div class="col-xs-8 col-lg-6 form-group">-->
-                                                <!--<label>结束日期</label>-->
-                                                <!--<div class="row">-->
-                                                    <!--<div class="col-md-6">-->
-                                                        <!--<p class="input-group">-->
-                                                            <!--<input type="text" class="form-control"-->
-                                                                   <!--uib-datepicker-popup="yyyy-MM-dd"-->
-                                                                   <!--ng-model="vm.query.endDate" is-open="vm.opened"-->
-                                                                   <!--min-date="'2015-06-22'"-->
-                                                                   <!--max-date="'2019-06-22'"-->
-                                                                   <!--datepicker-options="vm.dateOptions"-->
-                                                                   <!--ng-required="true"-->
-                                                                   <!--close-text="OK"/>-->
-                                                            <!--<span class="input-group-btn">-->
-                                                    <!--<button type="button" class="btn btn-default"-->
-                                                            <!--ng-click="vm.openCalendar($event)">-->
-                                                        <!--<i class="glyphicon glyphicon-calendar"></i>-->
-                                                    <!--</button>-->
-                                                <!--</span>-->
-                                                        <!--</p>-->
-                                                    <!--</div>-->
-                                                    <!--<div class="col-md-5">-->
-                                                        <!--<p class="input-group">-->
-                                                            <!--<uib-timepicker ng-model="vm.query.endTime"-->
-                                                                            <!--hour-step="1"-->
-                                                                            <!--minute-step="15"-->
-                                                                            <!--show-meridian="false">-->
-                                                            <!--</uib-timepicker>-->
-                                                        <!--</p>-->
-                                                    <!--</div>-->
-                                                <!--</div>-->
-                                            <!--</div>-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                            <!--</div>-->
+
                             <div class="col-xs-6 col-lg-4 form-group">
                                 <label>文件大小</label>
                                 <div class="row">
@@ -140,7 +67,7 @@
                 <tr ng-repeat="fileInfo in vm.fileInfos.data">
                     <td ng-bind="fileInfo._id"></td>
                     <td ng-bind="fileInfo.fullName"></td>
-                    <td ng-bind="fileInfo.fileSize"></td>
+                    <td ng-bind="fileInfo.fileSize | filesize"></td>
                     <td ng-bind="fileInfo.fileType"></td>
                     <td ng-bind="fileInfo.creator"></td>
                     <td ng-bind="fileInfo.created | date: 'yyyy-MM-dd HH:mm:ss'"></td>
