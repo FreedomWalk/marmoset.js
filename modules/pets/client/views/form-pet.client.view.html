@@ -1,3 +1,6 @@
+<div class="bg-light lter b-b wrapper-sm">
+    <h1 class="m-n font-thin h3">Pets</h1>
+</div>
 <section class="wrapper-md">
     <div class="panel panel-default">
         <div class="panel-heading font-bold" ng-bind="vm.pet._id ? 'Edit Pet' : 'New Pet'"></div>
@@ -31,7 +34,7 @@
                     </div>
                     <div  >
                         <label class="control-label" for="remark">Remark</label>
-                        <input name="title" type="text" ng-model="vm.pet.remark" id="remark" class="form-control"
+                        <input name="title" type="number" ng-model="vm.pet.remark" id="remark" class="form-control"
                                placeholder="Remark" required>
 
                         <div ng-messages="vm.form.petForm.remark.$error" role="alert">
