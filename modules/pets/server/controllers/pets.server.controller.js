@@ -13,7 +13,7 @@ exports.create = function (req, res) {
   var pet = new Pet(req.body);
   pet.save(function (err) {
     if (err) {
-      return res.status(400).send({
+      return res.status(500).send({
         message: errorHandler.getErrorMessage(err)
       });
     } else {
@@ -32,7 +32,7 @@ exports.update = function (req, res) {
     multi: false
   }, function (err, numberAffected, raw) {
     if (err) {
-      return res.status(400).send({
+      return res.status(500).send({
         message: errorHandler.getErrorMessage(err)
       });
     } else {
@@ -47,7 +47,7 @@ exports.remove = function (req, res) {
   var pet = new Pet(req.pet);
   pet.remove(function (err, obj) {
     if (err) {
-      return res.status(400).send({
+      return res.status(500).send({
         message: errorHandler.getErrorMessage(err)
       });
     } else {
@@ -61,7 +61,7 @@ exports.remove = function (req, res) {
 exports.list = function (req, res) {
   Pet.find().sort('-created').exec(function (err, pets) {
     if (err) {
-      return res.status(400).send({
+      return res.status(500).send({
         message: errorHandler.getErrorMessage(err)
       });
     } else {

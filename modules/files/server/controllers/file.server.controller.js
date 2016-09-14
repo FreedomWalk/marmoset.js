@@ -17,11 +17,11 @@ const ObjectId = mongoose.Types.ObjectId;
 const FileInfo = mongoose.model('FileInfo');
 const DOT = '.';
 const picType = 'pic';
-var gm = require('gm');
+const gm = require('gm');
 gridform.db = db;
 gridform.mongo = mongo;
 
-let getOriginName = function (fileName) {
+function getOriginName(fileName) {
     let array = fileName.split(DOT);
     if (!array || array.length === 0) {
         throw new Error('没有文件名！');
@@ -35,18 +35,18 @@ let getOriginName = function (fileName) {
         originName = originName.substring(0, originName.length - 1);
         return originName;
     }
-};
+}
 
-let getSuffix = function (fileName) {
+function getSuffix(fileName) {
     let array = fileName.split(DOT);
     if (!array || array.length <= 1) {
         return 'undefined';
     } else {
         return array.pop().toLowerCase();
     }
-};
+}
 
-exports.upload = function (req, res) {
+function upload(req, res) {
     let form = gridform();
     form.parse(req, function (err, fields, files) {
         if (err) {
@@ -69,7 +69,7 @@ exports.upload = function (req, res) {
             fileInfo.fileSize = file.size;
             fileInfo.summary = fields.summary;
             fileInfo.md5 = metadata.md5;
-            fileInfo.creator = req.user ? req.user.userId : 'guest';
+            fileInfo.creator = req.user ? req.user._id : 'guest';
             fileInfo.gridFSId = file.id;
             fileInfo.save(function (err, obj) {
                 if (err) {
@@ -79,9 +79,9 @@ exports.upload = function (req, res) {
             });
         });
     });
-};
+}
 
-let getStream = function (req, res, fileType) {
+function getStream(req, res, fileType) {
     return new Promise(function (resolve) {
         let fileName = req.params.fileName;
         FileInfo.findById(new ObjectId(fileName), function (err, obj) {
@@ -107,25 +107,26 @@ let getStream = function (req, res, fileType) {
             });
         });
     });
-};
+}
 
-exports.download = function (req, res) {
+function download(req, res) {
     getStream(req, res).then(function (stream) {
         stream.pipe(res);
     }).catch(function (err) {
         logger.error(err);
         throw new CommonError('下载失败');
     });
-};
+}
 
-exports.picDownload = function (req, res) {
+function picDownload(req, res) {
     getStream(req, res, picType).then(function (stream) {
         stream.pipe(res);
     }).catch(function (err) {
         logger.error(err);
         throw new CommonError('下载失败');
     });
-};
+}
+
 /**
  * 缩放图片，if(force) 会强制缩放
  *
@@ -135,11 +136,11 @@ exports.picDownload = function (req, res) {
  * @param  {Boolean} force    是否强制
  * @return {Stream}          流
  */
-let resize = function (width, height, inStream, force) {
+function resize(width, height, inStream, force) {
     return gm(inStream).resize(width, height, force ? '!' : undefined).stream();
-};
+}
 
-exports.picZoomDownload = function (req, res) {
+function picZoomDownload(req, res) {
     let width = req.params.width;
     let height = req.params.height;
     getStream(req, res, picType).then(function (stream) {
@@ -148,9 +149,9 @@ exports.picZoomDownload = function (req, res) {
         logger.error(err);
         throw new CommonError('下载失败');
     });
-};
+}
 
-exports.picZoomWidthDownload = function (req, res) {
+function picZoomWidthDownload(req, res) {
     let width = req.params.width;
     getStream(req, res, picType).then(function (stream) {
         resize(width, undefined, stream, true).pipe(res);
@@ -158,9 +159,9 @@ exports.picZoomWidthDownload = function (req, res) {
         logger.error(err);
         throw new CommonError('下载失败');
     });
-};
+}
 
-exports.picZoomHeightDownload = function (req, res) {
+function picZoomHeightDownload(req, res) {
     let height = req.params.height;
     getStream(req, res, picType).then(function (stream) {
         resize(undefined, height, stream, true).pipe(res);
@@ -168,8 +169,9 @@ exports.picZoomHeightDownload = function (req, res) {
         logger.error(err);
         throw new CommonError('下载失败');
     });
-};
-exports.picCutDownload = function (req, res) {
+}
+
+function picCutDownload(req, res) {
     let _x = req.params.x;
     let _y = req.params.y;
     let _width = req.params.width;
@@ -180,4 +182,18 @@ exports.picCutDownload = function (req, res) {
         logger.error(err);
         throw new CommonError('下载失败');
     });
-};
+}
+
+exports.download = download;
+
+exports.picDownload = picDownload;
+
+exports.picZoomDownload = picZoomDownload;
+
+exports.picZoomWidthDownload = picZoomWidthDownload;
+
+exports.picZoomHeightDownload = picZoomHeightDownload;
+
+exports.picCutDownload = picCutDownload;
+
+exports.upload = upload;

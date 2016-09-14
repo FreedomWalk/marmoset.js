@@ -35,11 +35,11 @@ exports.forgot = function (req, res, next) {
                     email: req.body.email.toLowerCase()
                 }, '-salt -password', function (err, user) {
                     if (err || !user) {
-                        return res.status(400).send({
+                        return res.status(500).send({
                             message: 'No account with that username has been found'
                         });
                     } else if (user.provider !== 'local') {
-                        return res.status(400).send({
+                        return res.status(500).send({
                             message: 'It seems like you signed up using your ' + user.provider + ' account'
                         });
                     } else {
@@ -52,7 +52,7 @@ exports.forgot = function (req, res, next) {
                     }
                 });
             } else {
-                return res.status(400).send({
+                return res.status(500).send({
                     message: 'Username field must not be blank'
                 });
             }
@@ -95,7 +95,7 @@ exports.forgot = function (req, res, next) {
             //             message: 'An email has been sent to the provided email with further instructions.'
             //         });
             //     } else {
-            //         return res.status(400).send({
+            //         return res.status(500).send({
             //             message: 'Failure sending email'
             //         });
             //     }
@@ -152,13 +152,13 @@ exports.reset = function (req, res, next) {
 
                         user.save(function (err) {
                             if (err) {
-                                return res.status(400).send({
+                                return res.status(500).send({
                                     message: errorHandler.getErrorMessage(err)
                                 });
                             } else {
                                 req.login(user, function (err) {
                                     if (err) {
-                                        res.status(400).send(err);
+                                        res.status(500).send(err);
                                     } else {
                                         // Remove sensitive data before return authenticated user
                                         user.password = undefined;
@@ -172,12 +172,12 @@ exports.reset = function (req, res, next) {
                             }
                         });
                     } else {
-                        return res.status(400).send({
+                        return res.status(500).send({
                             message: 'Passwords do not match'
                         });
                     }
                 } else {
-                    return res.status(400).send({
+                    return res.status(500).send({
                         message: 'Password reset token is invalid or has expired.'
                     });
                 }
@@ -234,13 +234,13 @@ exports.changePassword = function (req, res, next) {
 
                             user.save(function (err) {
                                 if (err) {
-                                    return res.status(400).send({
+                                    return res.status(500).send({
                                         message: errorHandler.getErrorMessage(err)
                                     });
                                 } else {
                                     req.login(user, function (err) {
                                         if (err) {
-                                            res.status(400).send(err);
+                                            res.status(500).send(err);
                                         } else {
                                             res.send({
                                                 message: 'Password changed successfully'
@@ -250,28 +250,28 @@ exports.changePassword = function (req, res, next) {
                                 }
                             });
                         } else {
-                            res.status(400).send({
+                            res.status(500).send({
                                 message: 'Passwords do not match'
                             });
                         }
                     } else {
-                        res.status(400).send({
+                        res.status(500).send({
                             message: 'Current password is incorrect'
                         });
                     }
                 } else {
-                    res.status(400).send({
+                    res.status(500).send({
                         message: 'User is not found'
                     });
                 }
             });
         } else {
-            res.status(400).send({
+            res.status(500).send({
                 message: 'Please provide a new password'
             });
         }
     } else {
-        res.status(400).send({
+        res.status(500).send({
             message: 'User is not signed in'
         });
     }

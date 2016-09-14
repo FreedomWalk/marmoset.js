@@ -10,7 +10,9 @@ let CheckCodeSchema = new Schema({
         type: String,
         trim: true,
         required: 'Please insert code'
-    }
+    },
+    failTime: Date,
+
 });
 
 CheckCodeSchema.methods.check = check;

@@ -39,7 +39,7 @@ exports.signup = function (req, res) {
         // Then save the user
         user.save(function (err) {
             if (err) {
-                return res.status(400).send({
+                return res.status(500).send({
                     message: errorHandler.getErrorMessage(err)
                 });
             } else {
@@ -49,7 +49,7 @@ exports.signup = function (req, res) {
 
                 req.login(user, function (err) {
                     if (err) {
-                        res.status(400).send(err);
+                        res.status(500).send(err);
                     } else {
                         res.json(user);
                     }
@@ -93,7 +93,7 @@ exports.signin = function (req, res, next) {
 
                 req.login(userDb, function (err) {
                     if (err) {
-                        res.status(400).send(err);
+                        res.status(500).send(err);
                     } else {
                         res.setHeader('Authorization', 'Bearer ' + token);
                         res.setHeader('Set-Cookie', 'token=' + token);
@@ -111,7 +111,7 @@ exports.signin = function (req, res, next) {
 
 // passport.authenticate('local', function (err, user, info) {
 //    if (err || !user) {
-//        res.status(400).send(info);
+//        res.status(500).send(info);
 //    } else {
 //        // Remove sensitive data before login
 //        user.password = undefined;
@@ -119,7 +119,7 @@ exports.signin = function (req, res, next) {
 //
 //        req.login(user, function (err) {
 //            if (err) {
-//                res.status(400).send(err);
+//                res.status(500).send(err);
 //            } else {
 //                jwt.
 //                res.json(user);
@@ -268,7 +268,7 @@ exports.signout = function (req, res) {
 //            message: 'User is not authenticated'
 //        });
 //    } else if (!provider) {
-//        return res.status(400).send();
+//        return res.status(500).send();
 //    }
 //
 //    // Delete the additional provider
@@ -281,13 +281,13 @@ exports.signout = function (req, res) {
 //
 //    user.save(function (err) {
 //        if (err) {
-//            return res.status(400).send({
+//            return res.status(500).send({
 //                message: errorHandler.getErrorMessage(err)
 //            });
 //        } else {
 //            req.login(user, function (err) {
 //                if (err) {
-//                    return res.status(400).send(err);
+//                    return res.status(500).send(err);
 //                } else {
 //                    return res.json(user);
 //                }
