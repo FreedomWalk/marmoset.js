@@ -5,8 +5,11 @@
                 <h1 ng-bind="vm.fileInfo.fullName"></h1>
             </div>
             <div class="col-md-4">
-                <a class="btn btn-primary btn-danger" ng-click="vm.remove()">
+                <a class="btn btn-danger" ng-click="vm.remove()">
                     <i class="glyphicon glyphicon-trash"></i>
+                </a>
+                <a target="_self" class="btn btn-primary btn-success" ng-href="/api/file/{{vm.fileInfo._id}}" download>
+                    <i class="glyphicon glyphicon-download"></i>
                 </a>
             </div>
         </div>

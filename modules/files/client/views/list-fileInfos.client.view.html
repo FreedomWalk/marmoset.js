@@ -82,7 +82,13 @@
                         <td ng-bind="fileInfo.creator"></td>
                         <td ng-bind="fileInfo.created | date: 'yyyy-MM-dd HH:mm:ss'"></td>
                         <td>
-                            <a class="button" ng-click="vm.remove(fileInfo, $event)">删除</a>
+                            <a class="btn btn-danger" ng-click="vm.remove()">
+                                <i class="glyphicon glyphicon-trash"></i>
+                            </a>
+                            <a target="_self" class="btn btn-primary btn-success" ng-href="/api/file/{{fileInfo._id}}" download>
+                                <i class="glyphicon glyphicon-download"></i>
+                            </a>
+                            <!--<a class="button" ng-click="vm.remove(fileInfo, $event)">删除</a>-->
                             <a class="button" ui-sref="files.detail({fileId: fileInfo._id})">查看</a>
                         </td>
                     </tr>

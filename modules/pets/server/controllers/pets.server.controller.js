@@ -84,8 +84,8 @@ exports.listPage = function (req, res) {
 
 exports.read = function (req, res) {
     // convert mongoose document to JSON
-    var pet = req.pet ? JSONUtils.stringify(req.pet) : {};
-    res.json(pet);
+    var pet = req.pet ? req.pet : {};
+    res.send(pet);
 };
 
 exports.petById = function (req, res, next, id) {
