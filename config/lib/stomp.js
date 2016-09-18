@@ -9,7 +9,7 @@ const stomp = require('webstomp-client'),
     WebSocket = require('ws'),
     url = config.stomp.url;
 const path = require('path');
-const JSONUtils = require(path.resolve('./modules/core/server/JSONUtils'));
+const JSONUtils = require(path.resolve('./modules/core/server/common/JSONUtils'));
 
 exports.publish = function (mqName, obj, callback) {
     let ws = new WebSocket(url);
