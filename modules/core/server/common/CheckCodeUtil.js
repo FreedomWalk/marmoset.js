@@ -16,11 +16,11 @@ function check(codeId, code, callback) {
             logger.error(err);
             throw new CommonError('系统错误');
         } else if (obj) {
-            if (obj.check(code)) {
+            obj.check(code).then(function () {
                 callback();
-            } else {
+            }, function () {
                 throw new CommonError('验证码错误');
-            }
+            });
         } else {
             throw new CommonError('验证码错误');
         }

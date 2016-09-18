@@ -4,11 +4,10 @@
 'use strict';
 const path = require('path');
 const mongoose = require('mongoose');
-const errorHandler = require(path.resolve(
-    './modules/core/server/controllers/errors.server.controller'));
 const Pet = mongoose.model('Pet');
 const CommonError = require(path.resolve('./config/error/CommonError'));
 const logger = require(path.resolve('./config/lib/logger'));
+const JSONUtils = require(path.resolve('./modules/core/server/common/JSONUtils'));
 
 exports.create = function (req, res) {
     var pet = new Pet(req.body);
@@ -68,7 +67,7 @@ exports.listPage = function (req, res) {
     let pageSize = size > 0 ? size : 5;
     let pageNum = parseInt(req.params.pageNum, 0);
     let queryString = req.params.queryString;
-    let queryObj = JSON.parse(queryString);
+    let queryObj = JSONUtils.parse(queryString);
     Pet.findPagination(queryObj.query, queryObj.sort, pageSize, pageNum).then(
         function (pagination) {
             res.json(pagination);
@@ -85,7 +84,7 @@ exports.listPage = function (req, res) {
 
 exports.read = function (req, res) {
     // convert mongoose document to JSON
-    var pet = req.pet ? req.pet.toJSON() : {};
+    var pet = req.pet ? JSONUtils.stringify(req.pet) : {};
     res.json(pet);
 };
 

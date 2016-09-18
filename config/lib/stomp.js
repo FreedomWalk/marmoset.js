@@ -8,7 +8,8 @@ const stomp = require('webstomp-client'),
     logger = require('./logger'),
     WebSocket = require('ws'),
     url = config.stomp.url;
-
+const path = require('path');
+const JSONUtils = require(path.resolve('./modules/core/server/JSONUtils'));
 
 exports.publish = function (mqName, obj, callback) {
     let ws = new WebSocket(url);
@@ -18,7 +19,7 @@ exports.publish = function (mqName, obj, callback) {
     });
     client.connect(config.stomp.connectHeader, function () {
         obj.MQName = mqName;
-        client.send(config.stomp.defaultQueue, JSON.stringify(obj));
+        client.send(config.stomp.defaultQueue, JSONUtils.stringify(obj));
         client.disconnect();
         callback();
     }, function (err) {
@@ -35,7 +36,7 @@ exports.subscribe = function (msgDealers) {
             if (message.body) {
                 if (msgDealers && msgDealers instanceof Array) {
                     let canDeal = false;
-                    let msgObject = JSON.parse(message.body);
+                    let msgObject = JSONUtils.parse(message.body);
                     for (let i = 0; i < msgDealers.length; i++) {
                         let msgDealer = msgDealers[i];
                         if (msgObject.MQName === msgDealer.MQName) {

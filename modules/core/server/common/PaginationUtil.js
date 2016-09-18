@@ -6,13 +6,14 @@
 const path = require('path');
 const CommonError = require(path.resolve('./config/error/CommonError'));
 const logger = require(path.resolve('./config/lib/logger'));
+const JSONUtils = require(path.resolve('./modules/core/server/common/JSONUtils'));
 
 function query(req, res, model) {
     let size = parseInt(req.params.pageSize, 0);
     let pageSize = size > 0 ? size : 5;
     let pageNum = parseInt(req.params.pageNum, 0);
     let queryString = req.params.queryString;
-    let queryObj = JSON.parse(queryString);
+    let queryObj = JSONUtils.parse(queryString);
     model.findPagination(queryObj.query, queryObj.sort, pageSize, pageNum).then(
         function (pagination) {
             res.json(pagination);

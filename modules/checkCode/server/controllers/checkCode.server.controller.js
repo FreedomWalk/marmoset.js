@@ -13,19 +13,23 @@ const CheckCode = mongoose.model('CheckCode');
 const headerCode = 'checkCode';
 const gm = require('gm');
 const CODE = 'codeId';
+const DELAY_TIME = 5 * 60 * 1000;
+const IMG_TYPE = 'bmp';
 
 exports.create = function (req, res) {
     let captcha = ccap();
     let ary = captcha.get();
     let checkCode = new CheckCode({code: ary[0]});
+    checkCode.validTime = new Date(new Date().getTime() + DELAY_TIME);
     checkCode.save(function (err, obj) {
         if (err) {
             logger.error(err);
             res.end();
         } else {
-            res.set(headerCode, obj._id);
-            res.type('bmp');
-            res.cookie(CODE, obj._id);
+            req.session.codeId = obj._id;
+            // res.set(headerCode, obj._id);
+            res.type(IMG_TYPE);
+            // res.cookie(CODE, obj._id);
             res.end(ary[1]);
         }
     });

@@ -14,7 +14,6 @@ const CommonError = require(path.resolve('./config/error/CommonError'));
 const PaginationUtil = require(path.resolve('./modules/core/server/common/PaginationUtil'));
 const grid = require('gridfs-stream');
 const ObjectId = mongoose.Types.ObjectId;
-
 const gridfs = grid(db, mongo);
 
 function list(req, res) {

@@ -59,7 +59,6 @@
         function remove(fileInfo, $event) {
             $event.stopPropagation();
             if ($window.confirm('确认删除?')) {
-                FileInfoResource.
                 fileInfo.$delete(function () {
                     vm.fileInfos = FileInfoResource.getFileInfo();
                 }, function (e) {

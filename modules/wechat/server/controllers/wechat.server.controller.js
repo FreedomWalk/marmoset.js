@@ -3,8 +3,9 @@
 
 const path = require('path');
 const wechatApi = require(path.resolve(
-  './config/lib/wechat'));
+    './config/lib/wechat'));
 const logger = require(path.resolve('./config/lib/logger'));
+const JSONUtils = require(path.resolve('./modules/core/server/common/JSONUtils'));
 
 
 /**
@@ -14,58 +15,58 @@ const logger = require(path.resolve('./config/lib/logger'));
  * @param {any} res
  */
 exports.sendText = function (req, res) {
-  let textBody = req.body;
-  wechatApi.sendText(textBody.openid, textBody.content, function (err, result) {
-    if (err) {
-      logger.error(err);
-      res.json(err);
-    } else {
-      logger.info(result);
-      res.json(result);
-    }
-  });
+    let textBody = req.body;
+    wechatApi.sendText(textBody.openid, textBody.content, function (err, result) {
+        if (err) {
+            logger.error(err);
+            res.json(err);
+        } else {
+            logger.info(result);
+            res.json(result);
+        }
+    });
 };
 
 exports.getFans = function (req, res) {
-  wechatApi.getFollowers(function (err, result) {
-    if (err) {
-      logger.error(err);
-      res.json(err);
-    } else {
-      logger.info(result);
-      res.json(result);
-    }
-  });
+    wechatApi.getFollowers(function (err, result) {
+        if (err) {
+            logger.error(err);
+            res.json(err);
+        } else {
+            logger.info(result);
+            res.json(result);
+        }
+    });
 };
 
 exports.getUser = function (req, res) {
-  let openId = req.params.openId;
-  wechatApi.getUser(openId, function (err, result) {
-    if (err) {
-      logger.error(err);
-      res.json(err);
-    } else {
-      logger.info(result);
-      res.json(result);
-    }
-  });
+    let openId = req.params.openId;
+    wechatApi.getUser(openId, function (err, result) {
+        if (err) {
+            logger.error(err);
+            res.json(err);
+        } else {
+            logger.info(result);
+            res.json(result);
+        }
+    });
 };
 
 exports.batchGetUser = function (req, res) {
-  let openIds = [];
-  try {
-    openIds = JSON.parse(req.params.openIds);
-  } catch (error) {
-    logger.error(error);
-    throw new Error('error format');
-  }
-  wechatApi.batchGetUsers(openIds, function (err, result) {
-    if (err) {
-      logger.error(err);
-      res.json(err);
-    } else {
-      logger.info(result);
-      res.json(result);
+    let openIds = [];
+    try {
+        openIds = JSONUtils.parse(req.params.openIds);
+    } catch (error) {
+        logger.error(error);
+        throw new Error('error format');
     }
-  });
+    wechatApi.batchGetUsers(openIds, function (err, result) {
+        if (err) {
+            logger.error(err);
+            res.json(err);
+        } else {
+            logger.info(result);
+            res.json(result);
+        }
+    });
 };
