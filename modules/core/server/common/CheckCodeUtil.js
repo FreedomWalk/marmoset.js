@@ -14,15 +14,15 @@ function check(codeId, code, callback) {
     CheckCode.findById(codeId, function (err, obj) {
         if (err) {
             logger.error(err);
-            throw new CommonError('系统错误');
+            callback(new CommonError('系统错误'));
         } else if (obj) {
             obj.check(code).then(function () {
                 callback();
             }, function () {
-                throw new CommonError('验证码错误');
+                callback(new CommonError('验证码错误'));
             });
         } else {
-            throw new CommonError('验证码错误');
+            callback(new CommonError('验证码错误'));
         }
     });
 }

@@ -23,14 +23,15 @@ let CheckCodeSchema = new Schema({
 CheckCodeSchema.methods.check = check;
 
 function check(code) {
+    let self = this;
     let d = q.defer();
-    if (this.valid && this.validTime > new Date()) {
-        this.update({valid: false}, function (err) {
+    if (self.valid && self.validTime > new Date()) {
+        self.update({valid: false}, function (err) {
             if (err) {
                 logger.error(err);
                 d.reject(err);
             }
-            if (code && this.code.toLowerCase() === code.toLowerCase()) {
+            if (code && self.code.toLowerCase() === code.toLowerCase()) {
                 d.resolve();
             } else {
                 d.reject();

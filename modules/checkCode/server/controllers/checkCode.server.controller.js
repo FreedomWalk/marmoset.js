@@ -10,9 +10,7 @@ const CommonError = require(path.resolve('./config/error/CommonError'));
 const logger = require(path.resolve('./config/lib/logger'));
 const ccap = require('ccap');
 const CheckCode = mongoose.model('CheckCode');
-const headerCode = 'checkCode';
 const gm = require('gm');
-const CODE = 'codeId';
 const DELAY_TIME = 5 * 60 * 1000;
 const IMG_TYPE = 'bmp';
 
