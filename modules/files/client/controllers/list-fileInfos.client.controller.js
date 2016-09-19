@@ -25,13 +25,8 @@
         vm.openCalendar = openCalendar;
         vm.changed = changed;
         vm.clear = clear;
-        vm.dateOptions = {
-            formatYear: 'yy',
-            startingDay: 1,
-            class: 'datepicker'
-        };
-        vm.query = {};
-        vm.opened = false;
+        vm.unitType = {B: 1, KB: 1024, MB: 1024 * 1024, GB: 1024 * 1024 * 1024};
+        vm.query = {sizeUnit: 'B'};
 
         function upload() {
             let modalInstance = $uibModal.open({
@@ -125,11 +120,13 @@
             }
             if (query.minSize || query.maxSize) {
                 newQuery.fileSize = {
-                    $gte: query.minSize ? query.minSize : undefined,
-                    $lte: query.maxSize ? query.maxSize : undefined
+                    $gte: query.minSize ? query.minSize * vm.unitType[query.sizeUnit.trim()] : undefined,
+                    $lte: query.maxSize ? query.maxSize * vm.unitType[query.sizeUnit.trim()] : undefined
                 };
             }
             return newQuery;
         }
+
+
     }
 }());

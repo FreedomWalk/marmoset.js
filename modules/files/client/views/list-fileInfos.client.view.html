@@ -16,37 +16,42 @@
 
                     <form class="bs-example form-group">
                         <div class="row">
-                            <div class="col-xs-6 col-lg-4 form-group">
+                            <div class="col-xs-3 col-lg-2 form-group">
                                 <label for="id">ID</label>
                                 <input id="id" type="text" class="form-control" ng-model="vm.query._id"
                                        placeholder="ID">
                             </div>
-                            <div class="col-xs-6 col-lg-4 form-group">
+                            <div class="col-xs-3 col-lg-2 form-group">
                                 <label for="fileName">文件名</label>
                                 <input id="fileName" type="text" class="form-control" ng-model="vm.query.originName"
                                        placeholder="文件名">
                             </div>
-                            <div class="col-xs-6 col-lg-4 form-group">
+                            <div class="col-xs-3 col-lg-2 form-group">
                                 <label for="creator">创建人</label>
                                 <input id="creator" type="text" class="form-control" ng-model="vm.query.creator"
                                        placeholder="创建人">
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-6 col-lg-4 form-group">
+                            <div class="col-xs-7 col-lg-5 form-group">
                                 <label>文件大小</label>
 
                                 <div class="row">
-                                    <div class="col-md-5">
+                                    <div class="col-md-3">
                                         <input id="minSize" ng-model="vm.query.minSize" type="number"
                                                class="form-control" placeholder="文件小">
                                     </div>
                                     <div class="col-md-1">
                                         -
                                     </div>
-                                    <div class="col-md-5">
+                                    <div class="col-md-3">
                                         <input id="maxSize" ng-model="vm.query.maxSize" type="number"
                                                class="form-control" placeholder="文件大">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <select id="sizeUnit" class="form-control" ng-model="vm.query.sizeUnit">
+                                            <option ng-repeat="(key,value) in vm.unitType" >
+                                                {{key}}
+                                            </option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -85,7 +90,8 @@
                             <a class="btn btn-danger" ng-click="vm.remove(fileInfo, $event)">
                                 <i class="glyphicon glyphicon-trash"></i>
                             </a>
-                            <a target="_self" class="btn btn-primary btn-success" ng-href="/api/file/{{fileInfo._id}}" download>
+                            <a target="_self" class="btn btn-primary btn-success" ng-href="/api/file/{{fileInfo._id}}"
+                               download>
                                 <i class="glyphicon glyphicon-download"></i>
                             </a>
                             <!--<a class="button" ng-click="vm.remove(fileInfo, $event)">删除</a>-->
