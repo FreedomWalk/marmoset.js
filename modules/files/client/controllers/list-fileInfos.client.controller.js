@@ -9,7 +9,7 @@
         .controller('FilesListController', FilesListController);
 
     /* @ngInject */
-    function FilesListController(FileInfoResource, $uibModal, $window, $filter) {
+    function FilesListController(FileInfoResource, $uibModal, $window) {
         var vm = this;
         let pageSize = 10;
 
@@ -59,11 +59,18 @@
         function remove(fileInfo, $event) {
             $event.stopPropagation();
             if ($window.confirm('确认删除?')) {
-                fileInfo.$delete(function () {
-                    vm.fileInfos = FileInfoResource.getFileInfo();
-                }, function (e) {
-                    console.log(e);
+                FileInfoResource.delete({fileId: fileInfo._id}, function () {
+                    vm.fileInfos = FileInfoResource.getFileInfo({
+                        pageSize: pageSize,
+                        pageNum: vm.fileInfos.pageNum,
+                        queryString: generateQueryString()
+                    });
                 });
+                // fileInfo.$delete(function () {
+                //     vm.fileInfos = FileInfoResource.getFileInfo();
+                // }, function (e) {
+                //     console.log(e);
+                // });
             }
         }
 
