@@ -100,6 +100,7 @@ function getStream(req, res, fileType) {
                 if (files && files.length === 0) {
                     throw new CommonError('No found file');
                 }
+                res.attachment(obj.fullName);
                 res.type(files[0].contentType);
                 resolve(gridfs.createReadStream({
                     _id: obj.gridFSId
