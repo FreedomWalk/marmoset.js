@@ -61,11 +61,6 @@
                         queryString: generateQueryString()
                     });
                 });
-                // fileInfo.$delete(function () {
-                //     vm.fileInfos = FileInfoResource.getFileInfo();
-                // }, function (e) {
-                //     console.log(e);
-                // });
             }
         }
 

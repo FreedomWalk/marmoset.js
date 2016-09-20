@@ -6,12 +6,12 @@
     angular.module('files').controller('FileDetailController', FileDetailController);
 
     /* @ngInject */
-    function FileDetailController(fileInfo) {
+    function FileDetailController(fileInfo, $window, FileInfoResource, $state) {
         var vm = this;
         vm.fileInfo = fileInfo;
         vm.isPicture = isPicture;
         vm.isVideo = isVideo;
-        vm.isText = isText;
+        vm.remove = remove;
 
         function isPicture() {
             return vm.fileInfo.fileType === 'pic';
@@ -21,8 +21,13 @@
             return vm.fileInfo.fileType === 'video';
         }
 
-        function isText() {
-            return vm.fileInfo.fileType === 'txt';
+        function remove($event) {
+            $event.stopPropagation();
+            if ($window.confirm('确认删除?')) {
+                FileInfoResource.delete({fileId: fileInfo._id}, function () {
+                    history.back();
+                });
+            }
         }
     }
 }());

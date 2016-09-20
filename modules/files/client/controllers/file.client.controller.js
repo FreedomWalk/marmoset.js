@@ -39,7 +39,6 @@
             console.info('onProgressAll', progress);
         };
         vm.uploader.onSuccessItem = function (fileItem, response, status, headers) {
-            fileItem._id = response._id;
             console.info('onSuccessItem', fileItem, response, status, headers);
         };
         vm.uploader.onErrorItem = function (fileItem, response, status, headers) {
