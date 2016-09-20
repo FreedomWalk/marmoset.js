@@ -25,9 +25,7 @@ exports.create = function (req, res) {
             res.end();
         } else {
             req.session.codeId = obj._id;
-            // res.set(headerCode, obj._id);
             res.type(IMG_TYPE);
-            // res.cookie(CODE, obj._id);
             res.end(ary[1]);
         }
     });
