@@ -161,6 +161,22 @@ describe('checkCode model test', function () {
                 });
             });
         });
+
+        it('should ignore case', function (done) {
+            let cc1 = new CheckCode(obj1);
+            cc1.save(function (err, result) {
+                should.not.exist(err);
+                should.exist(result);
+                should.exist(result._id);
+                result.check(CODE.toLowerCase()).then(function () {
+                    should(true).ok();
+                    done();
+                }, function () {
+                    should(false).ok();
+                    done();
+                });
+            });
+        });
     });
 
     after(function (done) {
