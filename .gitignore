@@ -8,4 +8,5 @@ app*.log
 .DS_Store
 .vscode/launch.json
 config/env/local-development.js
-
+config/env/local-test.js
+.vscode/
