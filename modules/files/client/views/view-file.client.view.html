@@ -16,57 +16,51 @@
     </div>
 
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-6">
             <div class="row">
                 <div class="col-md-3"><strong>Id</strong></div>
                 <div class="col-md-6" ng-bind="vm.fileInfo._id"></div>
             </div>
-            <hr/>
             <div class="row">
                 <div class="col-md-3"><strong>文件名</strong></div>
                 <div class="col-md-6" ng-bind="vm.fileInfo.originName"></div>
             </div>
-            <hr/>
             <div class="row">
                 <div class="col-md-3"><strong>文件后缀</strong></div>
                 <div class="col-md-6" ng-bind="vm.fileInfo.suffix"></div>
             </div>
-            <hr/>
             <div class="row">
                 <div class="col-md-3"><strong>文件大小</strong></div>
                 <div class="col-md-6" ng-bind="vm.fileInfo.fileSize | filesize"></div>
             </div>
-            <hr/>
             <div class="row">
                 <div class="col-md-3"><strong>创建日期</strong></div>
                 <div class="col-md-6" ng-bind="vm.fileInfo.created | date: 'yyyy-MM-dd HH:mm:ss'"></div>
             </div>
-            <hr/>
             <div class="row">
                 <div class="col-md-3"><strong>GridFSId</strong></div>
                 <div class="col-md-6" ng-bind="vm.fileInfo.gridFSId"></div>
             </div>
-            <hr/>
             <div class="row">
                 <div class="col-md-3"><strong>MD5</strong></div>
                 <div class="col-md-6" ng-bind="vm.fileInfo.md5"></div>
             </div>
-            <hr/>
             <div class="row">
                 <div class="col-md-3"><strong>标签</strong></div>
                 <div class="col-md-6" ng-bind="vm.fileInfo.summary"></div>
             </div>
-            <hr/>
             <div class="row">
                 <div class="col-md-3"><strong>备注</strong></div>
                 <div class="col-md-6" ng-bind="vm.fileInfo.remark"></div>
             </div>
         </div>
+        <div class="col-md-6" ng-if="vm.isPicture()">
+            <img width="300" ng-src="{{vm.url}}">
+        </div>
+        <div class="col-md-6" ng-if="vm.isVideo()">
+            <video width="300" ng-src="{{vm.url | trustUrl}}" controls preload></video>
+        </div>
     </div>
 
-
-    <div class="row" ng-if="vm.isPicture()">
-        <img width="300" ng-src="/api/pic/{{vm.fileInfo._id}}">
-    </div>
 
 </section>

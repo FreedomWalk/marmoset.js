@@ -66,6 +66,7 @@ fileType.get(function () {
         case 'wmv':
         case 'rmvb':
         case 'avi':
+        case 'flv':
             return 'video';
         default:
             return 'other';

@@ -6,19 +6,20 @@
     angular.module('files').controller('FileDetailController', FileDetailController);
 
     /* @ngInject */
-    function FileDetailController(fileInfo, $window, FileInfoResource, $state) {
+    function FileDetailController(fileInfo, $window, FileInfoResource) {
         var vm = this;
         vm.fileInfo = fileInfo;
         vm.isPicture = isPicture;
         vm.isVideo = isVideo;
         vm.remove = remove;
+        vm.url = 'api/file/' + vm.fileInfo._id;
 
         function isPicture() {
             return vm.fileInfo.fileType === 'pic';
         }
 
         function isVideo() {
-            return vm.fileInfo.fileType === 'video';
+            return vm.fileInfo.suffix && vm.fileInfo.suffix.toLowerCase() === 'mp4';
         }
 
         function remove($event) {
