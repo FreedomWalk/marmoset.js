@@ -57,7 +57,7 @@ exports.list = function (req, res) {
       if (err) {
           throw new CommonError(err.message, 500);
       } else {
-          res.json(pet);
+          res.json(pets);
       }
   });
 };
