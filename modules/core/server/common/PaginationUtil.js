@@ -13,7 +13,12 @@ function query(req, res, model) {
     let pageSize = size > 0 ? size : 5;
     let pageNum = parseInt(req.params.pageNum, 0);
     let queryString = req.params.queryString;
-    let queryObj = JSONUtils.parse(queryString);
+    let queryObj = {};
+    try {
+        queryObj = JSONUtils.parse(queryString);
+    } catch (error) {
+        logger.error(error);
+    }
     model.findPagination(queryObj.query, queryObj.sort, pageSize, pageNum).then(
         function (pagination) {
             res.json(pagination);

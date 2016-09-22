@@ -47,10 +47,8 @@ module.exports = {
         }
     },
     jwt: {
-        unless: [/\/api\/auth\/.+/gi, '/api/auth/signin', '/api/auth/signup', '/api/book', '/api/hello', '/api/mail',
-            /\/api\/file\/.+/gi, /\/api\/pic\/.+/gi, '/api/file',
-            /\/api\/scheduleLog\/.+/gi, /\/api\/wechat\/.+/gi, /\/api\/checkCode.+/gi, '/api/checkCode'
-        ]
+        unless: [/\/api\/auth\/.+/gi, /\/api\/wechat\/.+/gi,
+            /\/api\/checkCode.+/gi, '/api/checkCode', '/api/shuangseqiu',/\/api\/shuangseqiu\/.+/gi]
     },
     email: {
         smtpServer: 'smtps://system%40i-cambio.com:sh20130927@smtp.ym.163.com',
