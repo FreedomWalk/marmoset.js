@@ -31,7 +31,7 @@ var BookSchema = new Schema({
     trim: true
   },
   publicData: {
-    type: Date,
+    type: Number,
     default: Date.now()
   }
 });

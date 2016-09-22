@@ -59,12 +59,12 @@ function baseFieldPlugin(schema) {
     schema.set('toJSON', {virtuals: true});
     schema.add({
         updated: {
-            type: Date,
+            type: Number,
             default: Date.now
         },
         updateId: String,
         created: {
-            type: Date,
+            type: Number,
             default: Date.now
         },
         creator: {

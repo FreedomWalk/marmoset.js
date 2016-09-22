@@ -12,9 +12,6 @@ const logger = require(path.resolve('./config/lib/logger'));
 
 exports.create = create;
 
-/**
- * List of schedules
- */
 exports.list = list;
 
 exports.update = update;

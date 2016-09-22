@@ -87,9 +87,6 @@ var UserSchema = new Schema({
     default: ['user'],
     required: 'Please provide at least one role'
   },
-  updated: {
-    type: Date
-  },
   /* For reset password */
   resetPasswordToken: {
     type: String
