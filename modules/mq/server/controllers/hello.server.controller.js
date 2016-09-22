@@ -10,7 +10,9 @@ const mqName = require(path.resolve('./modules/mq/server/common/mq.server.common
  * @param req
  * @param res
  */
-exports.publish = function (req, res) {
+exports.publish = publish;
+
+function publish(req, res) {
   if (req.body) {
     client.publish(mqName.HELLO, req.body, function (err) {
       if (err) {
@@ -24,5 +26,4 @@ exports.publish = function (req, res) {
   } else {
     res.send('empty body');
   }
-};
-
+}
