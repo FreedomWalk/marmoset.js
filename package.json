@@ -88,7 +88,6 @@
     "stompit": "^0.23.0",
     "swig": "~1.4.2",
     "validator": "~5.1.0",
-    "webstomp-client": "^1.0.3",
     "wechat": "^2.0.3",
     "wechat-api": "^1.28.0",
     "winston": "^2.2.0",
