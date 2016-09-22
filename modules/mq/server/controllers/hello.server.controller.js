@@ -15,8 +15,6 @@ exports.publish = function (req, res) {
     client.publish(mqName.HELLO, req.body, function (err) {
       if (err) {
         logger.error(err);
-        // wefwef
-        // weafwe 34rf3q 43r
         res.send('fail');
       } else {
         res.send('success');

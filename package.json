@@ -85,6 +85,7 @@
     "serve-favicon": "~2.3.0",
     "smtp-connection": "^2.11.0",
     "socket.io": "~1.4.5",
+    "stompit": "^0.23.0",
     "swig": "~1.4.2",
     "validator": "~5.1.0",
     "webstomp-client": "^1.0.3",

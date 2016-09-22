@@ -77,17 +77,27 @@ module.exports = {
     expiresIn: 60 * 60 * 60,
     algorithm: 'HS256'
   },
-  stompy: {
-    basicConfig: {
-      host: '192.168.10.250',
-      port: 61613,
-      retryOnClosed: false,
-      heartbeat: {
-        client: 5000,
-        broker: 5000,
-        grace: 2000
+  stomp: {
+    servers: [
+      {
+        host: '192.168.10.250',
+        port: 61613,
+        connectHeaders: {
+          'host': '/',
+          'heart-beat': '100,100'
+        }
       }
+    ],
+    reconnectOptions: {
+      maxReconnects: 5
     },
-    defaultQueue: 'mean-node-dev'
+    sendParams: {
+      'destination': 'mean-node-dev',
+      'content-type': 'application/json'
+    },
+    headers: {
+      'destination': 'mean-node-dev',
+      'ack': 'client-individual'
+    }
   }
 };
