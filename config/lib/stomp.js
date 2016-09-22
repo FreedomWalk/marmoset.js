@@ -11,11 +11,12 @@ const stompit = require('stompit');
 
 
 exports.publish = function (mqName, obj, callback) {
-    stompit.connect(config.stomp.servers, function (error, client) {
+    stompit.connect(config.stomp.connectParams, function (error, client) {
 
         if (error) {
             logger.error('Unable to connect: ' + error.message);
             callback(error);
+            return;
         }
 
         let frame = client.send(config.stomp.sendParams);
@@ -25,6 +26,7 @@ exports.publish = function (mqName, obj, callback) {
             if (error) {
                 logger.error('Error while disconnecting: ' + error.message);
                 callback(error);
+                return;
             }
             logger.info('Sent message');
             callback();

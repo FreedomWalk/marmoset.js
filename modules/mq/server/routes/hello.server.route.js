@@ -4,5 +4,5 @@
 'use strict';
 var hello = require('../controllers/hello.server.controller');
 module.exports = function (app) {
-  app.route('/api/hello').post(hello.publish);
+    app.route('/api/hello').post(hello.publish);
 };

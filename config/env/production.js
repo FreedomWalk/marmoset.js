@@ -90,6 +90,13 @@ module.exports = {
                 }
             }
         ],
+        connectParams: {
+            host: '192.168.10.250',
+            port: 61613,
+            connectHeaders: {
+                host: '/'
+            }
+        },
         reconnectOptions: {
             maxReconnects: 5
         },
