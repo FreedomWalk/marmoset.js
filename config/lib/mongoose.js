@@ -79,10 +79,9 @@ function baseFieldPlugin(schema) {
 
 function paginationPlugin(schema) {
 
-    schema.statics.findPagination = function (query, sort, pageSize,
-                                              pageNum) {
+    schema.statics.findPagination = function (query, sort, pageSize, pageNum) {
         let self = this;
-        return new Promise(function (resolve, reject) {
+        return new Promise(function (resolve) {
             self.count(query, function (err, totalCount) {
                 if (err) {
                     throw err;
