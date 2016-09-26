@@ -3,6 +3,8 @@
  */
 'use strict';
 var hello = require('../controllers/hello.server.controller');
-module.exports = function (app) {
+module.exports = route;
+
+function route(app) {
     app.route('/api/hello').post(hello.publish);
-};
+}

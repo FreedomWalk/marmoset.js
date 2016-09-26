@@ -5,13 +5,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const logger = require(path.resolve('./config/lib/logger'));
 
-// const Suffix = ['jpg', 'png', 'jpeg', 'gif', 'bmp', 'zip', 'rar', 'wav',
-//     'mp3', 'amr', 'txt', 'html', 'pdf', 'doc', 'dot', 'docx', 'pot', 'pps',
-//     'ppt', 'pptx', 'xla', 'xlc', 'xlm', 'xls', 'xlt', 'xlw', 'xlsx', 'mp4',
-//     'mpg', 'mps', 'wmv', 'rmvb', 'avi'
-// ];
-// const FileType = ['txt', 'pic', 'video', 'other'];
-
 let FileSchema = new Schema({
     originName: {
         type: String,
@@ -40,7 +33,12 @@ let FileSchema = new Schema({
 });
 
 let fileType = FileSchema.virtual('fileType');
-fileType.get(function () {
+fileType.get(getFileType);
+
+let fullName = FileSchema.virtual('fullName');
+fullName.get(getFullName);
+
+function getFileType() {
     switch (this.suffix.toLowerCase()) {
         // ['jpg', 'png', 'jpeg', 'gif', 'bmp', 'zip', 'rar', 'wav',
         //   'mp3', 'amr', 'txt', 'html', 'pdf', 'doc', 'dot', 'docx', 'pot', 'pps',
@@ -71,15 +69,14 @@ fileType.get(function () {
         default:
             return 'other';
     }
-});
+}
 
-let fullName = FileSchema.virtual('fullName');
-fullName.get(function () {
+function getFullName() {
     if (this.suffix) {
         return this.originName + '.' + this.suffix;
     } else {
         return this.originName;
     }
-});
+}
 
 mongoose.model('FileInfo', FileSchema);

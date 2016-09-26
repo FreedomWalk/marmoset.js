@@ -12,13 +12,13 @@ var Book = mongoose.model('Book');
  */
 exports.create = function (req, res) {
 
-  var book = new Book(req.body);
-  book.save(function (err) {
-    if (err) {
-      throw new Error(err);
-    } else {
-      res.json(book);
-    }
-  });
+    var book = new Book(req.body);
+    book.save(function (err) {
+        if (err) {
+            throw new Error(err);
+        } else {
+            res.json(book);
+        }
+    });
 
 };
