@@ -51,8 +51,8 @@ module.exports = {
             /\/api\/checkCode.+/gi, '/api/checkCode', '/api/shuangseqiu',/\/api\/shuangseqiu\/.+/gi]
     },
     email: {
-        smtpServer: 'smtps://system%40i-cambio.com:sh20130927@smtp.ym.163.com',
-        from: 'system@i-cambio.com'
+        smtpServer: 'smtpServer:pass@email',
+        from: 'email'
     },
     wechat: {
         token: 'testNode',
