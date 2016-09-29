@@ -13,17 +13,17 @@ const mqName = require(path.resolve('./modules/mq/server/common/mq.server.common
 exports.publish = publish;
 
 function publish(req, res) {
-  if (req.body) {
-    client.publish(mqName.HELLO, req.body, function (err) {
-      if (err) {
-        logger.error(err);
-        res.send('fail');
-      } else {
-        res.send('success');
-        logger.info('ces');
-      }
-    });
-  } else {
-    res.send('empty body');
-  }
+    if (req.body) {
+        client.publish(mqName.HELLO, req.body, function (err) {
+            if (err) {
+                logger.error(err);
+                res.send('fail');
+            } else {
+                res.send('success');
+                logger.info('ces');
+            }
+        });
+    } else {
+        res.send('empty body');
+    }
 }

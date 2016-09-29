@@ -15,7 +15,7 @@ exports.publish = function (mqName, obj, callback) {
 
         if (error) {
             logger.error('Unable to connect: ' + error.message);
-            callback(error);
+            if (callback) callback(error);
             return;
         }
 
@@ -25,11 +25,11 @@ exports.publish = function (mqName, obj, callback) {
         client.disconnect(function (error) {
             if (error) {
                 logger.error('Error while disconnecting: ' + error.message);
-                callback(error);
+                if (callback) callback(error);
                 return;
             }
             logger.info('Sent message');
-            callback();
+            if (callback) callback();
         });
     });
 };

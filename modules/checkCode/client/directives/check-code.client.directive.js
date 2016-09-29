@@ -25,13 +25,20 @@
         return directive;
 
         /* @ngInject */
-        function CheckCodeController($scope) {
+        function CheckCodeController($http) {
             var dvm = this;
             dvm.getCheckCode = getCheckCode;
             getCheckCode();
 
             function getCheckCode() {
-                dvm.codeUrl = '/api/checkCode?a=' + new Date().getTime();
+                $http({
+                    url: '/api/checkCode',
+                    method: 'GET'
+                }).success(function (data) {
+                    dvm.codeUrl = data.imgUrl;
+                }).error(function (data, header, config, status) {
+                    // dvm.codeUrl = errorImg;
+                });
             }
         }
     }

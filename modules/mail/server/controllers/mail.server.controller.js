@@ -4,25 +4,43 @@
 'use strict';
 
 const path = require('path');
-const smtpSender = require(path.resolve('./config/lib/smtp'));
 const CommonError = require(path.resolve('./config/error/CommonError'));
 const logger = require(path.resolve('./config/lib/logger'));
+const mongoose = require('mongoose');
+const client = require(path.resolve('./config/lib/stomp'));
+const MailInfo = mongoose.model('MailInfo');
+const MQ_NAME = require('../receivers/mailDealer.server.receiver').MQName;
+const MailStatus = require('../models/mail.server.model').MailStatus;
 
-exports.send = function (req, res) {
-  let mail = req.body;
-  if (mail && mail.receivers && mail.msg) {
-    let receivers = mail.receivers;
-    let msg = mail.msg;
-    let subject = mail.subject;
-    smtpSender.sendMsg(receivers, subject, msg).then(function () {
-      res.json(mail);
-    }, function (err) {
-      logger.error(err);
-      throw new CommonError('发送失败，请稍后再试');
-    });
+exports.send = send;
 
-  } else {
-    throw new CommonError('收件人或邮件内容不能为空');
-  }
+function send(req, res) {
+    let mail = req.body;
+    if (mail && mail.receivers && mail.content) {
+        let mailInfo = new MailInfo(mail);
+        mailInfo.save(function (err, obj) {
+            if (err) {
+                throw err;
+            } else {
+                let msg = {};
+                msg.mailId = mailInfo._id;
+                client.publish(MQ_NAME, msg, function (err) {
+                    if (err) {
+                        logger.error(err);
+                        obj.update({status: MailStatus.FAIL, remarks: [err]}, function (err) {
+                            if (err) {
+                                logger.error(err);
+                            }
+                            throw new CommonError('发送失败');
+                        });
+                    } else {
+                        res.json(obj);
+                    }
+                });
+            }
+        });
+    } else {
+        throw new CommonError('收件人或邮件内容不能为空');
+    }
 
-};
+}

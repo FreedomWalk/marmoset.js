@@ -17,7 +17,8 @@ let CheckCodeSchema = new Schema({
     valid: {
         type: Boolean,
         default: true
-    }
+    },
+    salt: String
 });
 
 CheckCodeSchema.methods.check = check;

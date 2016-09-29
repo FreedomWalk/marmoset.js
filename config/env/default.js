@@ -58,5 +58,13 @@ module.exports = {
         token: 'testNode',
         appid: 'wxb78dd47e80dba61f',
         appsecret: 'bb6f60fb4dc65bfcceedd6b721172fab'
+    },
+    captcha: {
+        alphabet: 'abcdefghijklmnopqrstuvwxyz',
+        delayTime: 5 * 60 * 1000,
+        letters: 6,
+        key: 'secret',
+        captchaBaseUrl: 'http://image.captchas.net',
+        client: 'clientName'
     }
 };

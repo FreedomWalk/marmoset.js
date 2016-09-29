@@ -3,8 +3,8 @@
  */
 'use strict';
 
-let path = require('path');
-let logger = require(path.resolve('./config/lib/logger'));
+const path = require('path');
+const logger = require(path.resolve('./config/lib/logger'));
 const mqName = require(path.resolve('./modules/mq/server/common/mq.server.common.name.js'));
 
 exports.dealMessage = function (msg) {
