@@ -9,7 +9,7 @@
 
     /* @ngInject */
     function checkCode() {
-        var directive = {
+        return {
             restrict: 'E',
             transclude: true,
             replace: true,
@@ -21,8 +21,6 @@
             controller: CheckCodeController,
             controllerAs: 'dvm'
         };
-
-        return directive;
 
         /* @ngInject */
         function CheckCodeController($http) {
