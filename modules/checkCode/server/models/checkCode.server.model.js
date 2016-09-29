@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const logger = require(path.resolve('./config/lib/logger'));
 const q = require('q');
-
+const CommonError = require(path.resolve('./config/error/CommonError'));
 
 let CheckCodeSchema = new Schema({
     code: {
@@ -39,7 +39,7 @@ function check(code) {
             }
         });
     } else {
-        d.reject();
+        d.reject(new CommonError('验证码已过期'));
     }
     return d.promise;
 }

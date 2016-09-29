@@ -18,8 +18,12 @@ function check(codeId, code, callback) {
         } else if (obj) {
             obj.check(code).then(function () {
                 callback();
-            }, function () {
-                callback(new CommonError('验证码错误'));
+            }, function (err) {
+                if (err instanceof CommonError) {
+                    callback(err);
+                } else {
+                    callback(new CommonError('验证码错误'));
+                }
             });
         } else {
             callback(new CommonError('验证码错误'));
