@@ -3,33 +3,38 @@
 /**
  * Module dependencies
  */
-var path = require('path'),
+const path = require('path'),
     config = require(path.resolve('./config/config')),
     errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
     mongoose = require('mongoose'),
     User = mongoose.model('User'),
-    // nodemailer = require('nodemailer'),
     async = require('async'),
     crypto = require('crypto');
 const smtpSender = require(path.resolve('./config/lib/smtp'));
 const CommonError = require(path.resolve('./config/error/CommonError'));
 const logger = require(path.resolve('./config/lib/logger'));
-// var smtpTransport = nodemailer.createTransport(config.mailer.options);
+const CheckCodeUtil = require(path.resolve('./modules/core/server/common/CheckCodeUtil'));
 
 /**
  * Forgot for reset password (forgot POST)
  */
 exports.forgot = function (req, res, next) {
     async.waterfall([
+        // check code
+        function checkCode(done) {
+            CheckCodeUtil.check(req.session.codeId, req.body.code, function (err) {
+                done(err);
+            });
+        },
         // Generate random token
-        function (done) {
+        function generateToken(done) {
             crypto.randomBytes(20, function (err, buffer) {
                 var token = buffer.toString('hex');
                 done(err, token);
             });
         },
         // Lookup user by username
-        function (token, done) {
+        function lookupUser(token, done) {
             if (req.body.email) {
                 User.findOne({
                     email: req.body.email.toLowerCase()
@@ -43,10 +48,13 @@ exports.forgot = function (req, res, next) {
                             message: 'It seems like you signed up using your ' + user.provider + ' account'
                         });
                     } else {
-                        user.resetPasswordToken = token;
-                        user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+                        // user.resetPasswordToken = token;
+                        // user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
 
-                        user.update({resetPasswordToken:token, resetPasswordExpires: Date.now() + 3600000}, function (err) {
+                        user.update({
+                            resetPasswordToken: token,
+                            resetPasswordExpires: Date.now() + 3600000
+                        }, function (err) {
                             done(err, token, user);
                         });
                     }

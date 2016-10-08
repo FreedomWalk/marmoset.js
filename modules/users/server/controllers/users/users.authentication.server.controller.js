@@ -10,10 +10,7 @@ var path = require('path'),
     _ = require('lodash'),
     jwt = require('jsonwebtoken'),
     config = require(path.resolve('./config/config')),
-    TOKEN_EXPIRATION = 60,
-    TOKEN_EXPIRATION_SEC = TOKEN_EXPIRATION * 60,
     logger = require(path.resolve('./config/lib/logger'));
-const CheckCode = mongoose.model('CheckCode');
 const CommonError = require(path.resolve('./config/error/CommonError'));
 const CheckCodeUtil = require(path.resolve('./modules/core/server/common/CheckCodeUtil'));
 
