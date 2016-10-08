@@ -46,7 +46,7 @@ exports.forgot = function (req, res, next) {
                         user.resetPasswordToken = token;
                         user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
 
-                        user.save(function (err) {
+                        user.update({resetPasswordToken:token, resetPasswordExpires: Date.now() + 3600000}, function (err) {
                             done(err, token, user);
                         });
                     }

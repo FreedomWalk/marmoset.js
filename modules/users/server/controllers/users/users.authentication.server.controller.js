@@ -54,6 +54,7 @@ exports.signup = function (req, res) {
                     if (err) {
                         res.status(500).send(err);
                     } else {
+                        req.session.autoLogin = true;
                         res.json(user);
                     }
                 });
@@ -73,47 +74,54 @@ exports.signin = function (req, res, next) {
         throw new Error('没有用户信息!');
     }
     let codeId = req.session.codeId;
-    CheckCodeUtil.check(codeId, req.body.code, function (err) {
-        if (err) {
-            next(err);
-        } else {
-            User.findOne({$or: [{username: user.username}, {email: user.username}]}, function (err, userDb) {
-                if (err) {
-                    return next(err);
+    if (req.session.autoLogin) {
+        login();
+    } else {
+        CheckCodeUtil.check(codeId, req.body.code, function (err) {
+            if (err) {
+                next(err);
+            } else {
+                login();
+            }
+
+        });
+    }
+    function login() {
+        User.findOne({$or: [{username: user.username}, {email: user.username}]}, function (err, userDb) {
+            if (err) {
+                return next(err);
+            }
+            if (userDb) {
+                if (!userDb.authenticate(req.body.password)) {
+                    throw new Error('用户名或密码错误！');
                 }
-                if (userDb) {
-                    if (!userDb.authenticate(req.body.password)) {
-                        throw new Error('用户名或密码错误！');
+
+                let token = jwt.sign({
+                    userId: userDb._id,
+                    roles: userDb.roles,
+                    username: userDb.username
+                }, config.jwt.secret, {
+                    algorithm: config.jwt.algorithm,
+                    expiresIn: config.jwt.expiresIn
+                });
+                userDb.password = undefined;
+                userDb.salt = undefined;
+
+                req.login(userDb, function (err) {
+                    if (err) {
+                        res.status(500).send(err);
+                    } else {
+                        res.setHeader('Authorization', 'Bearer ' + token);
+                        res.setHeader('Set-Cookie', 'token=' + token);
+
+                        res.json(userDb);
                     }
-
-                    let token = jwt.sign({
-                        userId: userDb._id,
-                        roles: userDb.roles,
-                        username: userDb.username
-                    }, config.jwt.secret, {
-                        algorithm: config.jwt.algorithm,
-                        expiresIn: config.jwt.expiresIn
-                    });
-                    userDb.password = undefined;
-                    userDb.salt = undefined;
-
-                    req.login(userDb, function (err) {
-                        if (err) {
-                            res.status(500).send(err);
-                        } else {
-                            res.setHeader('Authorization', 'Bearer ' + token);
-                            res.setHeader('Set-Cookie', 'token=' + token);
-
-                            res.json(userDb);
-                        }
-                    });
-                } else {
-                    throw new Error('没有用户(' + user.username + ')信息!');
-                }
-            });
-        }
-
-    });
+                });
+            } else {
+                throw new Error('没有用户(' + user.username + ')信息!');
+            }
+        });
+    }
 };
 
 
